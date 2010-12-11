@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<language>
+	<Intro>vilArs</Intro>
+	<GameName>HOW to LIVE in a WORLD where there's people UNFAIRLY dying</GameName>
+	<Menu>
+		<Play>Learn HOW</Play>
+		<Options>Configure me</Options>
+		<Help>What is this non-sense</Help>
+		<Back>Go back</Back>
+	</Menu>
+	<Help>
+		<Help1>Right now there's someone dying, this happens every second.</Help1>
+		<Help2>Some of those deaths are inevitable and natural. Many are not, many deaths could be prevented and avoided.</Help2>
+		<Help3>Can we live in a world like this? This game tries to help understanding the human condition by the examination of this extreme topic.</Help3>
+	</Help>
+</language>
