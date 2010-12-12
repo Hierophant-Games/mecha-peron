@@ -21,7 +21,7 @@ package states
 			
 			add(new FlxText(20, 20, Game.ScreenWidth - 40, text));
 			
-			addMenuEntry(new MenuEntry(onBack, new FlxText(0, Game.ScreenHeight - 20, Game.ScreenWidth, Game.Strings.languageXML.Menu.Back).setFormat(null, 8, 0xffffff, "right")));
+			addMenuEntry(new MenuEntry(onBack, new FlxText(0, Game.ScreenHeight - 20, Game.ScreenWidth - 10, Game.Strings.languageXML.Menu.Back).setFormat(null, 8, 0xffffff, "right")));
 		}
 		
 		private function onBack():void

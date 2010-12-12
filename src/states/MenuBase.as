@@ -15,6 +15,8 @@ package states
 		
 		override public function update():void 
 		{
+			super.update();
+			
 			if (!_enabled) return;
 			
 			if (FlxG.keys.justPressed("UP"))
@@ -33,7 +35,7 @@ package states
 					_selectedMenuEntry = 0;
 				}
 			}
-			if (FlxG.keys.justPressed("SPACE"))
+			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("ENTER"))
 			{
 				(_menuEntries[_selectedMenuEntry] as MenuEntry).select();
 			}

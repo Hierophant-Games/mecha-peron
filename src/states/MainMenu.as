@@ -37,7 +37,7 @@ package states
 		{
 			if (_completedRatio < 1)
 			{
-				if (FlxG.mouse.justPressed() || FlxG.keys.justPressed("SPACE"))
+				if (FlxG.mouse.justPressed() || FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("ENTER"))
 				{
 					skipBloodEffect();
 				}
@@ -58,7 +58,7 @@ package states
 			while (x < Game.ScreenWidth)
 			{
 				// generate a block of 1-6 pixels
-				var size:uint = uint(FlxU.random() * 10 + 1);
+				var size:uint = uint(FlxU.random() * 5 + 1);
 				if (size + x >= Game.ScreenWidth)
 				{
 					size = Game.ScreenWidth - x;

@@ -8,7 +8,7 @@ package menu
 	 */
 	public class BloodTrail extends FlxSprite
 	{
-		private const BloodColor:uint = 0xff990000;
+		private const BloodColor:uint = 0xffaa0000;
 		
 		private var _size:uint;
 		private var _randomInitTime:Number;
