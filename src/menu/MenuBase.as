@@ -1,4 +1,4 @@
-package states 
+package menu 
 {
 	import org.flixel.*;
 	import menu.MenuEntry;
@@ -9,9 +9,17 @@ package states
 	 */
 	public class MenuBase extends FlxState
 	{
-		private var _menuEntries:Array = new Array();
+		private var _menuEntries:Vector.<MenuEntry> = new Vector.<MenuEntry>();
 		private var _selectedMenuEntry:int = 0;
 		private var _enabled:Boolean = true;
+		
+		override public function destroy():void 
+		{
+			// reset the menu entry stuff
+			_menuEntries = new Vector.<MenuEntry>();
+			
+			super.destroy();
+		}
 		
 		override public function update():void 
 		{
@@ -47,6 +55,10 @@ package states
 			}
 		}
 		
+		/**
+		 * Add a menu entry to the menu, ready to use!
+		 * @param	menuEntry
+		 */
 		protected function addMenuEntry(menuEntry:MenuEntry):void
 		{
 			_menuEntries.push(menuEntry);
