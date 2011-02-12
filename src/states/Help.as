@@ -1,6 +1,6 @@
 package states 
 {
-	import menu.MenuEntry;
+	import menu.*;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -26,7 +26,7 @@ package states
 		
 		private function onBack():void
 		{
-			FlxG.state = new MainMenu(true);
+			Game.goToPreviousState();
 		}
 	}
 }

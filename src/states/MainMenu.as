@@ -2,6 +2,7 @@ package states
 {
 	import menu.*;
 	import org.flixel.*;
+	import player.Player;
 	import states.levels.BeggarLevel;
 	
 	/**
@@ -14,23 +15,29 @@ package states
 		private var _bloodTrailAmout:uint;
 		private var _completedRatio:Number = 0;
 		private var _gameNameText:FlxText;
-		private var _skipBlood:Boolean;
-		
-		public function MainMenu(skipBlood:Boolean = false)
-		{
-			_skipBlood = skipBlood;
-		}
+		private var _skipBlood:Boolean = false;
 		
 		override public function create():void
 		{
 			initBloodEffect();
-			if (_skipBlood) skipBloodEffect();
 			
 			_gameNameText = new FlxText(2, 2, Game.ScreenWidth / 2, Game.Strings.languageXML.GameName);
 			_gameNameText.setFormat(null, 16, 0);
 			add(_gameNameText);
 			
+			if (_skipBlood)
+			{
+				skipBloodEffect();
+				updateBloodEffect();
+			}
+			
 			initMenuEntries();
+		}
+		
+		override public function destroy():void 
+		{
+			_bloodTrailAmout = 0;
+			super.destroy();
 		}
 		
 		override public function update():void
@@ -94,6 +101,7 @@ package states
 		
 		private function skipBloodEffect():void
 		{
+			_skipBlood = true;
 			for each (var bloodTrail:BloodTrail in _bloodGroup.members)
 			{
 				bloodTrail.forceComplete();
@@ -110,7 +118,8 @@ package states
 		
 		private function onPlay():void
 		{
-			FlxG.state = new BeggarLevel();
+			//Game.setState(new PlayerStats(new Player()));
+			Game.setState(new BeggarLevel());
 		}
 		
 		private function onOptions():void
@@ -120,7 +129,7 @@ package states
 		
 		private function onHelp():void
 		{
-			FlxG.state = new Help();
+			Game.setState(new Help());
 		}
 	}
 }

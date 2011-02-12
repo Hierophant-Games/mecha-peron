@@ -24,7 +24,7 @@ package states
 			if (_timer > LogoSeconds)
 			{
 				trace("logo ended")
-				FlxG.state = new MainMenu();
+				Game.setState(new MainMenu());
 			}
 			
 			super.update();

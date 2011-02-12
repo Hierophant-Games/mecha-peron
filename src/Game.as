@@ -1,6 +1,6 @@
 package  
 {
-	import org.flixel.FlxGame;
+	import org.flixel.*;
 	import states.Logo;
 	import strings.GameStrings;
 	
@@ -20,6 +20,21 @@ package
 		public function Game()
 		{
 			super(ScreenWidth, ScreenHeight, Logo, 2);
+		}
+		
+		private static var _previousState:FlxState;
+		
+		public static function setState(newState:FlxState):void 
+		{
+			_previousState = FlxG.state;
+			FlxG.state = newState;
+		}
+		
+		public static function goToPreviousState():void
+		{
+			var currentState:FlxState = FlxG.state;
+			FlxG.state = _previousState;
+			_previousState = currentState;
 		}
 	}
 }

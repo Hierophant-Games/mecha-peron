@@ -13,4 +13,15 @@
 		<Help2>Some of those deaths are inevitable and natural. But many are not, many deaths could be prevented and avoided.</Help2>
 		<Help3>Can we live in a world like this? This game tries to help understanding the human condition by the examination of this extreme topic.</Help3>
 	</Help>
+	<PlayerStats>
+		<Title>Player BIO</Title>
+		<Traits>
+			<Intelligence>Intelligence</Intelligence>
+			<Charisma>Charisma</Charisma>
+			<Willpower>Willpower</Willpower>
+			<PeaceOfMind>Peace of mind</PeaceOfMind>
+			<Cynicism>Cynicism</Cynicism>
+			<Sensibility>Sensibility</Sensibility>
+		</Traits>
+	</PlayerStats>
 </language>
