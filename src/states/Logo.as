@@ -7,7 +7,7 @@ package states
 	 */
 	public class Logo extends FlxState
 	{
-		private const LogoSeconds:Number = 0.1;
+		private const LogoSeconds:Number = 1.0;
 		private var _timer:Number = 0;
 		
 		override public function create():void
