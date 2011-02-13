@@ -4,17 +4,17 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="bin\HowToLive.swf" />
+    <movie path="bin\PeronRampage.swf" />
     <movie fps="30" />
-    <movie width="800" />
-    <movie height="600" />
+    <movie width="640" />
+    <movie height="480" />
     <movie version="10" />
     <movie background="#FFFFFF" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="..\Flixel-b9fe564" />
+    <class path="..\flixel" />
   </classpaths>
   <!-- Build options -->
   <build>
