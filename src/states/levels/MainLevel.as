@@ -20,6 +20,9 @@ package states.levels
 		
 		override public function create():void 
 		{
+			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
+			
+			bgColor = 0xffd3a9a9;
 			add(new ParallaxLayer(SpriteBack,   0.2));
 			add(new ParallaxLayer(SpriteMiddle, 0.5));
 			add(new ParallaxLayer(SpriteFront,  1.0));
@@ -27,7 +30,7 @@ package states.levels
 		
 		override public function update():void
 		{
-			FlxG.scroll.x -= 100 * FlxG.elapsed;
+			FlxG.scroll.x -= 50 * FlxG.elapsed;
 			super.update();
 		}
 	}

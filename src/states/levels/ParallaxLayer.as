@@ -8,11 +8,15 @@ package states.levels
 	 */
 	public class ParallaxLayer extends FlxGroup
 	{
+		private var _layerWidth:uint;
+		
 		public function ParallaxLayer(Graphic:Class, scrollFactor:Number) 
 		{
 			this.scrollFactor = new FlxPoint(scrollFactor, 0);
-			add(new FlxSprite(0, 0, Graphic), true);
-			add(new FlxSprite(FlxG.width, 0, Graphic), true);
+			var sprite:FlxSprite = new FlxSprite(0, 0, Graphic);
+			_layerWidth = sprite.width;
+			add(sprite, true);
+			add(new FlxSprite(_layerWidth, 0, Graphic), true);
 		}
 		
 		public override function update():void
@@ -20,9 +24,9 @@ package states.levels
 			var pos:Number = FlxG.scroll.x * scrollFactor.x;
 			for each (var member:FlxObject in members)
 			{
-				if (member.x + pos < -FlxG.width)
+				if (member.x + pos < -_layerWidth)
 				{
-					member.x += FlxG.width * 2;
+					member.x += _layerWidth * 2;
 				}
 			}
 			super.update();
