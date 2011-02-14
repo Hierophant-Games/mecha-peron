@@ -2,6 +2,7 @@ package states.levels
 {
 	import flash.geom.Point;
 	import org.flixel.*;
+	import org.flixel.data.FlxAnim;
 	/**
 	 * Main Level of the game
 	 * @author Santiago Vilar
@@ -16,6 +17,8 @@ package states.levels
 		private var SpriteFront:Class;
 		[Embed(source = "../../../data/sprites/smoke.png")]
 		private var SpriteSmoke:Class;
+		[Embed(source = "../../../data/sprites/smokeBig.png")]
+		private var SpriteSmokeBig:Class;
 		
 		private var _layerBack:ParallaxLayer;
 		private var _layerMiddle:ParallaxLayer;
@@ -28,10 +31,13 @@ package states.levels
 			bgColor = 0xffd3a9a9;
 			_layerBack = new ParallaxLayer(SpriteBack,   	0.2);
 			_layerMiddle = new ParallaxLayer(SpriteMiddle,  0.5);
-			_layerFront = new ParallaxLayer(SpriteFront,   	2.0);
+			_layerFront = new ParallaxLayer(SpriteFront,   	1.5);
 			
-			createSmoke(85, 104);
-			createSmoke(393, 126);
+			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
+			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
+			
+			//createSmoke(_layerMiddle, 85, 104);
+			//createSmoke(_layerMiddle, 390, 126);
 			
 			add(_layerBack);
 			add(_layerMiddle);
@@ -47,19 +53,17 @@ package states.levels
 			
 			// Earthquake effect!
 			_quakeTimer += FlxG.elapsed;
-			if (_quakeTimer > 1) // each 1 second
+			if (_quakeTimer > 1.5) // this should depend on Peron footsteps
 			{
-				_quakeTimer -= 1;
+				_quakeTimer -= 1.5;
 				FlxG.quake.start(0.01, 0.2);
 			}
 			
 			super.update();
 		}
 		
-		private function createSmoke(x:Number, y:Number):void
+		private function setupSmoke(emitter:FlxEmitter):void
 		{
-			var emitter:FlxEmitter = new FlxEmitter(x, y);
-			_layerMiddle.add(emitter, true);
 			emitter.setSize(6, 2);
 			emitter.setRotation(0, 0);
 			emitter.setXSpeed(-10, 0);
@@ -68,12 +72,52 @@ package states.levels
 			for (var i:uint = 0; i <10; ++i)
 			{
 				var smoke:FlxSprite = new FlxSprite();
-				smoke.loadGraphic(SpriteSmoke, true, false, 14, 12);
+				if (i % 2)
+				{
+					smoke.loadGraphic(SpriteSmoke, true, false, 14, 12);
+				}
+				else
+				{
+					smoke.loadGraphic(SpriteSmokeBig, true, false, 28, 24);
+				}
+				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
+				smoke.play("smoke");
+				emitter.add(smoke, true);
+			}
+		}
+		
+		private function startSmoke(emitter:FlxEmitter):void
+		{
+			emitter.start(false, 0.2);
+		}
+		
+		private function createSmoke(parent:FlxGroup, x:Number, y:Number):FlxEmitter
+		{
+			var emitter:FlxEmitter = new FlxEmitter(x, y);
+			parent.add(emitter, true);
+			emitter.setSize(6, 2);
+			emitter.setRotation(0, 0);
+			emitter.setXSpeed(-10, 0);
+			emitter.setYSpeed(-20, -30);
+			emitter.gravity = 0;
+			for (var i:uint = 0; i <10; ++i)
+			{
+				var smoke:FlxSprite = new FlxSprite();
+				if (i % 2)
+				{
+					smoke.loadGraphic(SpriteSmoke, true, false, 14, 12);
+				}
+				else
+				{
+					smoke.loadGraphic(SpriteSmokeBig, true, false, 28, 24);
+				}
 				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
 				smoke.play("smoke");
 				emitter.add(smoke, true);
 			}
 			emitter.start(false, 0.2);
+			
+			return emitter;
 		}
 	}
 }
