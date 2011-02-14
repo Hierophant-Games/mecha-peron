@@ -36,9 +36,6 @@ package states.levels
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
-			//createSmoke(_layerMiddle, 85, 104);
-			//createSmoke(_layerMiddle, 390, 126);
-			
 			add(_layerBack);
 			add(_layerMiddle);
 			add(_layerFront);
@@ -89,35 +86,6 @@ package states.levels
 		private function startSmoke(emitter:FlxEmitter):void
 		{
 			emitter.start(false, 0.2);
-		}
-		
-		private function createSmoke(parent:FlxGroup, x:Number, y:Number):FlxEmitter
-		{
-			var emitter:FlxEmitter = new FlxEmitter(x, y);
-			parent.add(emitter, true);
-			emitter.setSize(6, 2);
-			emitter.setRotation(0, 0);
-			emitter.setXSpeed(-10, 0);
-			emitter.setYSpeed(-20, -30);
-			emitter.gravity = 0;
-			for (var i:uint = 0; i <10; ++i)
-			{
-				var smoke:FlxSprite = new FlxSprite();
-				if (i % 2)
-				{
-					smoke.loadGraphic(SpriteSmoke, true, false, 14, 12);
-				}
-				else
-				{
-					smoke.loadGraphic(SpriteSmokeBig, true, false, 28, 24);
-				}
-				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
-				smoke.play("smoke");
-				emitter.add(smoke, true);
-			}
-			emitter.start(false, 0.2);
-			
-			return emitter;
 		}
 	}
 }
