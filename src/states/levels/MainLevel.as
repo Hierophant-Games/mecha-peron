@@ -20,6 +20,18 @@ package states.levels
 		[Embed(source = "../../../data/sprites/smokeBig.png")]
 		private var SpriteSmokeBig:Class;
 		
+		[Embed(source = "../../../data/sfx/footstep.mp3")]
+		private var SfxFootstep:Class;
+		[Embed(source = "../../../data/sfx/justicia_social.mp3")]
+		private var SfxJusticiaSocial:Class;
+		[Embed(source = "../../../data/sfx/tercera_posicion.mp3")]
+		private var SfxTerceraPosicion:Class;
+		
+		private const RANDOM_VOICEFX_COUNT:uint = 2;
+		
+		private var _soundFootstep:FlxSound;
+		private var _robotVoices:Vector.<FlxSound> = new Vector.<FlxSound>();
+		
 		private var _layerBack:ParallaxLayer;
 		private var _layerMiddle:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
@@ -27,6 +39,16 @@ package states.levels
 		override public function create():void 
 		{
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
+			
+			// sounds
+			_soundFootstep = new FlxSound();
+			_soundFootstep.loadEmbedded(SfxFootstep);
+			for (var i:uint = 0; i < RANDOM_VOICEFX_COUNT; ++i)
+			{
+				_robotVoices.push(new FlxSound());
+			}
+			_robotVoices[0].loadEmbedded(SfxJusticiaSocial);
+			_robotVoices[1].loadEmbedded(SfxTerceraPosicion);
 			
 			bgColor = 0xffd3a9a9;
 			_layerBack = new ParallaxLayer(SpriteBack,   	0.2);
@@ -42,18 +64,29 @@ package states.levels
 		}
 		
 		private var _quakeTimer:Number = 0;
+		private var _robotVoiceTimer:Number = 0;
+		private var _robotVoiceIndex:uint = 0;
 		
 		override public function update():void
 		{
 			FlxG.scroll.x -= 50 * FlxG.elapsed;
 			
+			// Voice effect!
+			_robotVoiceTimer += FlxG.elapsed;
+			if (_robotVoiceTimer > 5)
+			{
+				_robotVoiceTimer -= 5;
+				_robotVoices[_robotVoiceIndex].play();
+				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
+			}
 			
 			// Earthquake effect!
 			_quakeTimer += FlxG.elapsed;
-			if (_quakeTimer > 1.5) // this should depend on Peron footsteps
+			if (_quakeTimer > 1.5) // this should depend on Peron's footsteps
 			{
 				_quakeTimer -= 1.5;
 				FlxG.quake.start(0.01, 0.2);
+				_soundFootstep.play();
 			}
 			
 			super.update();
