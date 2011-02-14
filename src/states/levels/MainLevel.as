@@ -36,7 +36,7 @@ package states.levels
 		private var _layerMiddle:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
 		
-		override public function create():void 
+		override public function create():void
 		{
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
 			
@@ -110,6 +110,7 @@ package states.levels
 				{
 					smoke.loadGraphic(SpriteSmokeBig, true, false, 28, 24);
 				}
+				smoke.exists = false;
 				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
 				smoke.play("smoke");
 				emitter.add(smoke, true);
