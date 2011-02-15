@@ -23,7 +23,7 @@ package states
 			
 			if (_timer > LogoSeconds)
 			{
-				trace("logo ended")
+				FlxG.log("logo ended");
 				Game.setState(new MainMenu());
 			}
 			

@@ -20,6 +20,18 @@ package states.levels
 		[Embed(source = "../../../data/sprites/smokeBig.png")]
 		private var SpriteSmokeBig:Class;
 		
+		[Embed(source = "../../../data/sfx/footstep.mp3")]
+		private var SfxFootstep:Class;
+		[Embed(source = "../../../data/sfx/justicia_social.mp3")]
+		private var SfxJusticiaSocial:Class;
+		[Embed(source = "../../../data/sfx/tercera_posicion.mp3")]
+		private var SfxTerceraPosicion:Class;
+		
+		private const RANDOM_VOICEFX_COUNT:uint = 2;
+		
+		private var _soundFootstep:FlxSound;
+		private var _robotVoices:Vector.<FlxSound> = new Vector.<FlxSound>();
+		
 		private var _layerBack:ParallaxLayer;
 		private var _layerMiddle:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
@@ -27,6 +39,16 @@ package states.levels
 		override public function create():void 
 		{
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
+			
+			// sounds
+			_soundFootstep = new FlxSound();
+			_soundFootstep.loadEmbedded(SfxFootstep);
+			for (var i:uint = 0; i < RANDOM_VOICEFX_COUNT; ++i)
+			{
+				_robotVoices.push(new FlxSound());
+			}
+			_robotVoices[0].loadEmbedded(SfxJusticiaSocial);
+			_robotVoices[1].loadEmbedded(SfxTerceraPosicion);
 			
 			bgColor = 0xffd3a9a9;
 			_layerBack = new ParallaxLayer(SpriteBack,   	0.2);
@@ -36,27 +58,35 @@ package states.levels
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
-			//createSmoke(_layerMiddle, 85, 104);
-			//createSmoke(_layerMiddle, 390, 126);
-			
 			add(_layerBack);
 			add(_layerMiddle);
 			add(_layerFront);
 		}
 		
 		private var _quakeTimer:Number = 0;
+		private var _robotVoiceTimer:Number = 0;
+		private var _robotVoiceIndex:uint = 0;
 		
 		override public function update():void
 		{
 			FlxG.scroll.x -= 50 * FlxG.elapsed;
 			
+			// Voice effect!
+			_robotVoiceTimer += FlxG.elapsed;
+			if (_robotVoiceTimer > 5)
+			{
+				_robotVoiceTimer -= 5;
+				_robotVoices[_robotVoiceIndex].play();
+				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
+			}
 			
 			// Earthquake effect!
 			_quakeTimer += FlxG.elapsed;
-			if (_quakeTimer > 1.5) // this should depend on Peron footsteps
+			if (_quakeTimer > 1.5) // this should depend on Peron's footsteps
 			{
 				_quakeTimer -= 1.5;
 				FlxG.quake.start(0.01, 0.2);
+				_soundFootstep.play();
 			}
 			
 			super.update();
@@ -89,35 +119,6 @@ package states.levels
 		private function startSmoke(emitter:FlxEmitter):void
 		{
 			emitter.start(false, 0.2);
-		}
-		
-		private function createSmoke(parent:FlxGroup, x:Number, y:Number):FlxEmitter
-		{
-			var emitter:FlxEmitter = new FlxEmitter(x, y);
-			parent.add(emitter, true);
-			emitter.setSize(6, 2);
-			emitter.setRotation(0, 0);
-			emitter.setXSpeed(-10, 0);
-			emitter.setYSpeed(-20, -30);
-			emitter.gravity = 0;
-			for (var i:uint = 0; i <10; ++i)
-			{
-				var smoke:FlxSprite = new FlxSprite();
-				if (i % 2)
-				{
-					smoke.loadGraphic(SpriteSmoke, true, false, 14, 12);
-				}
-				else
-				{
-					smoke.loadGraphic(SpriteSmokeBig, true, false, 28, 24);
-				}
-				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
-				smoke.play("smoke");
-				emitter.add(smoke, true);
-			}
-			emitter.start(false, 0.2);
-			
-			return emitter;
 		}
 	}
 }
