@@ -3,6 +3,7 @@ package states.levels
 	import flash.geom.Point;
 	import org.flixel.*;
 	import org.flixel.data.FlxAnim;
+	import player.Player;
 	/**
 	 * Main Level of the game
 	 * @author Santiago Vilar
@@ -36,6 +37,8 @@ package states.levels
 		private var _layerMiddle:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
 		
+		private var _player:Player;
+		
 		override public function create():void
 		{
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
@@ -61,6 +64,12 @@ package states.levels
 			add(_layerBack);
 			add(_layerMiddle);
 			add(_layerFront);
+			
+			_player = new Player(0, Game.ScreenHeight - 100);
+			add(_player);
+			
+			FlxG.followTarget = _player;
+			FlxG.followBounds(0, 0, 100000, Game.ScreenHeight);
 		}
 		
 		private var _quakeTimer:Number = 0;
@@ -68,8 +77,20 @@ package states.levels
 		private var _robotVoiceIndex:uint = 0;
 		
 		override public function update():void
-		{
-			FlxG.scroll.x -= 50 * FlxG.elapsed;
+		{			
+			//Player input
+			var moveX:Number = 0;
+			var moveY:Number = 0;
+			if (FlxG.keys.RIGHT)
+				moveX = 30;
+			if (FlxG.keys.LEFT)
+				moveX = -30;
+			_player.move(moveX, moveY);
+			
+			if (FlxG.keys.justPressed("SPACE"))
+				_player.attack();
+				
+			_player.update();
 			
 			// Voice effect!
 			_robotVoiceTimer += FlxG.elapsed;
@@ -89,6 +110,7 @@ package states.levels
 				_soundFootstep.play();
 			}
 			
+			super.collide();
 			super.update();
 		}
 		
@@ -113,6 +135,7 @@ package states.levels
 				smoke.exists = false;
 				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
 				smoke.play("smoke");
+				smoke.solid = false;
 				emitter.add(smoke, true);
 			}
 		}
