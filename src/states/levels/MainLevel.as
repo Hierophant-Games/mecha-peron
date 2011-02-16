@@ -3,6 +3,7 @@ package states.levels
 	import flash.geom.Point;
 	import org.flixel.*;
 	import org.flixel.data.FlxAnim;
+	import actor.*;
 	/**
 	 * Main Level of the game
 	 * @author Santiago Vilar
@@ -27,6 +28,9 @@ package states.levels
 		[Embed(source = "../../../data/sfx/tercera_posicion.mp3")]
 		private var SfxTerceraPosicion:Class;
 		
+		[Embed(source = "../../../data/sfx/theme.mp3")]
+		private var MusicTheme:Class;
+		
 		private const RANDOM_VOICEFX_COUNT:uint = 2;
 		
 		private var _soundFootstep:FlxSound;
@@ -34,6 +38,7 @@ package states.levels
 		
 		private var _layerBack:ParallaxLayer;
 		private var _layerMiddle:ParallaxLayer;
+		private var _layerAction:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
 		
 		override public function create():void
@@ -53,14 +58,22 @@ package states.levels
 			bgColor = 0xffd3a9a9;
 			_layerBack = new ParallaxLayer(SpriteBack,   	0.2);
 			_layerMiddle = new ParallaxLayer(SpriteMiddle,  0.5);
+			_layerAction = new ParallaxLayer(null,			1.0);
 			_layerFront = new ParallaxLayer(SpriteFront,   	1.5);
 			
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
+			initActors();
+			
 			add(_layerBack);
 			add(_layerMiddle);
+			add(_layerAction);
 			add(_layerFront);
+			
+			FlxG.music = new FlxSound();
+			FlxG.music.loadEmbedded(MusicTheme, true).play();
+			FlxG.music.volume = 0.2;
 		}
 		
 		private var _quakeTimer:Number = 0;
@@ -72,13 +85,13 @@ package states.levels
 			FlxG.scroll.x -= 50 * FlxG.elapsed;
 			
 			// Voice effect!
-			_robotVoiceTimer += FlxG.elapsed;
+			/*_robotVoiceTimer += FlxG.elapsed;
 			if (_robotVoiceTimer > 5)
 			{
 				_robotVoiceTimer -= 5;
 				_robotVoices[_robotVoiceIndex].play();
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
-			}
+			}*/
 			
 			// Earthquake effect!
 			_quakeTimer += FlxG.elapsed;
@@ -120,6 +133,24 @@ package states.levels
 		private function startSmoke(emitter:FlxEmitter):void
 		{
 			emitter.start(false, 0.2);
+		}
+		
+		private var _actors:Vector.<Actor> = new Vector.<Actor>();
+		
+		private function initActors():void
+		{
+			addActor(new PlaneController(), 500, 20);
+			addActor(new PlaneController(), 520, 40);
+			addActor(new PlaneController(), 540, 60);
+		}
+		
+		private function addActor(actorController:ActorController, x:Number, y:Number):void
+		{
+			var theActor:Actor = new Actor(actorController);
+			theActor.x = x;
+			theActor.y = y;
+			_layerAction.add(theActor, true);
+			_actors.push(theActor);
 		}
 	}
 }

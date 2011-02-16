@@ -17,12 +17,16 @@ package states.levels
 		public function ParallaxLayer(Graphic:Class, scrollFactor:Number) 
 		{
 			this.scrollFactor = new FlxPoint(scrollFactor, scrollFactor);
-			_backgrounds.push(new FlxSprite(0, 0, Graphic));
-			_layerWidth = _backgrounds[0].width;
-			_backgrounds.push(new FlxSprite(_layerWidth, 0, Graphic));
 			
-			add(_backgrounds[0], true);
-			add(_backgrounds[1], true);
+			if (Graphic != null)
+			{
+				_backgrounds.push(new FlxSprite(0, 0, Graphic));
+				_layerWidth = _backgrounds[0].width;
+				_backgrounds.push(new FlxSprite(_layerWidth, 0, Graphic));
+				
+				add(_backgrounds[0], true);
+				add(_backgrounds[1], true);
+			}
 		}
 		
 		public override function update():void
