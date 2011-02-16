@@ -26,6 +26,8 @@ package states.levels
 				
 				add(_backgrounds[0], true);
 				add(_backgrounds[1], true);
+				_backgrounds[0].solid = false;
+				_backgrounds[1].solid = false;	
 			}
 		}
 		
