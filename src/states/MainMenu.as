@@ -2,7 +2,6 @@ package states
 {
 	import menu.*;
 	import org.flixel.*;
-	import player.Player;
 	import states.levels.MainLevel;
 	
 	/**

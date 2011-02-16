@@ -4,7 +4,7 @@ package states.levels
 	import org.flixel.*;
 	import org.flixel.data.FlxAnim;
 	import actor.*;
-	import player.Player;
+	
 	/**
 	 * Main Level of the game
 	 * @author Santiago Vilar
@@ -42,7 +42,7 @@ package states.levels
 		private var _layerAction:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
 		
-		private var _player:Player;
+		private var _player:Actor;
 		
 		override public function create():void
 		{
@@ -77,12 +77,6 @@ package states.levels
 			FlxG.music = new FlxSound();
 			FlxG.music.loadEmbedded(MusicTheme, true).play();
 			FlxG.music.volume = 0.2;
-			
-			_player = new Player(0, Game.ScreenHeight - 100);
-			add(_player);
-			
-			FlxG.followTarget = _player;
-			FlxG.followBounds(0, 0, 100000, Game.ScreenHeight);
 		}
 		
 		private var _quakeTimer:Number = 0;
@@ -90,21 +84,7 @@ package states.levels
 		private var _robotVoiceIndex:uint = 0;
 		
 		override public function update():void
-		{			
-			//Player input
-			var moveX:Number = 0;
-			var moveY:Number = 0;
-			if (FlxG.keys.RIGHT)
-				moveX = 30;
-			if (FlxG.keys.LEFT)
-				moveX = -30;
-			_player.move(moveX, moveY);
-			
-			if (FlxG.keys.justPressed("SPACE"))
-				_player.attack();
-				
-			_player.update();
-			
+		{
 			// Voice effect!
 			/*_robotVoiceTimer += FlxG.elapsed;
 			if (_robotVoiceTimer > 5)
@@ -162,6 +142,15 @@ package states.levels
 		
 		private function initActors():void
 		{
+			_player = new Actor(new PlayerController());
+			_player.x = 0;
+			_player.y = Game.ScreenHeight - 150;
+			
+			FlxG.followTarget = _player;
+			FlxG.followBounds(0, 0, 100000, Game.ScreenHeight);
+			
+			_layerAction.add(_player);
+			
 			addActor(new PlaneController(), 500, 20);
 			addActor(new PlaneController(), 520, 40);
 			addActor(new PlaneController(), 540, 60);
