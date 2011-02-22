@@ -14,7 +14,7 @@ package states
 		
 		override public function create():void
 		{
-			_gameNameText = new FlxText(2, 2, Game.ScreenWidth / 2, Game.Strings.languageXML.GameName);
+			_gameNameText = new FlxText(2, 2, FlxG.width / 2, Game.Strings.languageXML.GameName);
 			_gameNameText.setFormat(null, 16);
 			add(_gameNameText);
 			
@@ -27,15 +27,15 @@ package states
 		}
 		
 		override public function update():void
-		{			
+		{
 			super.update();
 		}
 		
 		private function initMenuEntries():void
 		{
-			addMenuEntry(new MenuEntry(onPlay, new FlxText(0, Game.ScreenHeight - 48, Game.ScreenWidth - 2, Game.Strings.languageXML.Menu.Play).setFormat(null, 8, 0xffffff, "right")));
-			addMenuEntry(new MenuEntry(onOptions, new FlxText(0, Game.ScreenHeight - 34, Game.ScreenWidth - 2, Game.Strings.languageXML.Menu.Options).setFormat(null, 8, 0xffffff, "right")));
-			addMenuEntry(new MenuEntry(onHelp, new FlxText(0, Game.ScreenHeight - 20, Game.ScreenWidth - 2, Game.Strings.languageXML.Menu.Help).setFormat(null, 8, 0xffffff, "right")));
+			addMenuEntry(new MenuEntry(onPlay, new FlxText(0, FlxG.height - 48, FlxG.width - 2, Game.Strings.languageXML.Menu.Play).setFormat(null, 8, 0xffffff, "right")));
+			addMenuEntry(new MenuEntry(onOptions, new FlxText(0, FlxG.height - 34, FlxG.width - 2, Game.Strings.languageXML.Menu.Options).setFormat(null, 8, 0xffffff, "right")));
+			addMenuEntry(new MenuEntry(onHelp, new FlxText(0, FlxG.height - 20, FlxG.width - 2, Game.Strings.languageXML.Menu.Help).setFormat(null, 8, 0xffffff, "right")));
 		}
 		
 		private function onPlay():void

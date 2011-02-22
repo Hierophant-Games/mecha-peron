@@ -1,9 +1,7 @@
 package states.levels 
 {
-	import flash.geom.Point;
-	import org.flixel.*;
-	import org.flixel.data.FlxAnim;
 	import actor.*;
+	import org.flixel.*;
 	
 	/**
 	 * Main Level of the game
@@ -11,6 +9,8 @@ package states.levels
 	 */
 	public class MainLevel extends FlxState
 	{
+		// embedded sprites
+		
 		[Embed(source = "../../../data/sprites/cityScape.png")]
 		private var SpriteBack:Class;
 		[Embed(source = "../../../data/sprites/background.png")]
@@ -21,6 +21,8 @@ package states.levels
 		private var SpriteSmoke:Class;
 		[Embed(source = "../../../data/sprites/smokeBig.png")]
 		private var SpriteSmokeBig:Class;
+		
+		// embedded sounds and music
 		
 		[Embed(source = "../../../data/sfx/footstep.mp3")]
 		private var SfxFootstep:Class;
@@ -34,9 +36,6 @@ package states.levels
 		
 		private const RANDOM_VOICEFX_COUNT:uint = 2;
 		
-		private var _soundFootstep:FlxSound;
-		private var _robotVoices:Vector.<FlxSound> = new Vector.<FlxSound>();
-		
 		private var _layerBack:ParallaxLayer;
 		private var _layerMiddle:ParallaxLayer;
 		private var _layerAction:ParallaxLayer;
@@ -46,18 +45,6 @@ package states.levels
 		
 		override public function create():void
 		{
-			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
-			
-			// sounds
-			_soundFootstep = new FlxSound();
-			_soundFootstep.loadEmbedded(SfxFootstep);
-			for (var i:uint = 0; i < RANDOM_VOICEFX_COUNT; ++i)
-			{
-				_robotVoices.push(new FlxSound());
-			}
-			_robotVoices[0].loadEmbedded(SfxJusticiaSocial);
-			_robotVoices[1].loadEmbedded(SfxTerceraPosicion);
-			
 			bgColor = 0xffd3a9a9;
 			_layerBack = new ParallaxLayer(SpriteBack,   	0.2);
 			_layerMiddle = new ParallaxLayer(SpriteMiddle,  0.5);
@@ -74,9 +61,7 @@ package states.levels
 			add(_layerAction);
 			add(_layerFront);
 			
-			FlxG.music = new FlxSound();
-			FlxG.music.loadEmbedded(MusicTheme, true).play();
-			FlxG.music.volume = 0.2;
+			FlxG.playMusic(MusicTheme, 0.2);
 		}
 		
 		private var _quakeTimer:Number = 0;
@@ -100,10 +85,10 @@ package states.levels
 			{
 				_quakeTimer -= 1.5;
 				FlxG.quake.start(0.01, 0.2);
-				_soundFootstep.play();
+				FlxG.play(SfxFootstep);
 			}
 			
-			super.collide();
+			collide();
 			super.update();
 		}
 		
@@ -144,16 +129,16 @@ package states.levels
 		{
 			_player = new Actor(new PlayerController());
 			_player.x = 0;
-			_player.y = Game.ScreenHeight - 150;
+			_player.y = FlxG.height - 150;
 			
 			FlxG.followTarget = _player;
-			FlxG.followBounds(0, 0, 100000, Game.ScreenHeight);
+			FlxG.followBounds(0, 0, 100000, FlxG.height);
 			
 			_layerAction.add(_player);
 			
-			addActor(new PlaneController(), 500, 20);
-			addActor(new PlaneController(), 520, 40);
-			addActor(new PlaneController(), 540, 60);
+			addActor(new PlaneController(_player), 400, 20);
+			addActor(new PlaneController(_player), 600, 40);
+			addActor(new PlaneController(_player), 800, 60);
 		}
 		
 		private function addActor(actorController:ActorController, x:Number, y:Number):void

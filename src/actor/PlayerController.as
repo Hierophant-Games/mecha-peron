@@ -13,6 +13,8 @@ package actor
 		
 		public override function init():void
 		{
+			controlledActor.fixed = true;
+			
 			controlledActor.loadGraphic(PeronSprite, true, false, 70, 94);
 			
 			controlledActor.addAnimation("idle", new Array(0, 1, 2, 3, 4, 5), 10, true);

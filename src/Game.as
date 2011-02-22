@@ -12,14 +12,13 @@ package
 	[Frame(factoryClass="Preloader")]
 	public class Game extends FlxGame
 	{
-		public static const ScreenWidth:uint = 320;
-		public static const ScreenHeight:uint = 240;
-		
 		public static var Strings:GameStrings = new GameStrings();
 		
 		public function Game()
 		{
-			super(ScreenWidth, ScreenHeight, Logo, 2);
+			super(320, 240, Logo, 2);
+			
+			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
 		}
 		
 		private static var _previousState:FlxState;

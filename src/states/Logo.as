@@ -12,7 +12,7 @@ package states
 		
 		override public function create():void
 		{
-			var text:FlxText = new FlxText(0, Game.ScreenHeight / 2 - 16, Game.ScreenWidth, Game.Strings.languageXML.Intro);
+			var text:FlxText = new FlxText(0, FlxG.height / 2 - 16, FlxG.width, Game.Strings.languageXML.Intro);
 			text.setFormat(null, 16, 0xffffff, "center");
 			add(text);
 		}

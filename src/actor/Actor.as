@@ -8,18 +8,28 @@ package actor
 	 */
 	public class Actor extends FlxSprite
 	{
-		private var _actorController:ActorController;
+		private var _controller:ActorController;
+		
+		public function set controller(actorController:ActorController):void
+		{
+			_controller = actorController;
+			_controller.controlledActor = this;
+			_controller.init();
+		}
+		
+		public function get controller():ActorController
+		{
+			return _controller;
+		}
 		
 		public function Actor(actorController:ActorController) 
 		{
-			_actorController = actorController;
-			_actorController.controlledActor = this;
-			_actorController.init();
+			controller = actorController;
 		}
 		
 		public override function update():void
 		{
-			_actorController.update();
+			_controller.update();
 			super.update();
 		}
 	}

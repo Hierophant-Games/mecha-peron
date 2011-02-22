@@ -19,9 +19,9 @@ package states
 			text += "\n\n"
 			text += Game.Strings.languageXML.Help.Help3;
 			
-			add(new FlxText(20, 20, Game.ScreenWidth - 40, text));
+			add(new FlxText(20, 20, FlxG.width - 40, text));
 			
-			addMenuEntry(new MenuEntry(onBack, new FlxText(0, Game.ScreenHeight - 20, Game.ScreenWidth - 10, Game.Strings.languageXML.Menu.Back).setFormat(null, 8, 0xffffff, "right")));
+			addMenuEntry(new MenuEntry(onBack, new FlxText(0, FlxG.height - 20, FlxG.width - 10, Game.Strings.languageXML.Menu.Back).setFormat(null, 8, 0xffffff, "right")));
 		}
 		
 		private function onBack():void
