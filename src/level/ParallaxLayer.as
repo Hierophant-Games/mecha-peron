@@ -1,7 +1,6 @@
-package states.levels 
+package level 
 {
 	import org.flixel.*;
-	import org.flixel.data.FlxAnim;
 	
 	/**
 	 * ...

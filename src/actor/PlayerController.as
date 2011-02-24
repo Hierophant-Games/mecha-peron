@@ -1,21 +1,19 @@
 package actor 
 {
+	import embed.Assets;
 	import org.flixel.*;
 	/**
-	 * Player class.
-	 * Stores info about the current status of the player character.
+	 * PlayerController.
+	 * Controls an Actor with a player behavior. Handles input and update accordingly.
 	 * @author Santiago Vilar
 	 */
 	public class PlayerController extends ActorController
 	{
-		[Embed(source = "../../data/sprites/peron.png")]
-		private var PeronSprite:Class;
-		
 		public override function init():void
 		{
 			controlledActor.fixed = true;
 			
-			controlledActor.loadGraphic(PeronSprite, true, false, 70, 94);
+			controlledActor.loadGraphic(Assets.SpritePeron, true, false, 70, 94);
 			
 			controlledActor.addAnimation("idle", new Array(0, 1, 2, 3, 4, 5), 10, true);
 			controlledActor.addAnimation("walk", new Array(0), 10, true);

@@ -3,7 +3,7 @@ package actor
 	import org.flixel.*;
 	
 	/**
-	 * ...
+	 * Actor class. Its behaviour is changed by the controller.
 	 * @author Santiago Vilar
 	 */
 	public class Actor extends FlxSprite
@@ -22,8 +22,9 @@ package actor
 			return _controller;
 		}
 		
-		public function Actor(actorController:ActorController) 
+		public function Actor(actorController:ActorController, X:Number = 0, Y:Number = 0) 
 		{
+			super(X, Y);
 			controller = actorController;
 		}
 		
