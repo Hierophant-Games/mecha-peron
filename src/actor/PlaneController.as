@@ -42,40 +42,12 @@ package actor
 			_accum = 0;
 			
 			// add a particle emitter
-			_smokeEmitter = new FlxEmitter(controlledActor.x, controlledActor.y);
-			_smokeEmitter.setSize(6, 2);
-			_smokeEmitter.setRotation(0, 0);
-			_smokeEmitter.setXSpeed(-10, 10);
-			_smokeEmitter.setYSpeed(-20, -30);
-			_smokeEmitter.gravity = 0;
-			for (var i:uint = 0; i <10; ++i)
-			{
-				var smoke:FlxSprite = new FlxSprite();
-				if (i % 2)
-				{
-					smoke.loadGraphic(Assets.SpriteSmoke, true, false, 14, 12);
-				}
-				else
-				{
-					smoke.loadGraphic(Assets.SpriteSmokeBig, true, false, 28, 24);
-				}
-				smoke.exists = false;
-				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
-				smoke.play("smoke");
-				smoke.solid = false;
-				_smokeEmitter.add(smoke, true);
-			}
-			_smokeEmitter.start(false);
-			
-			_layer.add(_smokeEmitter, true);
+			initParticleEmitter();
 		}
 		
 		override public function update():void
 		{
-			if (isNaN(_initialY))
-			{
-				_initialY = controlledActor.y;
-			}
+			if (isNaN(_initialY)) _initialY = controlledActor.y;
 			
 			var posXInScreen:Number = controlledActor.getScreenXY().x;
 			// camera culling
@@ -120,6 +92,36 @@ package actor
 				
 				_layer.add(bomb);
 			}
+		}
+		
+		private function initParticleEmitter():void
+		{
+			_smokeEmitter = new FlxEmitter(controlledActor.x, controlledActor.y);
+			_smokeEmitter.setSize(6, 2);
+			_smokeEmitter.setRotation(0, 0);
+			_smokeEmitter.setXSpeed(-10, 10);
+			_smokeEmitter.setYSpeed(-20, -30);
+			_smokeEmitter.gravity = 0;
+			for (var i:uint = 0; i <10; ++i)
+			{
+				var smoke:FlxSprite = new FlxSprite();
+				if (i % 2)
+				{
+					smoke.loadGraphic(Assets.SpriteSmoke, true, false, 14, 12);
+				}
+				else
+				{
+					smoke.loadGraphic(Assets.SpriteSmokeBig, true, false, 28, 24);
+				}
+				smoke.exists = false;
+				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
+				smoke.play("smoke");
+				smoke.solid = false;
+				_smokeEmitter.add(smoke, true);
+			}
+			_smokeEmitter.start(false);
+			
+			_layer.add(_smokeEmitter, true);
 		}
 	}
 }

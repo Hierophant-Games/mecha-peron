@@ -26,6 +26,8 @@ package actor
 		{
 			super(X, Y);
 			controller = actorController;
+			
+			FlxG.log("Added actor (" + X + "," + Y + ") with controller: " + actorController);
 		}
 		
 		public override function update():void

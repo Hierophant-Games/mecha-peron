@@ -1,5 +1,7 @@
 package actor 
 {
+	import flash.geom.Point;
+	import level.Bullet;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -24,7 +26,32 @@ package actor
 		
 		override public function update():void
 		{
-			
+			// only shoot if the actor is on the screen
+			if (controlledActor.onScreen())
+			{
+				shoot();
+			}
+		}
+		
+		private const SHOOT_TIME:Number = 1;
+		private var _shootTimer:Number = 0;
+		
+		private function shoot():void
+		{
+			_shootTimer += FlxG.elapsed;
+			if (_shootTimer > SHOOT_TIME)
+			{
+				_shootTimer -= SHOOT_TIME;
+				
+				var originPos:Point = new Point(controlledActor.x, controlledActor.y);
+				var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y);
+				var velocity:Point = targetPos.subtract(originPos);
+				velocity.normalize(30);
+				
+				var bullet:Bullet = new Bullet(_layer, originPos.x, originPos.y);
+				bullet.velocity = new FlxPoint(velocity.x, velocity.y);
+				_layer.add(bullet);
+			}
 		}
 	}
 }
