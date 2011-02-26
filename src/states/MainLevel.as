@@ -45,7 +45,7 @@ package states
 		{
 			_player = new Actor(new PlayerController());
 			_player.x = 0;
-			_player.y = FlxG.height - 150;
+			_player.y = FlxG.height - 222;
 			
 			FlxG.followTarget = _player;
 			FlxG.followBounds(0, 0, 100000, FlxG.height);
