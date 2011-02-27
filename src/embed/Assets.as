@@ -6,6 +6,11 @@ package embed
 	 */
 	public class Assets 
 	{
+		// embedded strings
+		
+		[Embed(source = "../../data/strings/GameStrings-EN.xml", mimeType = "application/octet-stream")]
+		public static var EnglishXML:Class;
+		
 		// embedded sprites
 		
 		[Embed(source = "../../data/sprites/cityScape.png")]
@@ -21,6 +26,13 @@ package embed
 		
 		[Embed(source = "../../data/sprites/peron.png")]
 		public static var SpritePeron:Class;
+		[Embed(source = "../../data/sprites/laser.png")]
+		public static var SpriteLaser:Class;
+		[Embed(source = "../../data/sprites/chrosshair.png")]
+		public static var SpriteChrosshair:Class;
+		
+		[Embed(source = "../../data/sprites/plane.png")]
+		public static var SpritePlane:Class;
 		
 		[Embed(source = "../../data/sprites/explosion.png")]
 		public static var SpriteExplosion:Class;

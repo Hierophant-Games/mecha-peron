@@ -1,6 +1,9 @@
 package actor 
 {
+	import collision.RotatedRectangle;
 	import embed.Assets;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import org.flixel.*;
 	/**
 	 * PlayerController.
@@ -9,6 +12,16 @@ package actor
 	 */
 	public class PlayerController extends ActorController
 	{
+		private var _layer:FlxGroup;
+		
+		private var laserSprite:FlxSprite;
+		private var laserColissionBox:RotatedRectangle;
+		
+		public function PlayerController(layer:FlxGroup)
+		{
+			_layer = layer;
+		}
+		
 		public override function init():void
 		{
 			controlledActor.fixed = true;
@@ -23,6 +36,20 @@ package actor
 			//controlledActor.addAnimationCallback(animationCallback);
 			
 			controlledActor.play("idle");
+			
+			laserSprite = new FlxSprite();
+			laserSprite.loadGraphic(Assets.SpriteLaser, false, false, 320, 10);
+			laserSprite.origin = new FlxPoint(0, laserSprite.height);
+			
+			laserColissionBox = new RotatedRectangle(
+									new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height), 
+									laserSprite.angle, 
+									new Point(laserSprite.origin.x, laserSprite.origin.y));
+									
+			_layer.add(laserSprite);
+
+			FlxG.mouse.load(Assets.SpriteChrosshair, 15, 15);
+			FlxG.mouse.show();
 		}
 		
 		public override function update():void
@@ -31,9 +58,9 @@ package actor
 			var yVelocity:Number = 0;
 			
 			if (FlxG.keys.RIGHT)
-				SetVelocity(30,yVelocity);
+				setVelocity(30,yVelocity);
 			else if (FlxG.keys.LEFT) 
-				SetVelocity(-30,yVelocity);			
+				setVelocity(-30,yVelocity);			
 			else if (FlxG.keys.justPressed("SPACE"))
 			{
 				stopMoving(); // stop moving while attacking
@@ -49,10 +76,32 @@ package actor
 				damage();
 			}
 			else stopMoving(); 
+			
+			if (FlxG.mouse.pressed())
+			{
+				laser();
+				
+				laserSprite.x = controlledActor.x + controlledActor.width / 2;
+				laserSprite.y = controlledActor.y + 40;
 		
+				var angle:Number = Math.atan2(FlxG.mouse.y - (laserSprite.y + laserSprite.height), FlxG.mouse.x - laserSprite.x);
+				angle *= 180 / Math.PI;
+				
+				if (angle > 50) angle = 50;
+				else if (angle < -30) angle = -30;
+				
+				laserSprite.visible = true;
+				laserSprite.active = true;
+				laserSprite.angle = angle;
+			}
+			else
+			{
+				laserSprite.visible = false;
+				laserSprite.active = false;
+			}
 		}
 		
-		private function SetVelocity(x:Number, y:Number):void
+		private function setVelocity(x:Number, y:Number):void
 		{
 			/* Only play "walk" animation if velocity used to be zero,
 			 * otherwise, it would reset itself on each frame */
@@ -101,5 +150,28 @@ package actor
 		{
 			controlledActor.play("idle");
 		}*/
+		
+		public function checkLaserHit(poorBastard:FlxObject):Boolean
+		{
+			laserColissionBox.rect = new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height);
+			laserColissionBox.angle = laserSprite.angle;
+			laserColissionBox.origin = new Point(laserSprite.origin.x, laserSprite.origin.y);
+			return laserColissionBox.collides2(poorBastard);
+		}
+		
+		public function isLaserActive():Boolean
+		{
+			return laserSprite.active;
+		}
+		
+		public function getLaserRect():Rectangle
+		{
+			return new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height);
+		}
+		
+		public function setLaserClip(clip:Rectangle):void
+		{
+			laserSprite.clip = clip;
+		}
 	}
 }

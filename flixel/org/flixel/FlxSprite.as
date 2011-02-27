@@ -69,6 +69,11 @@ package org.flixel
 		 */
 		public var frameHeight:uint;
 		
+		/**
+		 * Used to set the visible area of the sprite.
+		 */
+		public var clip:Rectangle
+		
 		//Animation helpers
 		protected var _animations:Array;
 		protected var _flipped:uint;
@@ -90,7 +95,7 @@ package org.flixel
 		protected var _color:uint;
 		protected var _ct:ColorTransform;
 		protected var _mtx:Matrix;
-		protected var _bbb:BitmapData;
+		protected var _bbb:BitmapData;		
 		
 		/**
 		 * Creates a white 8x8 square <code>FlxSprite</code> at the specified position.
@@ -116,6 +121,7 @@ package org.flixel
 			_color = 0x00ffffff;
 			blend = null;
 			antialiasing = false;
+			clip = null;
 			
 			finished = false;
 			_facing = RIGHT;
@@ -522,19 +528,18 @@ package org.flixel
 			_flashPoint.y = _point.y;
 			
 			//Simple render
-			if(((angle == 0) || (_bakedRotation > 0)) && (scale.x == 1) && (scale.y == 1) && (blend == null))
+			if(((angle == 0) || (_bakedRotation > 0)) && (scale.x == 1) && (scale.y == 1) && (blend == null) && (clip == null))
 			{
 				FlxG.buffer.copyPixels(_framePixels,_flashRect,_flashPoint,null,null,true);
 				return;
 			}
-			
 			//Advanced render
 			_mtx.identity();
 			_mtx.translate(-origin.x,-origin.y);
 			_mtx.scale(scale.x,scale.y);
 			if(angle != 0) _mtx.rotate(Math.PI * 2 * (angle / 360));
 			_mtx.translate(_point.x+origin.x,_point.y+origin.y);
-			FlxG.buffer.draw(_framePixels,_mtx,null,blend,null,antialiasing);
+			FlxG.buffer.draw(_framePixels,_mtx,null,blend,clip,antialiasing);
 		}
 		
 		/**

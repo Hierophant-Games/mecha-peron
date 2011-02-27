@@ -33,7 +33,12 @@ package actor
 		
 		override public function init():void
 		{
-			controlledActor.createGraphic(24, 16, 0xffcccccc);
+			//controlledActor.createGraphic(24, 16, 0xffcccccc);
+			controlledActor.loadGraphic(Assets.SpritePlane, true, false, 300 / 4, 47);
+			
+			controlledActor.addAnimation("default", new Array(0, 1, 2, 3), 10);
+			controlledActor.play("default");
+			
 			controlledActor.fixed = true;
 			controlledActor.velocity.x = SPEED_X;
 			
@@ -62,10 +67,12 @@ package actor
 			
 			controlledActor.y = _initialY - SIN_HEIGHT * Math.sin(_accum);
 			
-			_smokeEmitter.x = controlledActor.x;
+			_smokeEmitter.x = controlledActor.x;			
 			_smokeEmitter.y = controlledActor.y;
 			
 			dropBombs();
+			
+			controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
 		}
 		
 		private const BOMB_GRAVITY:Number = 50;

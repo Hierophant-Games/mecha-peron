@@ -1,5 +1,6 @@
 package states 
 {
+	import flash.geom.Rectangle;
 	import actor.*;
 	import embed.Assets;
 	import level.ParallaxLayer;
@@ -20,6 +21,8 @@ package states
 		
 		private var _player:Actor;
 		
+		private var _planes:Vector.<Actor> = new Vector.<Actor>();
+		
 		override public function create():void
 		{
 			bgColor = 0xffd3a9a9;
@@ -38,12 +41,12 @@ package states
 			add(_layerAction);
 			add(_layerFront);
 			
-			FlxG.playMusic(Assets.MusicTheme, 0.2);
+			FlxG.playMusic(Assets.MusicTheme, 0.6);
 		}
 		
 		private function initActors():void
 		{
-			_player = new Actor(new PlayerController());
+			_player = new Actor(new PlayerController(_layerAction));
 			_player.x = 0;
 			_player.y = FlxG.height - 222;
 			
@@ -62,6 +65,13 @@ package states
 		private function addActor(actorController:ActorController, x:Number, y:Number):void
 		{
 			var theActor:Actor = new Actor(actorController, x, y);
+			
+			if ((actorController as PlaneController) != null)
+			{
+				theActor.health = 100;
+				_planes.push(theActor);
+			}
+			
 			_layerAction.add(theActor, true);
 		}
 		
@@ -92,6 +102,43 @@ package states
 				_quakeTimer -= 1.5;
 				FlxG.quake.start(0.01, 0.2);
 				FlxG.play(Assets.SfxFootstep);
+			}
+			
+			var playerController:PlayerController = (_player.controller as PlayerController);
+			//if (playerController == null) assert this?
+			
+			if (playerController.isLaserActive())
+			{
+				//playerController.setLaserClip(null);
+				for (var i:uint = 0; i < _planes.length; ++i)
+				{
+					if (_planes[i].x > FlxG.width - FlxG.scroll.x)
+						continue;
+					
+					var enemy:Actor = _planes[i];
+					
+					if (playerController.checkLaserHit(enemy))
+					{
+						/*
+						var laserRect:Rectangle = playerController.getLaserRect();
+						var laserClip:Rectangle = new Rectangle(
+													laserRect.x, 
+													enemy.y, 
+													enemy.x + (enemy.width) - laserRect.x, 
+													laserRect.y + laserRect.height - enemy.y);
+						playerController.setLaserClip(laserClip);
+						*/
+						enemy.hurt(2);
+						
+						if (enemy.health <= 0)
+						{
+							_layerAction.remove(enemy, true);
+							_planes.splice(i, 1);
+						}
+						
+						break;
+					}
+				}
 			}
 			
 			collide();

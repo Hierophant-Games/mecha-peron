@@ -1,14 +1,12 @@
 package strings 
 {
+	import embed.Assets;
 	/**
 	 * ...
 	 * @author Santiago Vilar
 	 */
 	public class GameStrings 
 	{
-		[Embed(source = "../../data/strings/GameStrings-EN.xml", mimeType = "application/octet-stream")]
-		private var EnglishXML:Class;
-		
 		private var _languageXML:XML;
 		
 		public function GameStrings()
@@ -23,7 +21,7 @@ package strings
 			{
 				case "EN":
 				{
-					obj = new EnglishXML();
+					obj = new Assets.EnglishXML();
 				}
 				break;
 				default:
