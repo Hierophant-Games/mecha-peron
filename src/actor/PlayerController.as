@@ -18,35 +18,41 @@ package actor
 			controlledActor.addAnimation("idle", new Array(0), 1, false);
 			controlledActor.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
 			controlledActor.addAnimation("attack", new Array(0), 1, false);
-			controlledActor.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 0), 12, false);
+			controlledActor.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
 			controlledActor.addAnimation("laser", new Array(1,3,4), 9, false);
-			controlledActor.addAnimationCallback(animationCallback);
+			//controlledActor.addAnimationCallback(animationCallback);
 			
 			controlledActor.play("idle");
 		}
 		
 		public override function update():void
 		{
+			// should be used to make the character go up and down in each step
+			var yVelocity:Number = 0;
 			
-			var moveX:Number = 0;
-			var moveY:Number = 0;
-			if (FlxG.keys.RIGHT) {
-				moveX = 30;
-			} else if (FlxG.keys.LEFT) {
-				moveX = -30;
-			}			
-			if (FlxG.keys.justPressed("SPACE")) {
+			if (FlxG.keys.RIGHT)
+				SetVelocity(30,yVelocity);
+			else if (FlxG.keys.LEFT) 
+				SetVelocity(-30,yVelocity);			
+			else if (FlxG.keys.justPressed("SPACE"))
+			{
+				stopMoving(); // stop moving while attacking
 				attack();
-				moveX = 0; // stop moving while attacking
 			}
-				
-			if(moveX != 0) 
-				move(moveX, moveY);
-			else
-				stopMoving();
+			else if (FlxG.keys.justPressed("A")) // for debugging purposes
+			{
+				stopMoving(); // stop moving while attacking
+				laser();
+			} else if (FlxG.keys.justPressed("S")) // for debugging purposes
+			{
+				stopMoving(); // stop moving while being damaged
+				damage();
+			}
+			else stopMoving(); 
+		
 		}
 		
-		private function move(x:Number, y:Number):void
+		private function SetVelocity(x:Number, y:Number):void
 		{
 			/* Only play "walk" animation if velocity used to be zero,
 			 * otherwise, it would reset itself on each frame */
@@ -62,20 +68,38 @@ package actor
 		
 		private function stopMoving():void 
 		{
-			FlxG.log("Started Playing Idle Animation");
-			controlledActor.play("idle");
+		/*
+		 * At the moment going back to idle animation when no input 
+		 * is made is disabled, as it is required to check wether or
+		 * not the previous animation has finished before doing so.
+		 */
+			// FlxG.log("Started Playing Idle Animation");
+			// controlledActor.play("idle");
 			controlledActor.velocity.x = 0;
 			controlledActor.velocity.y = 0;
 		}
 		
 		private function attack():void
 		{
+			 FlxG.log("Started Playing attack Animation");
 			controlledActor.play("attack");
 		}
 		
-		private function animationCallback(name:String, frameNumber:uint, frameIndex:uint):void
+		private function laser():void
+		{
+			FlxG.log("Started Playing laser Animation");
+			controlledActor.play("laser");
+		}
+		
+		private function damage():void
+		{
+			FlxG.log("Started Playing damage Animation");
+			controlledActor.play("damage");
+		}
+		
+		/*private function animationCallback(name:String, frameNumber:uint, frameIndex:uint):void
 		{
 			controlledActor.play("idle");
-		}
+		}*/
 	}
 }
