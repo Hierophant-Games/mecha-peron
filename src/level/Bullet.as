@@ -20,7 +20,7 @@ package level
 			fixed = true;
 		}
 		
-		public override function hitBottom(Contact:FlxObject, Velocity:Number):void
+		public override function hitLeft(Contact:FlxObject, Velocity:Number):void
 		{
 			var other:Actor = Contact as Actor;
 			if (other && other.controller is PlayerController)

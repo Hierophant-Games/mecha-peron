@@ -44,9 +44,10 @@ package actor
 				_shootTimer -= SHOOT_TIME;
 				
 				var originPos:Point = new Point(controlledActor.x, controlledActor.y);
-				var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y);
-				var velocity:Point = targetPos.subtract(originPos);
-				velocity.normalize(30);
+				//var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y);
+				//var velocity:Point = targetPos.subtract(originPos);
+				//velocity.normalize(30);
+				var velocity:Point = new Point(-30, 0);
 				
 				var bullet:Bullet = new Bullet(_layer, originPos.x, originPos.y);
 				bullet.velocity = new FlxPoint(velocity.x, velocity.y);
