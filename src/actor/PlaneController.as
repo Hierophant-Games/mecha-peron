@@ -34,9 +34,9 @@ package actor
 		override public function init():void
 		{
 			//controlledActor.createGraphic(24, 16, 0xffcccccc);
-			controlledActor.loadGraphic(Assets.SpritePlane, true, false, 300 / 4, 47);
+			controlledActor.loadGraphic(Assets.SpritePlane, true, false, 109, 35);
 			
-			controlledActor.addAnimation("default", new Array(0, 1, 2, 3), 10);
+			controlledActor.addAnimation("default", new Array(0, 1, 2), 9);
 			controlledActor.play("default");
 			
 			controlledActor.fixed = true;

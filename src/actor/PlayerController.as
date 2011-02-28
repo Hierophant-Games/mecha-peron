@@ -32,7 +32,8 @@ package actor
 			controlledActor.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
 			controlledActor.addAnimation("attack", new Array(0), 1, false);
 			controlledActor.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
-			controlledActor.addAnimation("laser", new Array(1,3,4), 9, false);
+			controlledActor.addAnimation("laser", new Array(1, 3, 4), 9, false);
+			controlledActor.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
 			//controlledActor.addAnimationCallback(animationCallback);
 			
 			controlledActor.play("idle");
@@ -40,6 +41,8 @@ package actor
 			laserSprite = new FlxSprite();
 			laserSprite.loadGraphic(Assets.SpriteLaser, false, false, 320, 10);
 			laserSprite.origin = new FlxPoint(0, laserSprite.height);
+			laserSprite.visible = false;
+			laserSprite.active = false;
 			
 			laserColissionBox = new RotatedRectangle(
 									new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height), 
@@ -94,8 +97,9 @@ package actor
 				laserSprite.active = true;
 				laserSprite.angle = angle;
 			}
-			else
+			else if(FlxG.mouse.justReleased())
 			{
+				laserOff();
 				laserSprite.visible = false;
 				laserSprite.active = false;
 			}
@@ -138,6 +142,12 @@ package actor
 		{
 			FlxG.log("Started Playing laser Animation");
 			controlledActor.play("laser");
+		}
+		
+		private function laserOff():void
+		{
+			FlxG.log("Started Playing laserOff Animation");
+			controlledActor.play("laserOff");
 		}
 		
 		private function damage():void
