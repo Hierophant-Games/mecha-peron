@@ -209,10 +209,10 @@ package actor
 		override public function onKill():void
 		{
 			if (_smokeEmitter)
-				_smokeEmitter.kill();
+				_smokeEmitter.stop();
 				
 			if (_sparkEmitter)
-				_sparkEmitter.kill();
+				_sparkEmitter.stop();
 		}
 
 	}
