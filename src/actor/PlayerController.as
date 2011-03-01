@@ -14,8 +14,10 @@ package actor
 	{
 		private var _layer:FlxGroup;
 		
-		private var laserSprite:FlxSprite;
-		private var laserColissionBox:RotatedRectangle;
+		private var _laserSprite:FlxSprite;
+		private var _laserColissionBox:RotatedRectangle;
+		
+		private var _blockedByBuilding:Boolean = false;
 		
 		public function PlayerController(layer:FlxGroup)
 		{
@@ -38,18 +40,18 @@ package actor
 			
 			controlledActor.play("idle");
 			
-			laserSprite = new FlxSprite();
-			laserSprite.loadGraphic(Assets.SpriteLaser, false, false, 320, 10);
-			laserSprite.origin = new FlxPoint(0, laserSprite.height);
-			laserSprite.visible = false;
-			laserSprite.active = false;
+			_laserSprite = new FlxSprite();
+			_laserSprite.loadGraphic(Assets.SpriteLaser, false, false, 320, 10);
+			_laserSprite.origin = new FlxPoint(0, _laserSprite.height);
+			_laserSprite.visible = false;
+			_laserSprite.active = false;
 			
-			laserColissionBox = new RotatedRectangle(
-									new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height), 
-									laserSprite.angle, 
-									new Point(laserSprite.origin.x, laserSprite.origin.y));
+			_laserColissionBox = new RotatedRectangle(
+									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 
+									_laserSprite.angle, 
+									new Point(_laserSprite.origin.x, _laserSprite.origin.y));
 									
-			_layer.add(laserSprite);
+			_layer.add(_laserSprite);
 
 			FlxG.mouse.load(Assets.SpriteChrosshair, 15, 15);
 			FlxG.mouse.show();
@@ -60,11 +62,8 @@ package actor
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
-			if (FlxG.keys.RIGHT)
-				setVelocity(30,yVelocity);
-			else if (FlxG.keys.LEFT) 
-				setVelocity(-30,yVelocity);			
-			else if (FlxG.keys.justPressed("SPACE"))
+			/*
+			if (FlxG.keys.justPressed("SPACE"))
 			{
 				stopMoving(); // stop moving while attacking
 				attack();
@@ -79,29 +78,34 @@ package actor
 				damage();
 			}
 			else stopMoving(); 
+			*/
+			
+			// Go forward! Viva Perón!
+			if (!_blockedByBuilding)
+				setVelocity(30, yVelocity);
 			
 			if (FlxG.mouse.pressed())
 			{
 				laser();
 				
-				laserSprite.x = controlledActor.x + controlledActor.width / 2;
-				laserSprite.y = controlledActor.y + 40;
+				_laserSprite.x = controlledActor.x + controlledActor.width / 2;
+				_laserSprite.y = controlledActor.y + 40;
 		
-				var angle:Number = Math.atan2(FlxG.mouse.y - (laserSprite.y + laserSprite.height), FlxG.mouse.x - laserSprite.x);
+				var angle:Number = Math.atan2(FlxG.mouse.y - (_laserSprite.y + _laserSprite.height), FlxG.mouse.x - _laserSprite.x);
 				angle *= 180 / Math.PI;
 				
 				if (angle > 50) angle = 50;
 				else if (angle < -30) angle = -30;
 				
-				laserSprite.visible = true;
-				laserSprite.active = true;
-				laserSprite.angle = angle;
+				_laserSprite.visible = true;
+				_laserSprite.active = true;
+				_laserSprite.angle = angle;
 			}
 			else if(FlxG.mouse.justReleased())
 			{
 				laserOff();
-				laserSprite.visible = false;
-				laserSprite.active = false;
+				_laserSprite.visible = false;
+				_laserSprite.active = false;
 			}
 		}
 		
@@ -163,25 +167,34 @@ package actor
 		
 		public function checkLaserHit(poorBastard:FlxObject):Boolean
 		{
-			laserColissionBox.rect = new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height);
-			laserColissionBox.angle = laserSprite.angle;
-			laserColissionBox.origin = new Point(laserSprite.origin.x, laserSprite.origin.y);
-			return laserColissionBox.collides2(poorBastard);
+			_laserColissionBox.rect = new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height);
+			_laserColissionBox.angle = _laserSprite.angle;
+			_laserColissionBox.origin = new Point(_laserSprite.origin.x, _laserSprite.origin.y);
+			return _laserColissionBox.collides2(poorBastard);
 		}
 		
 		public function isLaserActive():Boolean
 		{
-			return laserSprite.active;
+			return _laserSprite.active;
 		}
 		
 		public function getLaserRect():Rectangle
 		{
-			return new Rectangle(laserSprite.x, laserSprite.y, laserSprite.width, laserSprite.height);
+			return new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height);
 		}
 		
 		public function setLaserClip(clip:Rectangle):void
 		{
-			laserSprite.clip = clip;
+			_laserSprite.clip = clip;
+		}
+		
+		override public function onCollide(collideType:uint, contact:FlxObject):void
+		{
+			var other:Actor = contact as Actor;
+			if (other && other.controller is BuildingController)
+			{
+				_blockedByBuilding = true;
+			}
 		}
 	}
 }

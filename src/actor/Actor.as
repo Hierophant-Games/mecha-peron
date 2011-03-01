@@ -10,6 +10,11 @@ package actor
 	{
 		private var _controller:ActorController;
 		
+		public static const COLLIDE_LEFT:uint = 0;
+		public static const COLLIDE_RIGHT:uint = 1;
+		public static const COLLIDE_TOP:uint = 2;
+		public static const COLLIDE_BOTTOM:uint = 3;
+		
 		public function set controller(actorController:ActorController):void
 		{
 			_controller = actorController;
@@ -40,6 +45,30 @@ package actor
 		{
 			_controller.onKill();
 			super.kill();
+		}
+		
+		override public function hitLeft(Contact:FlxObject,Velocity:Number):void
+		{
+			_controller.onCollide(COLLIDE_LEFT, Contact);
+			super.hitLeft(Contact, Velocity);
+		}
+		
+		override public function hitRight(Contact:FlxObject,Velocity:Number):void
+		{
+			_controller.onCollide(COLLIDE_RIGHT, Contact);
+			super.hitRight(Contact, Velocity);
+		}
+		
+		override public function hitTop(Contact:FlxObject,Velocity:Number):void
+		{
+			_controller.onCollide(COLLIDE_TOP, Contact);
+			super.hitTop(Contact, Velocity);
+		}
+		
+		override public function hitBottom(Contact:FlxObject,Velocity:Number):void
+		{
+			_controller.onCollide(COLLIDE_BOTTOM, Contact);
+			super.hitBottom(Contact, Velocity);
 		}
 	}
 }

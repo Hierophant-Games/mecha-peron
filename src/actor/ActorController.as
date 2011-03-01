@@ -1,5 +1,6 @@
 package actor 
 {
+	import org.flixel.FlxObject;
 	/**
 	 * IActorController is the base interface for every
 	 * controller attacheable to the actor
@@ -32,6 +33,11 @@ package actor
 		public function onKill():void
 		{
 			// should be overrided if some custom behavior is wanted here
+		}
+		
+		public function onCollide(collideType:uint, contact:FlxObject):void
+		{
+			// collision handling
 		}
 	}
 }

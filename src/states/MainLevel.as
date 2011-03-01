@@ -81,6 +81,7 @@ package states
 		
 		override public function update():void
 		{
+			// Debug keys!
 			if (FlxG.keys.justPressed("ONE")) 	_layerFront.visible = !_layerFront.visible;
 			if (FlxG.keys.justPressed("TWO")) 	_layerAction.visible = !_layerAction.visible;
 			if (FlxG.keys.justPressed("THREE"))	_layerMiddle.visible = !_layerMiddle.visible;
