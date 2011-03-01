@@ -83,6 +83,8 @@ package actor
 			// Go forward! Viva Perón!
 			if (!_blockedByBuilding)
 				setVelocity(30, yVelocity);
+			else
+				stopMoving();
 			
 			if (FlxG.mouse.pressed())
 			{
