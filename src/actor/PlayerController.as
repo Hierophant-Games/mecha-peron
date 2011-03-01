@@ -4,6 +4,7 @@ package actor
 	import embed.Assets;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import game.Constants;
 	import org.flixel.*;
 	/**
 	 * PlayerController.
@@ -80,9 +81,9 @@ package actor
 			else stopMoving(); 
 			*/
 			
-			// Go forward! Viva Perón!
+			// Move forward! Viva Perón!
 			if (!_blockedByBuilding)
-				setVelocity(30, yVelocity);
+				setVelocity(Constants.PERON_SPEED_X, yVelocity);
 			else
 				stopMoving();
 			
@@ -122,7 +123,7 @@ package actor
 			 * otherwise, it would reset itself on each frame */
 			
 			if (controlledActor.velocity.x == 0) {
-				FlxG.log("Started Playing Walk Animation");
+				//FlxG.log("Started Playing Walk Animation");
 				controlledActor.play("walk");
 			}
 			
@@ -145,25 +146,25 @@ package actor
 		
 		private function attack():void
 		{
-			 FlxG.log("Started Playing attack Animation");
+			//FlxG.log("Started Playing attack Animation");
 			controlledActor.play("attack");
 		}
 		
 		private function laser():void
 		{
-			FlxG.log("Started Playing laser Animation");
+			//FlxG.log("Started Playing laser Animation");
 			controlledActor.play("laser");
 		}
 		
 		private function laserOff():void
 		{
-			FlxG.log("Started Playing laserOff Animation");
+			//FlxG.log("Started Playing laserOff Animation");
 			controlledActor.play("laserOff");
 		}
 		
 		private function damage():void
 		{
-			FlxG.log("Started Playing damage Animation");
+			//FlxG.log("Started Playing damage Animation");
 			controlledActor.play("damage");
 		}
 		

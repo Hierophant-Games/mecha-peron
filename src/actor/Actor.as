@@ -35,8 +35,15 @@ package actor
 			FlxG.log("Added actor (" + X + "," + Y + ") with controller: " + actorController);
 		}
 		
+		private var _firstUpdate:Boolean = true;
+		
 		override public function update():void
 		{
+			if (_firstUpdate)
+			{
+				_controller.preFirstUpdate();
+				_firstUpdate = false;
+			}
 			_controller.update();
 			super.update();
 		}

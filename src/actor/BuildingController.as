@@ -10,7 +10,6 @@ package actor
 	{
 		private var _player:Actor;
 		private var _layer:FlxGroup;
-		private var _inittedSoldiers:Boolean = false;
 		
 		public function BuildingController(player:Actor, layer:FlxGroup) 
 		{
@@ -24,16 +23,17 @@ package actor
 			controlledActor.fixed = true;
 		}
 		
+		override public function preFirstUpdate():void
+		{
+			initSoldiers();
+		}
+		
 		override public function update():void
 		{
-			// if I add the soldiers in the init function, the building
-			// gets added after them, so I do it here... it's an ugly workaround but stfu
-			if (!_inittedSoldiers) initSoldiers();
 		}
 		
 		private function initSoldiers():void
 		{
-			_inittedSoldiers = true;
 			for (var i:uint = 0; i < 4; ++i)
 			{
 				var soldier:Actor = new Actor(new SoldierController(_player, _layer),

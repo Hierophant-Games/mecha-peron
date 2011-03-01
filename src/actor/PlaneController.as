@@ -2,6 +2,7 @@ package actor
 {
 	import embed.Assets;
 	import flash.geom.Point;
+	import game.Constants;
 	import level.PlaneBomb;
 	import org.flixel.*;
 	
@@ -14,20 +15,19 @@ package actor
 		/**
 		 * Constants
 		 */
-		private const SPEED_X:Number = -80;
 		private const SIN_FACTOR:Number = 0.03;
 		private const SIN_HEIGHT:Number = 16;
 		
 		private var _initialY:Number;
-		private var _accum:Number;
+		private var _accum:Number = 0;
 		
 		private var _player:Actor;
 		private var _layer:FlxGroup;
 		private var _smokeEmitter:FlxEmitter;
 		private var _sparkEmitter:FlxEmitter;
 		
-		private var _sparksInitialized:Boolean;
-		private var _emitSparks:Boolean;
+		private var _emitSparks:Boolean = false;
+		private var _bombDropped:Boolean = false;
 		
 		public function PlaneController(player:Actor, layer:FlxGroup) 
 		{
@@ -44,26 +44,23 @@ package actor
 			controlledActor.play("default");
 			
 			controlledActor.fixed = true;
-			controlledActor.velocity.x = SPEED_X;
+			controlledActor.velocity.x = Constants.PLANE_SPEED_X;
+		}
+		
+		override public function preFirstUpdate():void
+		{
+			// the actor position is set after the call to init...
+			// so we grab the value here
+			_initialY = controlledActor.y;
 			
-			// randomize the start of the sinusoidal movement
-			//_accum = Math.random() * 2 * Math.PI;
-			_accum = 0;
-			
-			// add smoke emitter
+			// Deffered particles initialization so they are added to the layer
+			// AFTER the plane so they are rendered in front
 			initSmokeEmitter();
-			
-			// init spark emitter
-			//initSparkEmitter();
-			_sparksInitialized = false; 
-			// Deffered sparks initialization so they are added to the layer AFTER the plane so they are rendererd in front
-			_emitSparks = false;
+			initSparkEmitter();
 		}
 		
 		override public function update():void
 		{
-			if (isNaN(_initialY)) _initialY = controlledActor.y;
-			
 			var posXInScreen:Number = controlledActor.getScreenXY().x;
 			// camera culling
 			controlledActor.visible = (posXInScreen < FlxG.width);
@@ -87,12 +84,9 @@ package actor
 			
 			controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
 			
-			if (!_sparksInitialized)
-				initSparkEmitter();
-			
 			if (_emitSparks)
 			{
-				_sparkEmitter.x = controlledActor.x + controlledActor.width / 2;			
+				_sparkEmitter.x = controlledActor.x;// + controlledActor.width / 2;			
 				_sparkEmitter.y = controlledActor.y + controlledActor.height / 2;
 				
 				if (!_sparkEmitter.on)
@@ -116,27 +110,23 @@ package actor
 			_emitSparks = true;
 		}
 		
-		private const BOMB_GRAVITY:Number = 50;
-		private var _bombDropped:Boolean = false;
-		
 		private function dropBombs():void
 		{
 			if (_bombDropped) return;
 			
-			var originPos:Point = new Point(controlledActor.x, controlledActor.y);
-			var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y);
+			var originPos:Point = new Point(controlledActor.x + controlledActor.width / 2, controlledActor.y + controlledActor.height);
+			var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y + _player.height / 2);
 			
 			// dy = 1/2*g*t^2
 			// t = v(dy/(1/2*g))
-			var timeToHitTarget:Number = Math.sqrt((targetPos.y - originPos.y) / (0.5 * BOMB_GRAVITY));
+			var timeToHitTarget:Number = Math.sqrt((targetPos.y - originPos.y) / (0.5 * Constants.GRAVITY));
 			var posXToHit:Number = originPos.x + (controlledActor.velocity.x - _player.velocity.x) * timeToHitTarget;
 			if (posXToHit < targetPos.x)
 			{
-				trace("dropping bomb");
 				_bombDropped = true;
 				
 				var bomb:PlaneBomb = new PlaneBomb(_layer, originPos.x, originPos.y);
-				bomb.acceleration.y = BOMB_GRAVITY;
+				bomb.acceleration.y = Constants.GRAVITY;
 				bomb.velocity.x =  controlledActor.velocity.x;
 				
 				_layer.add(bomb);
@@ -163,9 +153,9 @@ package actor
 					smoke.loadGraphic(Assets.SpriteSmokeBig, true, false, 28, 24);
 				}
 				smoke.exists = false;
+				smoke.solid = false;
 				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
 				smoke.play("smoke");
-				smoke.solid = false;
 				_smokeEmitter.add(smoke, true);
 			}
 			//_smokeEmitter.start(false);
@@ -177,11 +167,11 @@ package actor
 		{
 			_sparkEmitter = new FlxEmitter();
 			
-			_sparkEmitter.setSize(1, 1);
+			_sparkEmitter.setSize(5, 5);
 			_sparkEmitter.setRotation(0, 0);
 			_sparkEmitter.setXSpeed(0, 0);
 			_sparkEmitter.setYSpeed(0, 0);
-			_sparkEmitter.gravity = 0;
+			_sparkEmitter.gravity = Constants.GRAVITY;
 			
 			for (var i:uint = 0; i < 5; ++i)
 			{
@@ -193,8 +183,6 @@ package actor
 			}
 			
 			_layer.add(_sparkEmitter, true);
-			
-			_sparksInitialized = true;
 		}
 		
 		public function setSparksDirection(xTarget:Number, yTarget:Number):void

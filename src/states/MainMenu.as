@@ -20,7 +20,8 @@ package states
 			
 			initMenuEntries();
 			
-			FlxG.playMusic(Assets.LosMuchachos8Bit);
+			if (!FlxG.music)
+				FlxG.playMusic(Assets.LosMuchachos8Bit);
 		}
 		
 		override public function destroy():void 

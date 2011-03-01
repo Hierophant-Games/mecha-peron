@@ -57,9 +57,11 @@
 			
 			addActor(new PlaneController(_player, _layerAction), 400, 20);
 			addActor(new PlaneController(_player, _layerAction), 600, 40);
-			addActor(new PlaneController(_player, _layerAction), 800, 60);
+			addActor(new PlaneController(_player, _layerAction), 1000, 60);
+			addActor(new PlaneController(_player, _layerAction), 1400, 40);
+			addActor(new PlaneController(_player, _layerAction), 1800, 20);
 			
-			addActor(new BuildingController(_player, _layerAction), 400, 60);
+			addActor(new BuildingController(_player, _layerAction), 600, 60);
 		}
 		
 		private function addActor(actorController:ActorController, x:Number, y:Number):void
