@@ -30,10 +30,16 @@ package actor
 			FlxG.log("Added actor (" + X + "," + Y + ") with controller: " + actorController);
 		}
 		
-		public override function update():void
+		override public function update():void
 		{
 			_controller.update();
 			super.update();
+		}
+		
+		override public function kill():void
+		{
+			_controller.onKill();
+			super.kill();
 		}
 	}
 }

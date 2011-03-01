@@ -58,8 +58,11 @@ package actor
 			// camera culling
 			controlledActor.visible = (posXInScreen < FlxG.width);
 			// mark as dead when it goes out of camera
-			if (posXInScreen < 0)
+			if (posXInScreen < -controlledActor.frameWidth)
+			{
 				controlledActor.kill();
+				return;
+			}
 			
 			_accum += SIN_FACTOR;
 			if (_accum > 2 * Math.PI)
@@ -91,6 +94,7 @@ package actor
 			var posXToHit:Number = originPos.x + (controlledActor.velocity.x - _player.velocity.x) * timeToHitTarget;
 			if (posXToHit < targetPos.x)
 			{
+				trace("dropping bomb");
 				_bombDropped = true;
 				
 				var bomb:PlaneBomb = new PlaneBomb(_layer, originPos.x, originPos.y);
@@ -129,6 +133,12 @@ package actor
 			_smokeEmitter.start(false);
 			
 			_layer.add(_smokeEmitter, true);
+		}
+		
+		override public function onKill():void
+		{
+			if (_smokeEmitter)
+				_smokeEmitter.stop();
 		}
 	}
 }

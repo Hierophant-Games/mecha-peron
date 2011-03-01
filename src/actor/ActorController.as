@@ -21,12 +21,17 @@ package actor
 		
 		public function init():void
 		{
-			trace("implement me!!!");
+			trace("implement my init!!", this);
 		}
 		
 		public function update():void
 		{
-			trace("implement me!!!");
+			trace("implement my update!! ", this);
+		}
+		
+		public function onKill():void
+		{
+			// should be overrided if some custom behavior is wanted here
 		}
 	}
 }
