@@ -9,7 +9,7 @@ package states
 	 */
 	public class Intro extends FlxState 
 	{
-		private const DISCLAIMER_TIME:Number = 4.0;
+		private const DISCLAIMER_TIME:Number = 3.5;
 		private var _timer:Number = 0;
 		
 		override public function create():void
@@ -30,7 +30,7 @@ package states
 		{
 			_timer += FlxG.elapsed;
 			
-			if (_timer > DISCLAIMER_TIME)
+			if (_timer > DISCLAIMER_TIME || FlxG.mouse.pressed())
 			{
 				Game.setState(new MainMenu());
 			}

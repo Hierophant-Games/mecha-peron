@@ -20,8 +20,7 @@ package states
 			
 			initMenuEntries();
 			
-			if (!FlxG.music)
-				FlxG.playMusic(Assets.LosMuchachos8Bit);
+			FlxG.mouse.load(Assets.SpriteCursor);
 		}
 		
 		override public function destroy():void 

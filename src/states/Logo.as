@@ -22,7 +22,7 @@ package states
 		{
 			_timer += FlxG.elapsed;
 			
-			if (_timer > LOGO_TIME)
+			if (_timer > LOGO_TIME || FlxG.mouse.pressed())
 			{
 				Game.setState(new Intro());
 			}

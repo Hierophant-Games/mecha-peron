@@ -30,14 +30,17 @@ package embed
 		public static var SpritePeron:Class;
 		[Embed(source = "../../data/sprites/laser.png")]
 		public static var SpriteLaser:Class;
-		[Embed(source = "../../data/sprites/chrosshair.png")]
-		public static var SpriteChrosshair:Class;
 		
 		[Embed(source = "../../data/sprites/plane.png")]
 		public static var SpritePlane:Class;
 		
 		[Embed(source = "../../data/sprites/explosion.png")]
 		public static var SpriteExplosion:Class;
+		
+		[Embed(source = "../../data/sprites/crosshair.png")]
+		public static var SpriteCrosshair:Class;
+		[Embed(source = "../../data/sprites/cursor.png")]
+		public static var SpriteCursor:Class;
 		
 		// embedded sounds and music
 		

@@ -51,11 +51,11 @@ package actor
 									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 
 									_laserSprite.angle, 
 									new Point(_laserSprite.origin.x, _laserSprite.origin.y));
-									
+		}
+		
+		override public function preFirstUpdate():void
+		{
 			_layer.add(_laserSprite);
-
-			FlxG.mouse.load(Assets.SpriteChrosshair, 15, 15);
-			FlxG.mouse.show();
 		}
 		
 		public override function update():void

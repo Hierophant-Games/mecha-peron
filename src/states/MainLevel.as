@@ -42,6 +42,9 @@
 			add(_layerFront);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.6);
+			
+			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
+			FlxG.mouse.show();
 		}
 		
 		private function initActors():void
