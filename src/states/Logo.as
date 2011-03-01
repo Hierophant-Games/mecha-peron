@@ -1,13 +1,14 @@
 package states 
 {
 	import org.flixel.*;
+	
 	/**
-	 * ...
+	 * Displays Logo
 	 * @author Santiago Vilar
 	 */
 	public class Logo extends FlxState
 	{
-		private const LogoSeconds:Number = 1.0;
+		private const LOGO_TIME:Number = 1.0;
 		private var _timer:Number = 0;
 		
 		override public function create():void
@@ -21,9 +22,9 @@ package states
 		{
 			_timer += FlxG.elapsed;
 			
-			if (_timer > LogoSeconds)
+			if (_timer > LOGO_TIME)
 			{
-				Game.setState(new MainMenu());
+				Game.setState(new Intro());
 			}
 			
 			super.update();
