@@ -1,5 +1,6 @@
 package states 
 {
+	import embed.Assets;
 	import menu.*;
 	import org.flixel.*;
 	
@@ -18,6 +19,8 @@ package states
 			add(_gameNameText);
 			
 			initMenuEntries();
+			
+			FlxG.playMusic(Assets.LosMuchachos8Bit);
 		}
 		
 		override public function destroy():void 

@@ -53,5 +53,7 @@ package embed
 		
 		[Embed(source = "../../data/sfx/theme.mp3")]
 		public static var MusicTheme:Class;
+		[Embed(source = "../../data/sfx/losmuchachos_8bit.mp3")]
+		public static var LosMuchachos8Bit:Class;
 	}
 }
