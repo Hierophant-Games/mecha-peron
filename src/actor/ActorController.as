@@ -30,6 +30,11 @@ package actor
 			trace("implement my update!! ", this);
 		}
 		
+		public function hurt(Damage:Number):void
+		{
+			trace("implement me!!!");
+		}
+		
 		public function onKill():void
 		{
 			// should be overrided if some custom behavior is wanted here

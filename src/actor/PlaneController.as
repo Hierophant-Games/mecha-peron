@@ -24,6 +24,10 @@ package actor
 		private var _player:Actor;
 		private var _layer:FlxGroup;
 		private var _smokeEmitter:FlxEmitter;
+		private var _sparkEmitter:FlxEmitter;
+		
+		private var _sparksInitialized:Boolean;
+		private var _emitSparks:Boolean;
 		
 		public function PlaneController(player:Actor, layer:FlxGroup) 
 		{
@@ -46,8 +50,14 @@ package actor
 			//_accum = Math.random() * 2 * Math.PI;
 			_accum = 0;
 			
-			// add a particle emitter
-			initParticleEmitter();
+			// add smoke emitter
+			initSmokeEmitter();
+			
+			// init spark emitter
+			//initSparkEmitter();
+			_sparksInitialized = false; 
+			// Deffered sparks initialization so they are added to the layer AFTER the plane so they are rendererd in front
+			_emitSparks = false;
 		}
 		
 		override public function update():void
@@ -76,6 +86,34 @@ package actor
 			dropBombs();
 			
 			controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
+			
+			if (!_sparksInitialized)
+				initSparkEmitter();
+			
+			if (_emitSparks)
+			{
+				_sparkEmitter.x = controlledActor.x + controlledActor.width / 2;			
+				_sparkEmitter.y = controlledActor.y + controlledActor.height / 2;
+				
+				if (!_sparkEmitter.on)
+				{
+					_sparkEmitter.start(false);
+				}
+				
+				_emitSparks = false;
+			}
+			else
+			{
+				if (_sparkEmitter.on)
+				{
+					_sparkEmitter.stop(0);
+				}
+			}
+		}
+		
+		override public function hurt(Damage:Number):void
+		{
+			_emitSparks = true;
 		}
 		
 		private const BOMB_GRAVITY:Number = 50;
@@ -105,7 +143,7 @@ package actor
 			}
 		}
 		
-		private function initParticleEmitter():void
+		private function initSmokeEmitter():void
 		{
 			_smokeEmitter = new FlxEmitter(controlledActor.x, controlledActor.y);
 			_smokeEmitter.setSize(6, 2);
@@ -130,15 +168,52 @@ package actor
 				smoke.solid = false;
 				_smokeEmitter.add(smoke, true);
 			}
-			_smokeEmitter.start(false);
+			//_smokeEmitter.start(false);
 			
 			_layer.add(_smokeEmitter, true);
+		}
+		
+		private function initSparkEmitter():void
+		{
+			_sparkEmitter = new FlxEmitter();
+			
+			_sparkEmitter.setSize(1, 1);
+			_sparkEmitter.setRotation(0, 0);
+			_sparkEmitter.setXSpeed(0, 0);
+			_sparkEmitter.setYSpeed(0, 0);
+			_sparkEmitter.gravity = 0;
+			
+			for (var i:uint = 0; i < 5; ++i)
+			{
+				var spark:FlxSprite = new FlxSprite();
+				spark.loadGraphic(Assets.SpriteSpark, false, false, 5, 5);
+				spark.exists = false;
+				spark.solid = false;
+				_sparkEmitter.add(spark, true);
+			}
+			
+			_layer.add(_sparkEmitter, true);
+			
+			_sparksInitialized = true;
+		}
+		
+		public function setSparksDirection(xTarget:Number, yTarget:Number):void
+		{
+			var direction:Point = new Point(controlledActor.x - xTarget, controlledActor.y - yTarget);
+			direction.normalize(1);
+			
+			_sparkEmitter.setXSpeed(10 * direction.x, 20 * direction.x);
+			_sparkEmitter.setYSpeed(50 * direction.y, 80 * direction.y);
 		}
 		
 		override public function onKill():void
 		{
 			if (_smokeEmitter)
-				_smokeEmitter.stop();
+				_smokeEmitter.kill();
+				
+			if (_sparkEmitter)
+				_sparkEmitter.kill();
 		}
+
 	}
 }

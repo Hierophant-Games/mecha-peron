@@ -1,4 +1,4 @@
-package states 
+﻿package states 
 {
 	import flash.geom.Rectangle;
 	import actor.*;
@@ -129,15 +129,25 @@ package states
 													laserRect.y + laserRect.height - enemy.y);
 						playerController.setLaserClip(laserClip);
 						*/
-						enemy.hurt(2);
+						var laserRect:Rectangle = playerController.getLaserRect();
+						var laserX:Number = laserRect.x
+						var laserY:Number = laserRect.y + (laserRect.height / 2);
+						
+						(enemy.controller as PlaneController).setSparksDirection(
+								laserX, 
+								laserY);
+						
+						enemy.hurt(1);
 						
 						if (enemy.health <= 0)
 						{
+							enemy.destroy();
+							
 							_layerAction.remove(enemy, true);
 							_planes.splice(i, 1);
 						}
 						
-						break;
+						//break; // Multiple hits, laser isn´t clipped
 					}
 				}
 			}

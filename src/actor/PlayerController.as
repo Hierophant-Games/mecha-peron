@@ -109,6 +109,11 @@ package actor
 			}
 		}
 		
+		override public function hurt(Damage:Number):void
+		{
+			damage();
+		}
+		
 		private function setVelocity(x:Number, y:Number):void
 		{
 			/* Only play "walk" animation if velocity used to be zero,
@@ -176,6 +181,11 @@ package actor
 		public function isLaserActive():Boolean
 		{
 			return _laserSprite.active;
+		}
+		
+		public function getLaserAngle():Number
+		{
+			return _laserSprite.angle;
 		}
 		
 		public function getLaserRect():Rectangle

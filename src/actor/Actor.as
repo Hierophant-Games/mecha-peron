@@ -47,6 +47,12 @@ package actor
 			super.kill();
 		}
 		
+		public override function hurt(Damage:Number):void
+		{
+			_controller.hurt(Damage);
+			super.hurt(Damage);
+		}
+		
 		override public function hitLeft(Contact:FlxObject,Velocity:Number):void
 		{
 			_controller.onCollide(COLLIDE_LEFT, Contact);
