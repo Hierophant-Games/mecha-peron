@@ -21,7 +21,7 @@ package actor
 			_sprites.push(sprite);
 			_offsets.push(offset);
 			
-			// lalala
+			// update width and height accordingly (?)
 			if (sprite.frameWidth + offset.x > width)
 				width = sprite.frameWidth + offset.x;
 			if (sprite.frameHeight + offset.y > height)
@@ -30,7 +30,9 @@ package actor
 		
 		override public function update():void
 		{
+			// update the actor
 			super.update();
+			// update each sprite
 			for (var i:int = 0; i < _sprites.length; i++) 
 			{
 				var sprite:FlxSprite = _sprites[i];
@@ -42,6 +44,7 @@ package actor
 		
 		override public function render():void
 		{
+			// render each sprite
 			for each (var sprite:FlxSprite in _sprites) 
 			{
 				sprite.render();
@@ -50,6 +53,7 @@ package actor
 		
 		override public function play(AnimName:String,Force:Boolean=false):void
 		{
+			// try to play the animation in each sprite
 			for each (var sprite:FlxSprite in _sprites)
 			{
 				sprite.play(AnimName, Force);
