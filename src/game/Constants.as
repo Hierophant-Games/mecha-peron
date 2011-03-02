@@ -10,5 +10,6 @@ package game
 		
 		public static const PERON_SPEED_X:Number = 25;
 		public static const PLANE_SPEED_X:Number = -80;
+		public static const SOLDIER_BULLET_SPEED_X:Number = -50;
 	}
 }
