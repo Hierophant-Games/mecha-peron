@@ -7,6 +7,7 @@ package actor
 	import level.HUD;
 	import game.Constants;
 	import org.flixel.*;
+	
 	/**
 	 * PlayerController.
 	 * Controls an Actor with a player behavior. Handles input and update accordingly.
@@ -30,6 +31,10 @@ package actor
 		
 		private var _blockedByBuilding:Boolean = false;
 		
+		private var _headSprite:FlxSprite;
+		private var _bodySprite:FlxSprite;
+		private var _leftArmSprite:FlxSprite;
+		
 		public function PlayerController(layer:FlxGroup)
 		{
 			_layer = layer;
@@ -41,8 +46,29 @@ package actor
 			
 			controlledActor.fixed = true;
 			
-			controlledActor.loadGraphic(Assets.SpritePeron, true, false, 99, 222);
+			// load the head!
+			_headSprite = new FlxSprite();
+			_headSprite.loadGraphic(Assets.SpriteHead, true, false, 68, 100);
+			_headSprite.addAnimation("idle", new Array(0), 1, false);
+			_headSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
+			_headSprite.addAnimation("attack", new Array(0), 1, false);
+			_headSprite.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
+			_headSprite.addAnimation("laser", new Array(1, 3, 4), 9, false);
+			_headSprite.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
 			
+			// load the body sprite... no animations
+			_bodySprite = new FlxSprite(0, 0, Assets.SpriteBody);
+			
+			// load the left arm sprite...
+			_leftArmSprite = new FlxSprite();
+			_leftArmSprite.loadGraphic(Assets.SpriteLeftArm, true, false, 88, 69);
+			
+			// add sprites to the composite actor!
+			var compositeActor:CompositeActor = controlledActor as CompositeActor;
+			compositeActor.addSprite(_leftArmSprite, new FlxPoint(79, 88));
+			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
+			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
+			/*
 			controlledActor.addAnimation("idle", new Array(0), 1, false);
 			controlledActor.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
 			controlledActor.addAnimation("attack", new Array(0), 1, false);
@@ -50,7 +76,7 @@ package actor
 			controlledActor.addAnimation("laser", new Array(1, 3, 4), 9, false);
 			controlledActor.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
 			//controlledActor.addAnimationCallback(animationCallback);
-			
+			*/
 			controlledActor.play("idle");
 			
 			_laserSprite = new FlxSprite();
@@ -63,7 +89,7 @@ package actor
 									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 
 									_laserSprite.angle, 
 									new Point(_laserSprite.origin.x, _laserSprite.origin.y));
-									
+			
 			_laserCharge = LASER_MAX_CHARGE;
 			_isLaserRecharging = false;
 			_laserRechargeTimer = 0;
@@ -105,11 +131,12 @@ package actor
 			
 			if (FlxG.mouse.pressed())
 			{
+				stopMoving();
 				laser();
 				
 				_laserSprite.x = controlledActor.x + controlledActor.width / 2;
 				_laserSprite.y = controlledActor.y + 40;
-		
+				
 				var angle:Number = Math.atan2(FlxG.mouse.y - (_laserSprite.y + _laserSprite.height), FlxG.mouse.x - _laserSprite.x);
 				angle *= 180 / Math.PI;
 				

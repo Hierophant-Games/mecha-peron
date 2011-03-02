@@ -55,7 +55,7 @@
 		
 		private function initActors():void
 		{
-			_player = new Actor(new PlayerController(_layerAction));
+			_player = new CompositeActor(new PlayerController(_layerAction));
 			_player.x = 0;
 			_player.y = FlxG.height - 222;
 			

@@ -26,8 +26,12 @@ package embed
 		[Embed(source = "../../data/sprites/spark.png")]
 		public static var SpriteSpark:Class;
 		
-		[Embed(source = "../../data/sprites/peron.png")]
-		public static var SpritePeron:Class;
+		[Embed(source = "../../data/sprites/torso.png")]
+		public static var SpriteBody:Class;
+		[Embed(source = "../../data/sprites/head.png")]
+		public static var SpriteHead:Class;
+		[Embed(source = "../../data/sprites/leftArm.png")]
+		public static var SpriteLeftArm:Class;
 		[Embed(source = "../../data/sprites/laser.png")]
 		public static var SpriteLaser:Class;
 		[Embed(source = "../../data/sprites/hudGauge.png")]
