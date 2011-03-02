@@ -13,7 +13,7 @@ package level
 		private const LIFE_BAR_W:Number = 80; // from image
 		private const LIFE_BAR_H:Number = 10; // from image
 		private const LIFE_BAR_X:Number = FlxG.width - LIFE_BAR_W - 10;
-		private const LIFE_BAR_Y:Number = 5;
+		private const LIFE_BAR_Y:Number = FlxG.height - LIFE_BAR_H - 20;
 		private const LIFE_COLOR:Number = 0xff00ff00;
 		
 		private var _laserBar:FlxSprite;
