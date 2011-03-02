@@ -39,6 +39,8 @@ package level
 				FlxG.play(Assets.SfxExplosion);
 				
 				kill();
+				
+				other.hurt(10);
 			}
 		}
 		

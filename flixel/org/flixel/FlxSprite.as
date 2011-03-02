@@ -467,6 +467,14 @@ package org.flixel
 				calcFrame();
 		}
 		
+		public function fill2(Color:uint, Width:Number, Height:Number):void
+		{
+			var rect:Rectangle = new Rectangle(_flashRect2.x, _flashRect2.y, Width, Height);
+			_pixels.fillRect(rect,Color);
+			if(_pixels != _framePixels)
+				calcFrame();
+		}
+		
 		/**
 		 * Internal function for updating the sprite's animation.
 		 * Useful for cases when you need to update this but are buried down in too many supers.

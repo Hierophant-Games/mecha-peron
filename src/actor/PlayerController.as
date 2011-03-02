@@ -4,6 +4,7 @@ package actor
 	import embed.Assets;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import level.HUD;
 	import game.Constants;
 	import org.flixel.*;
 	/**
@@ -13,10 +14,19 @@ package actor
 	 */
 	public class PlayerController extends ActorController
 	{
+		private const MAX_HEALTH:Number = 100;
+		
 		private var _layer:FlxGroup;
 		
 		private var _laserSprite:FlxSprite;
 		private var _laserColissionBox:RotatedRectangle;
+		
+		private var _laserCharge:Number;
+		private var _isLaserRecharging:Boolean;
+		private var _laserRechargeTimer:Number;
+		private const LASER_MAX_CHARGE:Number = 1000;
+		private const LASER_CHARGE_STEP:Number = 10;
+		private const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
 		
 		private var _blockedByBuilding:Boolean = false;
 		
@@ -27,6 +37,8 @@ package actor
 		
 		public override function init():void
 		{
+			controlledActor.health = MAX_HEALTH;
+			
 			controlledActor.fixed = true;
 			
 			controlledActor.loadGraphic(Assets.SpritePeron, true, false, 99, 222);
@@ -51,6 +63,10 @@ package actor
 									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 
 									_laserSprite.angle, 
 									new Point(_laserSprite.origin.x, _laserSprite.origin.y));
+									
+			_laserCharge = LASER_MAX_CHARGE;
+			_isLaserRecharging = false;
+			_laserRechargeTimer = 0;
 		}
 		
 		override public function preFirstUpdate():void
@@ -103,13 +119,46 @@ package actor
 				_laserSprite.visible = true;
 				_laserSprite.active = true;
 				_laserSprite.angle = angle;
+				
+				_isLaserRecharging = false;
+				_laserRechargeTimer = 0;
+				_laserCharge -= LASER_CHARGE_STEP;
+				
+				if (_laserCharge <= 0)
+				{
+					stopLaser();
+					FlxG.mouse.reset();
+				}
+			}
+			else if (_laserRechargeTimer > 0)
+			{
+				_laserRechargeTimer -= FlxG.elapsed;
+				
+				if (_laserRechargeTimer <= 0)
+					_isLaserRecharging = true;
+			}
+			else if (_isLaserRecharging)
+			{
+				_laserCharge += LASER_CHARGE_STEP;
+				
+				if (_laserCharge >= LASER_MAX_CHARGE)
+				{
+					_laserCharge = LASER_MAX_CHARGE;
+					_isLaserRecharging = false;
+				}
 			}
 			else if(FlxG.mouse.justReleased())
 			{
-				laserOff();
-				_laserSprite.visible = false;
-				_laserSprite.active = false;
+				stopLaser();
 			}
+		}
+		
+		private function stopLaser():void
+		{
+			laserOff();
+			_laserSprite.visible = false;
+			_laserSprite.active = false;
+			_laserRechargeTimer = LASER_RECHARGE_DELAY;
 		}
 		
 		override public function hurt(Damage:Number):void
@@ -208,6 +257,17 @@ package actor
 			{
 				_blockedByBuilding = true;
 			}
+		}
+		
+		public function updateHUD(hud:HUD):void
+		{
+			hud.setLifeBarW(controlledActor.health / MAX_HEALTH);
+			if(controlledActor.health < MAX_HEALTH / 3)
+				hud.flickerLifeBar(0.1);
+			
+			hud.setLaserBarW(_laserCharge / LASER_MAX_CHARGE);
+			if (_isLaserRecharging > 0)
+				hud.flickerLaserBar(0.1);
 		}
 	}
 }

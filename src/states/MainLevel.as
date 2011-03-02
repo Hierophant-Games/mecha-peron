@@ -1,8 +1,10 @@
 ﻿package states 
 {
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import actor.*;
 	import embed.Assets;
+	import level.HUD;
 	import level.ParallaxLayer;
 	import org.flixel.*;
 	
@@ -23,6 +25,8 @@
 		
 		private var _planes:Vector.<Actor> = new Vector.<Actor>();
 		
+		private var _hud:HUD = new HUD();
+		
 		override public function create():void
 		{
 			bgColor = 0xffd3a9a9;
@@ -35,6 +39,8 @@
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
 			initActors();
+			
+			_layerFront.add(_hud);
 			
 			add(_layerBack);
 			add(_layerMiddle);
@@ -156,6 +162,8 @@
 					}
 				}
 			}
+			
+			playerController.updateHUD(_hud);
 			
 			collide();
 			super.update();
