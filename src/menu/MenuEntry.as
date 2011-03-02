@@ -5,17 +5,22 @@ package menu
 	 * ...
 	 * @author Santiago Vilar
 	 */
-	public class MenuEntry extends FlxGroup
+	public class MenuEntry extends FlxButton
 	{
-		private var _callback:Function;
 		private var _text:FlxText;
 		
-		public function MenuEntry(callback:Function, text:FlxText)
+		public function MenuEntry(x:Number, y:Number, callback:Function, text:FlxText)
 		{
-			_callback = callback;
-			_text = text;
+			super(x, y, callback);
 			
+			loadGraphic(new FlxSprite().createGraphic(1,1,0));
+			
+			width = text.width;
+			height = text.height;
+			
+			_text = text;
 			add(_text);
+			
 			dehighlight();
 		}
 		
