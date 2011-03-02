@@ -11,7 +11,7 @@ package level
 		private var _lifeBar:FlxSprite;
 		
 		private const LIFE_BAR_W:Number = 80; // from image
-		private const LIFE_BAR_H:Number = 25; // from image
+		private const LIFE_BAR_H:Number = 10; // from image
 		private const LIFE_BAR_X:Number = FlxG.width - LIFE_BAR_W - 10;
 		private const LIFE_BAR_Y:Number = 5;
 		private const LIFE_COLOR:Number = 0xff00ff00;
@@ -37,7 +37,7 @@ package level
 			
 			// Life bar background sprite
 			var lifeBarBack:FlxSprite = new FlxSprite(LIFE_BAR_X, LIFE_BAR_Y);
-			lifeBarBack.loadGraphic(Assets.SpriteHUDLifeBar, false, false, LIFE_BAR_W, LIFE_BAR_H);
+			lifeBarBack.loadGraphic(Assets.SpriteHUDGauge, false, false, LIFE_BAR_W, LIFE_BAR_H);
 			lifeBarBack.solid = false;
 			add(lifeBarBack, true);
 			
@@ -50,7 +50,7 @@ package level
 			
 			// Laser back background sprite
 			var laserBarBack:FlxSprite = new FlxSprite(LASER_BAR_X, LASER_BAR_Y);
-			laserBarBack.loadGraphic(Assets.SpriteHUDLaserBar, false, false, LASER_BAR_W, LASER_BAR_H);
+			laserBarBack.loadGraphic(Assets.SpriteHUDGauge, false, false, LASER_BAR_W, LASER_BAR_H);
 			laserBarBack.solid = false;
 			add(laserBarBack, true);
 			

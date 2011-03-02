@@ -30,10 +30,8 @@ package embed
 		public static var SpritePeron:Class;
 		[Embed(source = "../../data/sprites/laser.png")]
 		public static var SpriteLaser:Class;
-		[Embed(source = "../../data/sprites/hudLifeBar.png")]
-		public static var SpriteHUDLifeBar:Class;
-		[Embed(source = "../../data/sprites/hudLaserBar.png")]
-		public static var SpriteHUDLaserBar:Class;
+		[Embed(source = "../../data/sprites/hudGauge.png")]
+		public static var SpriteHUDGauge:Class;
 		
 		[Embed(source = "../../data/sprites/plane.png")]
 		public static var SpritePlane:Class;
