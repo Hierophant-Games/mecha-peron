@@ -29,6 +29,8 @@ package actor
 		private const LASER_CHARGE_STEP:Number = 10;
 		private const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
 		
+		private var _laserSfx:FlxSound;
+		
 		private var _blockedByBuilding:Boolean = false;
 		
 		private var _headSprite:FlxSprite;
@@ -93,6 +95,10 @@ package actor
 			_laserCharge = LASER_MAX_CHARGE;
 			_isLaserRecharging = false;
 			_laserRechargeTimer = 0;
+			
+			_laserSfx = new FlxSound();
+			_laserSfx.loadEmbedded(Assets.SfxLaser);
+			_laserSfx.volume = 0.7;
 		}
 		
 		override public function preFirstUpdate():void
@@ -133,6 +139,8 @@ package actor
 			{
 				stopMoving();
 				laser();
+				
+				_laserSfx.play();
 				
 				_laserSprite.x = controlledActor.x + controlledActor.width / 2;
 				_laserSprite.y = controlledActor.y + 40;
@@ -182,10 +190,12 @@ package actor
 		
 		private function stopLaser():void
 		{
-			laserOff();
+			laserOff();			
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
 			_laserRechargeTimer = LASER_RECHARGE_DELAY;
+
+			_laserSfx.stop();
 		}
 		
 		override public function hurt(Damage:Number):void

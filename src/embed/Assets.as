@@ -56,6 +56,8 @@ package embed
 		public static var SfxJusticiaSocial:Class;
 		[Embed(source = "../../data/sfx/tercera_posicion.mp3")]
 		public static var SfxTerceraPosicion:Class;
+		[Embed(source = "../../data/sfx/laser.mp3")]
+		public static var SfxLaser:Class;
 		
 		[Embed(source = "../../data/sfx/explosion.mp3")]
 		public static var SfxExplosion:Class;
