@@ -111,7 +111,11 @@ package actor
 		
 		override public function preFirstUpdate():void
 		{
-			_layer.add(_laserSprite);
+			// Do this to add other objects right after this one in the layer group members array
+			var index:int = _layer.members.indexOf(controlledActor);
+			_layer.members.splice(index, 0, _laserSprite);
+			
+			//_layer.add(_laserSprite);
 		}
 		
 		public override function update():void
