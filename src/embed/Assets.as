@@ -32,9 +32,7 @@ package embed
 		public static var SpriteHead:Class;
 		[Embed(source = "../../data/sprites/leftArm.png")]
 		public static var SpriteLeftArm:Class;
-		/*[Embed(source = "../../data/sprites/laser.png")]
-		public static var SpriteLaser:Class;*/
-		[Embed(source = "../../data/sprites/laserAnim.png")]
+		[Embed(source = "../../data/sprites/laser.png")]
 		public static var SpriteLaser:Class;
 		[Embed(source = "../../data/sprites/hudGauge.png")]
 		public static var SpriteHUDGauge:Class;
