@@ -25,7 +25,7 @@ package actor
 		private var _laserCharge:Number;
 		private var _isLaserRecharging:Boolean;
 		private var _laserRechargeTimer:Number;
-		private const LASER_MAX_CHARGE:Number = 1000;
+		private const LASER_MAX_CHARGE:Number = 5000;
 		private const LASER_CHARGE_STEP:Number = 10;
 		private const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
 		
@@ -88,10 +88,12 @@ package actor
 			controlledActor.play("idle");
 			
 			_laserSprite = new FlxSprite();
-			_laserSprite.loadGraphic(Assets.SpriteLaser, false, false, 320, 10);
+			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
 			_laserSprite.origin = new FlxPoint(0, _laserSprite.height);
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
+			
+			_laserSprite.addAnimation("default", new Array(0, 1, 2, 3, 4), 30, false);
 			
 			_laserColissionBox = new RotatedRectangle(
 									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 
@@ -157,6 +159,9 @@ package actor
 				if (angle > 50) angle = 50;
 				else if (angle < -30) angle = -30;
 				
+				if(FlxG.mouse.justPressed())
+					_laserSprite.play("default");
+				
 				_laserSprite.visible = true;
 				_laserSprite.active = true;
 				_laserSprite.angle = angle;
@@ -202,6 +207,7 @@ package actor
 			_laserRechargeTimer = LASER_RECHARGE_DELAY;
 
 			_laserSfx.stop();
+			_laserSprite.frame = 0;
 		}
 		
 		override public function hurt(Damage:Number):void
