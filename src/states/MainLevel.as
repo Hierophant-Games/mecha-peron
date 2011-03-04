@@ -27,6 +27,9 @@
 		
 		private var _hud:HUD = new HUD();
 		
+		private var _distanceTraveled:uint;
+		private var _previousDistance:uint;
+		
 		override public function create():void
 		{
 			bgColor = 0xffd3a9a9;
@@ -46,6 +49,9 @@
 			add(_layerMiddle);
 			add(_layerAction);
 			add(_layerFront);
+			
+			_distanceTraveled = 0;
+			_previousDistance = _player.x;
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.6);
 			
@@ -164,6 +170,12 @@
 			}
 			
 			playerController.updateHUD(_hud);
+			
+			_distanceTraveled += _player.x - _previousDistance;
+			_previousDistance = _player.x;
+			
+			var scaledDistance:uint = _distanceTraveled / 70;
+			_hud.setDistance(scaledDistance.toString());
 			
 			collide();
 			super.update();

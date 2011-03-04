@@ -31,6 +31,8 @@ package level
 		private const LASER_FILL_W:Number = LASER_BAR_W - BAR_FILL_XOFF * 2;
 		private const LASER_FILL_H:Number = LASER_BAR_H - BAR_FILL_YOFF * 2;
 		
+		private var _distanceText:FlxText;
+		
 		public function HUD()
 		{
 			scrollFactor = new FlxPoint(0, 0);
@@ -60,6 +62,11 @@ package level
 			_laserBar.solid = false;
 			add(_laserBar, true);
 			setLaserBarW(1);
+			
+			// Distance text
+			_distanceText = new FlxText(FlxG.width - 40, 10, 30);
+			_distanceText.setFormat(null, 8, 0xffffff, "right");
+			add(_distanceText, true);
 		}
 		
 		public function setLifeBarW(widthProp:Number):void
@@ -82,6 +89,12 @@ package level
 		public function flickerLaserBar(seconds:Number):void
 		{
 			_laserBar.flicker(seconds);
+		}
+		
+		public function setDistance(distance:String):void
+		{
+			trace("Distance " + distance);
+			_distanceText.text = distance + " km";
 		}
 	}
 }
