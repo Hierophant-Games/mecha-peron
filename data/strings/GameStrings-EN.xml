@@ -18,4 +18,13 @@
 		<Description>The events and characters depicted in this videogame are completely ficticious. Any similarity to actual people, living or dead, is purely coincidental.</Description>
 		<Not>Or is it?</Not>
 	</Disclaimer>
+	<Game>
+		<MechaPeron>MECHA-PERON INITIALIZING</MechaPeron>
+		<LineBreak>-------------------------------</LineBreak>
+		<Preparing>Preparing weaponry...........</Preparing>
+		<AimReady>Aiming system ready.........</AimReady>
+		<FlyingArm>Flying arm missile ready....</FlyingArm>
+		<CrushArm>Crushing arm ready...........</CrushArm>
+		<ClickToContinue>Click to continue</ClickToContinue>
+	</Game>
 </language>

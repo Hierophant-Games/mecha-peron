@@ -6,6 +6,7 @@
 	import embed.Assets;
 	import level.HUD;
 	import level.ParallaxLayer;
+	import level.TutorialText;
 	import org.flixel.*;
 	
 	/**
@@ -34,6 +35,7 @@
 		private const FOLLOW_OFFSET:int = 160;
 		
 		private var _levelStarted:Boolean = false;
+		private var _playingTutorial:Boolean = false;
 		
 		override public function create():void
 		{
@@ -58,7 +60,7 @@
 			
 			_previousDistance = _player.x;
 			
-			FlxG.playMusic(Assets.MusicTheme, 0.0);
+			FlxG.music.stop();
 			
 			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
 			FlxG.mouse.show();
@@ -86,6 +88,10 @@
 			addActor(new PlaneController(_player, _layerAction), 1800, 20);
 			
 			addActor(new BuildingController(_player, _layerAction), 600, 60);
+			
+			FlxG.playMusic(Assets.MusicTheme, 0.5);
+			
+			_levelStarted = true;
 		}
 		
 		private function addActor(actorController:ActorController, x:Number, y:Number):void
@@ -101,7 +107,6 @@
 			_layerAction.add(theActor, true);
 		}
 		
-		private var _quakeTimer:Number = 0;
 		private var _robotVoiceTimer:Number = 0;
 		private var _robotVoiceIndex:uint = 0;
 		
@@ -115,10 +120,14 @@
 			
 			if (!_levelStarted)
 			{
-				if (_player.x > 0)
+				if (_playingTutorial)
 				{
-					_levelStarted = true;
-					initLevel();
+					playTutorial();
+					return;
+				}
+				else if (_player.x > 0)
+				{
+					_playingTutorial = true;
 				}
 			}
 			
@@ -130,15 +139,6 @@
 				_robotVoices[_robotVoiceIndex].play();
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
-			
-			// Earthquake effect!
-			_quakeTimer += FlxG.elapsed;
-			if (_quakeTimer > 1.5) // this should depend on Peron's footsteps
-			{
-				_quakeTimer -= 1.5;
-				FlxG.quake.start(0.01, 0.2);
-				FlxG.play(Assets.SfxFootstep);
-			}
 			
 			var playerController:PlayerController = (_player.controller as PlayerController);
 			//if (playerController == null) assert this?
@@ -232,6 +232,24 @@
 		private function startSmoke(emitter:FlxEmitter):void
 		{
 			emitter.start(false, 0.2);
+		}
+		
+		private var _tutorialText:TutorialText = null;
+		
+		private function playTutorial():void
+		{
+			if (!_tutorialText)
+			{
+				_tutorialText = new TutorialText();
+				add(_tutorialText);
+			}
+			_tutorialText.update();
+			if (_tutorialText.tutorialComplete)
+			{
+				_tutorialText.kill();
+				_playingTutorial = false;
+				initLevel();
+			}
 		}
 	}
 }

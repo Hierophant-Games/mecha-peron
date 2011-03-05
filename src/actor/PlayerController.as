@@ -111,53 +111,18 @@ package actor
 			//_layer.add(_laserSprite);
 		}
 		
+		private var _quakeTimer:Number = 0;
+		private const QUAKE_TIME:Number = 1.5;
+		
 		public override function update():void
 		{
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
-			/*
-			if (FlxG.keys.justPressed("SPACE"))
-			{
-				stopMoving(); // stop moving while attacking
-				attack();
-			}
-			else if (FlxG.keys.justPressed("A")) // for debugging purposes
-			{
-				stopMoving(); // stop moving while attacking
-				laser();
-			} else if (FlxG.keys.justPressed("S")) // for debugging purposes
-			{
-				stopMoving(); // stop moving while being damaged
-				damage();
-			}
-			else stopMoving(); 
-			*/
-			
 			if (FlxG.mouse.pressed())
 			{
-				_beingDamaged = false;
-				_shootingLaser = true;
-				laser();
-				
-				_laserSfx.play();
-				
-				_laserSprite.x = controlledActor.x + controlledActor.width / 2;
-				_laserSprite.y = controlledActor.y + 40;
-				
-				var angle:Number = Math.atan2(FlxG.mouse.y - (_laserSprite.y + _laserSprite.height), FlxG.mouse.x - _laserSprite.x);
-				angle *= 180 / Math.PI;
-				
-				if (angle > 50) angle = 50;
-				else if (angle < -30) angle = -30;
-				
-				if(FlxG.mouse.justPressed())
-					_laserSprite.play("default");
-				
-				_laserSprite.visible = true;
-				_laserSprite.active = true;
-				_laserSprite.angle = angle;
-				
+				startLaser();
+			
 				_isLaserRecharging = false;
 				_laserRechargeTimer = 0;
 				_laserCharge -= LASER_CHARGE_STEP;
@@ -193,8 +158,46 @@ package actor
 			// some animations block the movement
 			if (_blockedByBuilding || _shootingLaser || _beingDamaged)
 				stopMoving();
-			else // Move forward! Viva Perón!
+			else
+			{
+				// Move forward! Viva Perón!
 				setVelocity(Constants.PERON_SPEED_X, yVelocity);
+				
+				// Earthquake effect!
+				_quakeTimer += FlxG.elapsed;
+				if (_quakeTimer > QUAKE_TIME) // this should depend on Peron's footsteps
+				{
+					_quakeTimer -= QUAKE_TIME;
+					FlxG.quake.start(0.01, 0.2);
+					FlxG.play(Assets.SfxFootstep);
+				}
+			}
+		}
+		
+		private function startLaser():void
+		{
+			laser();
+			
+			_beingDamaged = false;
+			_shootingLaser = true;
+			
+			_laserSfx.play();
+			
+			_laserSprite.x = controlledActor.x + controlledActor.width / 2;
+			_laserSprite.y = controlledActor.y + 40;
+			
+			var angle:Number = Math.atan2(FlxG.mouse.y - (_laserSprite.y + _laserSprite.height), FlxG.mouse.x - _laserSprite.x);
+			angle *= 180 / Math.PI;
+			
+			if (angle > 50) angle = 50;
+			else if (angle < -30) angle = -30;
+			
+			if(FlxG.mouse.justPressed())
+				_laserSprite.play("default");
+			
+			_laserSprite.visible = true;
+			_laserSprite.active = true;
+			_laserSprite.angle = angle;
 		}
 		
 		private function stopLaser():void
