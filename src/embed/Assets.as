@@ -50,6 +50,9 @@ package embed
 		
 		// embedded sounds and music
 		
+		[Embed(source = "../../data/sfx/console_blip.mp3")]
+		public static var SfxConsoleBlip:Class;
+		
 		[Embed(source = "../../data/sfx/footstep.mp3")]
 		public static var SfxFootstep:Class;
 		[Embed(source = "../../data/sfx/justicia_social.mp3")]

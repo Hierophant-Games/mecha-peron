@@ -1,5 +1,6 @@
 package level 
 {
+	import embed.Assets;
 	import org.flixel.*;
 	
 	/**
@@ -8,7 +9,7 @@ package level
 	 */
 	public class TutorialText extends FlxGroup
 	{
-		private const UPDATE_TIME:Number = 0.05;
+		private const UPDATE_TIME:Number = 0.06;
 		private const LAST_TUTORIAL_STEP:uint = 6;
 		
 		private var _text:FlxText;
@@ -56,6 +57,8 @@ package level
 		
 		private function updateStep():void
 		{
+			FlxG.play(Assets.SfxConsoleBlip, 0.8);
+			
 			if (_currentString.length > 0)
 			{
 				_text.text += _currentString.charAt();
@@ -100,7 +103,7 @@ package level
 				}
 				case 6:
 				{
-					_currentString = "\n" + Game.Strings.languageXML.Game.ClickToContinue;
+					_currentString = "\n> " + Game.Strings.languageXML.Game.ClickToContinue;
 					break;
 				}
 			}
