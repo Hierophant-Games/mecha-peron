@@ -14,7 +14,7 @@ package states
 		
 		override public function create():void
 		{
-			_gameNameText = new FlxText(2, 2, FlxG.width / 2, Game.Strings.languageXML.GameName);
+			_gameNameText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
 			_gameNameText.setFormat(null, 16);
 			add(_gameNameText);
 			

@@ -64,8 +64,8 @@ package level
 			setLaserBarW(1);
 			
 			// Distance text
-			_distanceText = new FlxText(FlxG.width - 40, 10, 30);
-			_distanceText.setFormat(null, 8, 0xffffff, "right");
+			_distanceText = new FlxText(FlxG.width - 110, 10, 100);
+			_distanceText.setFormat(null, 8, 0xffffff, "right", 0xff000000);
 			add(_distanceText, true);
 		}
 		
@@ -93,7 +93,7 @@ package level
 		
 		public function setDistance(distance:String):void
 		{
-			trace("Distance " + distance);
+			//trace("Distance " + distance);
 			_distanceText.text = distance + " km";
 		}
 	}

@@ -154,7 +154,7 @@
 								laserX, 
 								laserY);
 						
-						enemy.hurt(1);
+						enemy.hurt(3);
 						
 						if (enemy.health <= 0)
 						{
@@ -174,8 +174,8 @@
 			_distanceTraveled += _player.x - _previousDistance;
 			_previousDistance = _player.x;
 			
-			var scaledDistance:uint = _distanceTraveled / 70;
-			_hud.setDistance(scaledDistance.toString());
+			var scaledDistance:Number = _distanceTraveled / 70;
+			_hud.setDistance(scaledDistance.toFixed(1));
 			
 			collide();
 			super.update();
