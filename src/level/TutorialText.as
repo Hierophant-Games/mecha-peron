@@ -10,6 +10,7 @@ package level
 	public class TutorialText extends FlxGroup
 	{
 		private const UPDATE_TIME:Number = 0.06;
+		private const CURSOR_TIME:Number = 0.5;
 		private const LAST_TUTORIAL_STEP:uint = 6;
 		
 		private var _text:FlxText;
@@ -19,6 +20,9 @@ package level
 		private var _currentString:String = null;
 		private var _tutorialComplete:Boolean = false;
 		private var _accum:Number = 0;
+		private var _updateTime:Number = UPDATE_TIME;
+		
+		private var _cursorToggle:Boolean = false;
 		
 		public function get tutorialComplete():Boolean
 		{
@@ -41,9 +45,9 @@ package level
 		override public function update():void
 		{
 			_accum += FlxG.elapsed;
-			if (_accum > UPDATE_TIME)
+			if (_accum > _updateTime)
 			{
-				_accum -= UPDATE_TIME;
+				_accum -= _updateTime;
 				updateStep();
 			}
 				
@@ -57,15 +61,28 @@ package level
 		
 		private function updateStep():void
 		{
-			FlxG.play(Assets.SfxConsoleBlip, 0.8);
-			
 			if (_currentString.length > 0)
 			{
+				FlxG.play(Assets.SfxConsoleBlip, 0.5);
+				
 				_text.text += _currentString.charAt();
 				_currentString = _currentString.slice(1);
 			}
 			else if (_tutorialStep < LAST_TUTORIAL_STEP)
 				advanceStep();
+			else
+			{
+				_updateTime = CURSOR_TIME;
+				
+				if (_cursorToggle)
+					_text.text = _text.text.slice(0, _text.text.length - 1);
+				else
+				{
+					FlxG.play(Assets.SfxConsoleBlip, 0.5);
+					_text.text += "_";
+				}
+				_cursorToggle = !_cursorToggle;
+			}
 		}
 		
 		private function advanceStep():void
