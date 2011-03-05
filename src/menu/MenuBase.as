@@ -50,6 +50,15 @@ package menu
 			
 			for (var i:uint = 0; i < _menuEntries.length; ++i)
 			{
+				if (_menuEntries[i].mouseOver)
+				{
+					_selectedMenuEntry = i;
+					break;
+				}
+			}
+			
+			for (i = 0; i < _menuEntries.length; ++i)
+			{
 				if (i == _selectedMenuEntry) _menuEntries[i].highlight();
 				else _menuEntries[i].dehighlight();
 			}

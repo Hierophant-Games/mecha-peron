@@ -13,7 +13,7 @@ package menu
 		{
 			super(x, y, callback);
 			
-			loadGraphic(new FlxSprite().createGraphic(1,1,0));
+			loadGraphic(new FlxSprite().createGraphic(1,1,0), new FlxSprite().createGraphic(1,1,0));
 			
 			width = text.width;
 			height = text.height;
@@ -37,6 +37,11 @@ package menu
 		public function highlight():void
 		{
 			_text.setFormat(null, 8, 0xffffff);
+		}
+		
+		public function get mouseOver():Boolean
+		{
+			return _on.visible;
 		}
 	}
 }
