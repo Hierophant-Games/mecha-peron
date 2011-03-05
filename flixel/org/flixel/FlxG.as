@@ -696,8 +696,8 @@ package org.flixel
 		{
 			if(followTarget != null)
 			{
-				//_scrollTarget.x = (width>>1)-followTarget.x-(followTarget.width>>1);
-				_scrollTarget.x = (width>>3)-followTarget.x-(followTarget.width>>1);// fer modified
+				_scrollTarget.x = (width>>1)-followTarget.x-(followTarget.width>>1);
+				//_scrollTarget.x = (width>>3)-followTarget.x-(followTarget.width>>1);// fer modified
 				
 				_scrollTarget.y = (height>>1)-followTarget.y-(followTarget.height>>1);
 				if((followLead != null) && (followTarget is FlxSprite))

@@ -31,7 +31,9 @@ package actor
 		
 		private var _laserSfx:FlxSound;
 		
+		private var _shootingLaser:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
+		private var _beingDamaged:Boolean = false;
 		
 		private var _headSprite:FlxSprite;
 		private var _bodySprite:FlxSprite;
@@ -57,6 +59,7 @@ package actor
 			_headSprite.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
 			_headSprite.addAnimation("laser", new Array(1, 3, 4), 9, false);
 			_headSprite.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
+			_headSprite.addAnimationCallback(headAnimationCallback);
 			
 			// load the body sprite... no animations
 			_bodySprite = new FlxSprite(0, 0, Assets.SpriteBody);
@@ -76,16 +79,6 @@ package actor
 			compositeActor.addSprite(_leftArmSprite, new FlxPoint(79, 88));
 			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
 			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
-			/*
-			controlledActor.addAnimation("idle", new Array(0), 1, false);
-			controlledActor.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			controlledActor.addAnimation("attack", new Array(0), 1, false);
-			controlledActor.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
-			controlledActor.addAnimation("laser", new Array(1, 3, 4), 9, false);
-			controlledActor.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
-			//controlledActor.addAnimationCallback(animationCallback);
-			*/
-			controlledActor.play("idle");
 			
 			_laserSprite = new FlxSprite();
 			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
@@ -141,15 +134,10 @@ package actor
 			else stopMoving(); 
 			*/
 			
-			// Move forward! Viva Perón!
-			if (!_blockedByBuilding)
-				setVelocity(Constants.PERON_SPEED_X, yVelocity);
-			else
-				stopMoving();
-			
 			if (FlxG.mouse.pressed())
 			{
-				stopMoving();
+				_beingDamaged = false;
+				_shootingLaser = true;
 				laser();
 				
 				_laserSfx.play();
@@ -201,11 +189,17 @@ package actor
 			{
 				stopLaser();
 			}
+			
+			// some animations block the movement
+			if (_blockedByBuilding || _shootingLaser || _beingDamaged)
+				stopMoving();
+			else // Move forward! Viva Perón!
+				setVelocity(Constants.PERON_SPEED_X, yVelocity);
 		}
 		
 		private function stopLaser():void
 		{
-			laserOff();			
+			laserOff();
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
 			_laserRechargeTimer = LASER_RECHARGE_DELAY;
@@ -216,7 +210,11 @@ package actor
 		
 		override public function hurt(Damage:Number):void
 		{
-			damage();
+			if (!_shootingLaser)
+			{
+				damage();
+				_beingDamaged = true;
+			}
 		}
 		
 		private function setVelocity(x:Number, y:Number):void
@@ -225,7 +223,7 @@ package actor
 			 * otherwise, it would reset itself on each frame */
 			
 			if (controlledActor.velocity.x == 0) {
-				//FlxG.log("Started Playing Walk Animation");
+				//trace("Started Playing Walk Animation");
 				controlledActor.play("walk");
 			}
 			
@@ -240,7 +238,7 @@ package actor
 		 * is made is disabled, as it is required to check wether or
 		 * not the previous animation has finished before doing so.
 		 */
-			// FlxG.log("Started Playing Idle Animation");
+			//trace("Started Playing Idle Animation");
 			// controlledActor.play("idle");
 			controlledActor.velocity.x = 0;
 			controlledActor.velocity.y = 0;
@@ -248,32 +246,47 @@ package actor
 		
 		private function attack():void
 		{
-			//FlxG.log("Started Playing attack Animation");
+			//trace("Started Playing attack Animation");
 			controlledActor.play("attack");
 		}
 		
 		private function laser():void
 		{
-			//FlxG.log("Started Playing laser Animation");
+			//trace("Started Playing laser Animation");
 			controlledActor.play("laser");
 		}
 		
 		private function laserOff():void
 		{
-			//FlxG.log("Started Playing laserOff Animation");
+			//trace("Started Playing laserOff Animation");
 			controlledActor.play("laserOff");
 		}
 		
 		private function damage():void
 		{
-			//FlxG.log("Started Playing damage Animation");
+			//trace("Started Playing damage Animation");
 			controlledActor.play("damage");
 		}
 		
-		/*private function animationCallback(name:String, frameNumber:uint, frameIndex:uint):void
+		private function headAnimationCallback(name:String, frameNumber:uint, frameIndex:uint):void
 		{
-			controlledActor.play("idle");
-		}*/
+			if (_headSprite.finished)
+			{
+				switch (name) // you can switch with strings in AS 3.0, so why wouldn't I do that?!
+				{
+					case "laserOff":
+					{
+						_shootingLaser = false;
+						break;
+					}
+					case "damage":
+					{
+						_beingDamaged = false;
+						break;
+					}
+				}
+			}
+		}
 		
 		public function checkLaserHit(poorBastard:FlxObject):Boolean
 		{

@@ -27,8 +27,13 @@
 		
 		private var _hud:HUD = new HUD();
 		
-		private var _distanceTraveled:uint;
+		private var _distanceTraveled:uint = 0;
 		private var _previousDistance:uint;
+		
+		private var _followBeacon:FlxObject;
+		private const FOLLOW_OFFSET:int = 160;
+		
+		private var _levelStarted:Boolean = false;
 		
 		override public function create():void
 		{
@@ -41,7 +46,8 @@
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
-			initActors();
+			initPlayer();
+			//initLevel();
 			
 			_layerFront.add(_hud);
 			
@@ -50,26 +56,29 @@
 			add(_layerAction);
 			add(_layerFront);
 			
-			_distanceTraveled = 0;
 			_previousDistance = _player.x;
 			
-			FlxG.playMusic(Assets.MusicTheme, 0.6);
+			FlxG.playMusic(Assets.MusicTheme, 0.0);
 			
 			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
 			FlxG.mouse.show();
 		}
 		
-		private function initActors():void
+		private function initPlayer():void
 		{
 			_player = new CompositeActor(new PlayerController(_layerAction));
-			_player.x = 0;
+			_player.x = -_player.width;
 			_player.y = FlxG.height - 222;
 			
-			FlxG.followTarget = _player;
+			_followBeacon = new FlxObject(_player.x + FOLLOW_OFFSET, _player.y);
 			FlxG.followBounds(0, 0, 100000, FlxG.height);
+			FlxG.follow(_followBeacon, 3);
 			
 			_layerAction.add(_player);
-			
+		}
+		
+		private function initLevel():void
+		{
 			addActor(new PlaneController(_player, _layerAction), 400, 20);
 			addActor(new PlaneController(_player, _layerAction), 600, 40);
 			addActor(new PlaneController(_player, _layerAction), 1000, 60);
@@ -103,6 +112,15 @@
 			if (FlxG.keys.justPressed("TWO")) 	_layerAction.visible = !_layerAction.visible;
 			if (FlxG.keys.justPressed("THREE"))	_layerMiddle.visible = !_layerMiddle.visible;
 			if (FlxG.keys.justPressed("FOUR")) 	_layerBack.visible = !_layerBack.visible;
+			
+			if (!_levelStarted)
+			{
+				if (_player.x > 0)
+				{
+					_levelStarted = true;
+					initLevel();
+				}
+			}
 			
 			// Voice effect!
 			/*_robotVoiceTimer += FlxG.elapsed;
@@ -179,6 +197,10 @@
 			
 			collide();
 			super.update();
+			
+			// update beacon (?)
+			_followBeacon.x = _player.x + FOLLOW_OFFSET;
+			_followBeacon.y = _player.y;
 		}
 		
 		private function setupSmoke(emitter:FlxEmitter):void
