@@ -3,6 +3,7 @@ package level
 	import actor.*;
 	import embed.Assets;
 	import org.flixel.*;
+	import game.Constants;
 	
 	/**
 	 * ...
@@ -40,7 +41,7 @@ package level
 				
 				kill();
 				
-				other.hurt(10);
+				other.hurt(Constants.PLANE_BOMB_DAMAGE);
 			}
 		}
 		

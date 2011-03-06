@@ -16,7 +16,7 @@ package actor
 		 * Constants
 		 */
 		private const SIN_FACTOR:Number = 0.03;
-		private const SIN_HEIGHT:Number = 16;
+		private const SIN_HEIGHT:Number = 5;
 		
 		private var _initialY:Number;
 		private var _accum:Number = 0;
@@ -28,6 +28,8 @@ package actor
 		
 		private var _emitSparks:Boolean = false;
 		private var _bombDropped:Boolean = false;
+		
+		private var _warningSign:FlxText;
 		
 		public function PlaneController(player:Actor, layer:FlxGroup) 
 		{
@@ -57,6 +59,10 @@ package actor
 			// AFTER the plane so they are rendered in front
 			initSmokeEmitter();
 			initSparkEmitter();
+			
+			_warningSign = new FlxText(0, 0, FlxG.width, "WARNING ->");
+			_warningSign.setFormat(null, 8, 0xffff00, "right", 0xff0000);
+			_layer.add(_warningSign, false);
 		}
 		
 		override public function update():void
@@ -102,6 +108,19 @@ package actor
 				{
 					_sparkEmitter.stop(0);
 				}
+			}
+			
+			// Warning signs
+			if (controlledActor.x > FlxG.width - FlxG.scroll.x
+				&& controlledActor.x < FlxG.width - FlxG.scroll.x + Constants.PLANE_WARNING_X_THRESHOLD)
+			{
+				_warningSign.visible = true;
+				_warningSign.x = -FlxG.scroll.x;
+				_warningSign.y = controlledActor.y;
+			}
+			else
+			{
+				_warningSign.visible = false;
 			}
 		}
 		

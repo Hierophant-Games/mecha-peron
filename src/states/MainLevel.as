@@ -6,6 +6,7 @@
 	import embed.Assets;
 	import level.HUD;
 	import level.ParallaxLayer;
+	import game.Constants;
 	import level.TutorialText;
 	import org.flixel.*;
 	
@@ -60,8 +61,6 @@
 			
 			_previousDistance = _player.x;
 			
-			FlxG.music.stop();
-			
 			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
 			FlxG.mouse.show();
 		}
@@ -77,6 +76,7 @@
 			FlxG.follow(_followBeacon, 3);
 			
 			_layerAction.add(_player);
+			(_player.controller as PlayerController).beforeLevelStart = true;
 		}
 		
 		private function initLevel():void
@@ -92,6 +92,7 @@
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
 			_levelStarted = true;
+			(_player.controller as PlayerController).beforeLevelStart = false;
 		}
 		
 		private function addActor(actorController:ActorController, x:Number, y:Number):void
@@ -100,7 +101,7 @@
 			
 			if ((actorController as PlaneController) != null)
 			{
-				theActor.health = 100;
+				theActor.health = Constants.PLANE_MAX_HEALTH;
 				_planes.push(theActor);
 			}
 			
@@ -140,9 +141,29 @@
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
 			
-			var playerController:PlayerController = (_player.controller as PlayerController);
-			//if (playerController == null) assert this?
+			updateLaserCombat();
 			
+			// HUD
+			var playerController:PlayerController = (_player.controller as PlayerController);
+			playerController.updateHUD(_hud);
+			
+			_distanceTraveled += _player.x - _previousDistance;
+			_previousDistance = _player.x;
+			
+			var scaledDistance:Number = _distanceTraveled / 70;
+			_hud.setDistance(scaledDistance.toFixed(1));
+			
+			collide();
+			super.update();
+			
+			// update beacon (?)
+			_followBeacon.x = _player.x + FOLLOW_OFFSET;
+			_followBeacon.y = _player.y;
+		}
+		
+		private function updateLaserCombat():void
+		{
+			var playerController:PlayerController = (_player.controller as PlayerController);
 			if (playerController.isLaserActive())
 			{
 				//playerController.setLaserClip(null);
@@ -172,7 +193,7 @@
 								laserX, 
 								laserY);
 						
-						enemy.hurt(3);
+						enemy.hurt(Constants.LASER_PLANE_DAMAGE);
 						
 						if (enemy.health <= 0)
 						{
@@ -186,21 +207,6 @@
 					}
 				}
 			}
-			
-			playerController.updateHUD(_hud);
-			
-			_distanceTraveled += _player.x - _previousDistance;
-			_previousDistance = _player.x;
-			
-			var scaledDistance:Number = _distanceTraveled / 70;
-			_hud.setDistance(scaledDistance.toFixed(1));
-			
-			collide();
-			super.update();
-			
-			// update beacon (?)
-			_followBeacon.x = _player.x + FOLLOW_OFFSET;
-			_followBeacon.y = _player.y;
 		}
 		
 		private function setupSmoke(emitter:FlxEmitter):void
