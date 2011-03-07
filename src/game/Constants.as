@@ -22,6 +22,11 @@ package game
 		public static const PLANE_MAX_HEALTH:Number = 100;
 		public static const PLANE_BOMB_DAMAGE:Number = 10;
 		
+			// Cannon
+		public static const CANNON_ATTACK_DELAY:Number = 3.0; // seconds
+		public static const CANNON_BOMB_DAMAGE:Number = 20;
+		public static const CANNON_BOMB_SPEED:Number = 60;	
+		
 		// Other constants
 		public static const LASER_MAX_CHARGE:Number = 5000;
 		public static const LASER_CHARGE_STEP:Number = 10;

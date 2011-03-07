@@ -146,7 +146,7 @@ package actor
 					_isLaserRecharging = false;
 				}
 			}
-			else if(FlxG.mouse.justReleased())
+			else if(FlxG.mouse.justReleased() && !_beforeLevelStart)
 			{
 				stopLaser();
 			}

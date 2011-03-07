@@ -27,6 +27,8 @@
 		
 		private var _planes:Vector.<Actor> = new Vector.<Actor>();
 		
+		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
+		
 		private var _hud:HUD = new HUD();
 		
 		private var _distanceTraveled:uint = 0;
@@ -88,6 +90,8 @@
 			addActor(new PlaneController(_player, _layerAction), 1800, 20);
 			
 			addActor(new BuildingController(_player, _layerAction), 600, 60);
+			
+			addActor(new CannonController(_player, _layerAction), 500, 100);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			

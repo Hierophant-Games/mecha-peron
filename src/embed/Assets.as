@@ -25,6 +25,8 @@ package embed
 		public static var SpriteSmokeBig:Class;
 		[Embed(source = "../../data/sprites/spark.png")]
 		public static var SpriteSpark:Class;
+		[Embed(source = "../../data/sprites/cannon.png")]
+		public static var SpriteCannon:Class;
 		
 		[Embed(source = "../../data/sprites/torso.png")]
 		public static var SpriteBody:Class;
