@@ -79,8 +79,8 @@ package actor
 			compositeActor.addSprite(_leftArmSprite, new FlxPoint(75, 88));
 			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
 			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
-			compositeActor.width = _bodySprite.width;
-			compositeActor.height = _bodySprite.height+_headSprite.height;
+			compositeActor.width = _headSprite.width;
+			compositeActor.height = 222;
 			
 			_laserSprite = new FlxSprite();
 			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);

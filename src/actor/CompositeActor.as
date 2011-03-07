@@ -23,7 +23,9 @@ package actor
 			
 			// update width and height accordingly (?)
 			/*
-			 * disabled to avoid having the arms collide with enemy bullets, as the body is the only area that takes damage. (properly set on PlayerController.as)
+			 * disabled to avoid having the arms collide with enemy bullets,
+			 * as the body is the only area that takes damage.
+			 * (properly set on PlayerController.as)
 			 */
 			/*if (sprite.frameWidth + offset.x > width)
 				width = sprite.frameWidth + offset.x;

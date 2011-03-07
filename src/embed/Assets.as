@@ -37,6 +37,9 @@ package embed
 		[Embed(source = "../../data/sprites/hudGauge.png")]
 		public static var SpriteHUDGauge:Class;
 		
+		
+		[Embed(source = "../../data/sprites/rocket.png")]
+		public static var SpriteRocket:Class;		
 		[Embed(source = "../../data/sprites/enemyBuilding.png")]
 		public static var SpriteEnemyBuilding:Class;		
 		[Embed(source = "../../data/sprites/soldier.png")]

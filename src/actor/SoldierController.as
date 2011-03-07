@@ -47,7 +47,7 @@ package actor
 			controlledActor.play("Die");
 		}
 		
-		private const SHOOT_TIME:Number = 3;
+		private const SHOOT_TIME:Number = 6;
 		/* by setting initial value of timer as a random number
 		 * between 0 and SHOOT_TIME, the soldiers will now shoot
 		 * in different moments instead of always at the same time
