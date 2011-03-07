@@ -67,18 +67,20 @@ package actor
 			// load the left arm sprite...
 			_leftArmSprite = new FlxSprite();
 			_leftArmSprite.loadGraphic(Assets.SpriteLeftArm, true, false, 88, 69);
-			_leftArmSprite.addAnimation("idle", new Array(0), 1, false);
+			_leftArmSprite.addAnimation("idle", new Array(1), 1, false);
 			_leftArmSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
 			_leftArmSprite.addAnimation("attack", new Array(0), 1, false);
 			_leftArmSprite.addAnimation("damage", new Array(0), 1, false);
 			_leftArmSprite.addAnimation("laser", new Array(0), 1, false);
-			_leftArmSprite.addAnimation("laserOff", new Array(0), 1, false);
+			_leftArmSprite.addAnimation("laserOff", new Array(1), 1, false);
 			
 			// add sprites to the composite actor!
 			var compositeActor:CompositeActor = controlledActor as CompositeActor;
-			compositeActor.addSprite(_leftArmSprite, new FlxPoint(79, 88));
+			compositeActor.addSprite(_leftArmSprite, new FlxPoint(75, 88));
 			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
 			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
+			compositeActor.width = _bodySprite.width;
+			compositeActor.height = _bodySprite.height+_headSprite.height;
 			
 			_laserSprite = new FlxSprite();
 			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);

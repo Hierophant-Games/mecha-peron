@@ -22,10 +22,13 @@ package actor
 			_offsets.push(offset);
 			
 			// update width and height accordingly (?)
-			if (sprite.frameWidth + offset.x > width)
+			/*
+			 * disabled to avoid having the arms collide with enemy bullets, as the body is the only area that takes damage. (properly set on PlayerController.as)
+			 */
+			/*if (sprite.frameWidth + offset.x > width)
 				width = sprite.frameWidth + offset.x;
 			if (sprite.frameHeight + offset.y > height)
-				height = sprite.frameHeight + offset.y;
+				height = sprite.frameHeight + offset.y;*/
 		}
 		
 		override public function update():void

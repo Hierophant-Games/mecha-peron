@@ -16,7 +16,7 @@ package level
 		{
 			super(X, Y);
 			_layer = layer;
-			createGraphic(6, 6, 0xffcc0000);
+			createGraphic(2, 2, 0xffcc0000);
 			fixed = true;
 		}
 		
@@ -26,7 +26,7 @@ package level
 			if (other && other.controller is PlayerController)
 			{
 				other.flicker();
-				
+				other.controller.hurt(1);
 				kill();
 			}
 		}

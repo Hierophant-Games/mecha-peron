@@ -87,7 +87,8 @@
 			addActor(new PlaneController(_player, _layerAction), 1400, 40);
 			addActor(new PlaneController(_player, _layerAction), 1800, 20);
 			
-			addActor(new BuildingController(_player, _layerAction), 600, 60);
+			// random number of soldiers between 4 and 12
+			addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
