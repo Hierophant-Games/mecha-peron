@@ -27,6 +27,10 @@ package level
 			var other:Actor = Contact as Actor;
 			if (other && other.controller is PlayerController)
 			{
+				// Restrict colission
+				if (x > other.x + other.width / 2)
+					return;
+					
 				_sprExplosion = new FlxSprite(x, y);
 				_sprExplosion.solid = false;
 				_sprExplosion.loadGraphic(Assets.SpriteExplosion, true, false, 64, 64);

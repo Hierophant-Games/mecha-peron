@@ -9,7 +9,7 @@ package game
 		public static const GRAVITY:Number = 50;
 		
 		// Speed constants
-		public static const PERON_SPEED_X:Number = 40;
+		public static const PERON_SPEED_X:Number = 30;
 		public static const PLANE_SPEED_X:Number = -150;
 		public static const SOLDIER_BULLET_SPEED_X:Number = -50;
 		

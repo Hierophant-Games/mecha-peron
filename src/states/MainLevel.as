@@ -48,6 +48,8 @@
 			_layerAction = new ParallaxLayer(null,					1.0);
 			_layerFront = new ParallaxLayer(Assets.SpriteFront,		1.5);
 			
+			_layerFront.OnSpriteOffset = spawnCannons;
+			
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
@@ -83,15 +85,15 @@
 		
 		private function initLevel():void
 		{
-			addActor(new PlaneController(_player, _layerAction), 400, 20);
-			addActor(new PlaneController(_player, _layerAction), 600, 40);
-			addActor(new PlaneController(_player, _layerAction), 1000, 60);
-			addActor(new PlaneController(_player, _layerAction), 1400, 40);
-			addActor(new PlaneController(_player, _layerAction), 1800, 20);
+			addActor(new PlaneController(_player, _layerAction), 400, 20, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 800, 40, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 1500, 30, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 1700, 20, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 2100, 30, _layerAction);
 			
-			addActor(new BuildingController(_player, _layerAction), 600, 60);
+			//addActor(new BuildingController(_player, _layerAction), 400, 60, _layerAction);
 			
-			addActor(new CannonController(_player, _layerAction), 500, 100);
+			//addActor(new CannonController(_player, _layerAction), 320 + 146, 147 - 21, _layerFront);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
@@ -99,7 +101,7 @@
 			(_player.controller as PlayerController).beforeLevelStart = false;
 		}
 		
-		private function addActor(actorController:ActorController, x:Number, y:Number):void
+		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):void
 		{
 			var theActor:Actor = new Actor(actorController, x, y);
 			
@@ -108,8 +110,12 @@
 				theActor.health = Constants.PLANE_MAX_HEALTH;
 				_planes.push(theActor);
 			}
+			else if ((actorController as CannonController) != null)
+			{
+				_cannons.push(theActor);
+			}
 			
-			_layerAction.add(theActor, true);
+			layer.add(theActor, true);
 		}
 		
 		private var _robotVoiceTimer:Number = 0;
@@ -145,7 +151,30 @@
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
 			
+			// Laser
 			updateLaserCombat();
+			
+			// Crushing arm
+			if (FlxG.keys.justPressed("SPACE"))
+			{
+				for (var i:uint = 0; i < _cannons.length; ++i)
+				{
+					if (_cannons[i].getScreenXY().x > FlxG.width)
+						continue;
+					
+					var cannon:Actor = _cannons[i];
+					
+					var armX1:Number = _player.getScreenXY().x + _player.width / 2;
+					var armX2:Number = _player.getScreenXY().x + _player.width;
+					if (cannon.getScreenXY().x < armX2 && cannon.getScreenXY().x + cannon.width > armX1)
+					{
+						cannon.destroy();
+									
+						_layerFront.remove(cannon, true);
+						_cannons.splice(i, 1);
+					}
+				}
+			}
 			
 			// HUD
 			var playerController:PlayerController = (_player.controller as PlayerController);
@@ -165,6 +194,20 @@
 			_followBeacon.y = _player.y;
 		}
 		
+		private function spawnCannons(x:Number):void
+		{
+			//Front buildings cannon positions
+			//48, 135
+			//146, 147
+			//236, 120
+			if(FlxU.random() * 100 > 70)
+				addActor(new CannonController(_player, _layerAction), x + 146, 147 - 20, _layerFront);
+			if(FlxU.random() * 100 > 70)
+				addActor(new CannonController(_player, _layerAction), x + 48, 135 - 20, _layerFront);
+			if(FlxU.random() * 100 > 70)
+				addActor(new CannonController(_player, _layerAction), x + 236, 120 - 20, _layerFront);
+		}
+		
 		private function updateLaserCombat():void
 		{
 			var playerController:PlayerController = (_player.controller as PlayerController);
@@ -173,7 +216,7 @@
 				//playerController.setLaserClip(null);
 				for (var i:uint = 0; i < _planes.length; ++i)
 				{
-					if (_planes[i].x > FlxG.width - FlxG.scroll.x)
+					if (_planes[i].getScreenXY().x > FlxG.width)
 						continue;
 					
 					var enemy:Actor = _planes[i];

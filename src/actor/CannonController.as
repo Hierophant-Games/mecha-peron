@@ -52,7 +52,7 @@ package actor
 			else
 				_visibleTimer = 0;
 
-			if (controlledActor.x > _player.x + (_player.width / 2))
+			if (controlledActor.getScreenXY().x > _player.getScreenXY().x + (_player.width * 0.75))
 			{
 				if (_visibleTimer > Constants.CANNON_ATTACK_DELAY - 1.0)
 					controlledActor.play("leftShoot");
@@ -71,17 +71,21 @@ package actor
 			{
 				_visibleTimer = 0;
 				
-				var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y + _player.height / 2);
+				// Randomize target y
+				var randomY:Number = FlxU.random() * (_player.height / 4);
+				var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
 				
-				var bomb:CannonBomb = new CannonBomb(_layer, controlledActor.x, controlledActor.y);
+				var actorScreenPos:FlxPoint = controlledActor.getScreenXY();
+				var bomb:CannonBomb = new CannonBomb(_layer, actorScreenPos.x, actorScreenPos.y);
+				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
 				
-				var speed:Point = new Point(targetPos.x - controlledActor.x, controlledActor.y - targetPos.y);
+				var speed:Point = new Point(targetPos.x - actorScreenPos.x, targetPos.y - actorScreenPos.y);
 				speed.normalize(1);
 				
 				bomb.velocity.x = speed.x * Constants.CANNON_BOMB_SPEED;
 				bomb.velocity.y = speed.y * Constants.CANNON_BOMB_SPEED;
 				
-				_layer.add(bomb);
+				_layer.add(bomb, true);
 			}
 		}
 		

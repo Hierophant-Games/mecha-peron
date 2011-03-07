@@ -133,8 +133,12 @@ package actor
 		{
 			if (_bombDropped) return;
 			
-			var originPos:Point = new Point(controlledActor.x + controlledActor.width / 2, controlledActor.y + controlledActor.height);
-			var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y + _player.height / 2);
+			var actorScreenPos:FlxPoint = controlledActor.getScreenXY();
+			var originPos:Point = new Point(actorScreenPos.x + controlledActor.width / 2, actorScreenPos.y + controlledActor.height / 2);
+			
+			// Randomize target y
+			var randomY:Number = FlxU.random() * (_player.height / 4) + (_player.height / 4);
+			var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
 			
 			// dy = 1/2*g*t^2
 			// t = v(dy/(1/2*g))
@@ -145,10 +149,12 @@ package actor
 				_bombDropped = true;
 				
 				var bomb:PlaneBomb = new PlaneBomb(_layer, originPos.x, originPos.y);
+				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
+				
 				bomb.acceleration.y = Constants.GRAVITY;
 				bomb.velocity.x =  controlledActor.velocity.x;
 				
-				_layer.add(bomb);
+				_layer.add(bomb, true);
 			}
 		}
 		
