@@ -154,7 +154,13 @@ package actor
 			{
 				smokeEmitter.stop();
 			}
+			
 			_soldiers.splice(0, _soldiers.length);
+			for each (var soldier:Actor in _soldiers) 
+			{
+				controlledActor.layer.remove(soldier);
+			}
+			
 			return true;
 		}
 		

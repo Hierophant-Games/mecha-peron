@@ -29,6 +29,8 @@ package actor
 		private var _emitSparks:Boolean = false;
 		private var _bombDropped:Boolean = false;
 		
+		private var _falling:Boolean = false;
+		
 		private var _warningSign:FlxText;
 		
 		public function PlaneController(player:Actor, layer:FlxGroup) 
@@ -77,22 +79,28 @@ package actor
 				return;
 			}
 			
-			_accum += SIN_FACTOR;
-			if (_accum > 2 * Math.PI)
-				_accum -= 2 * Math.PI;
+			if (_falling)
+			{
+				_smokeEmitter.x = controlledActor.x;			
+				_smokeEmitter.y = controlledActor.y;
+			}
 			
-			controlledActor.y = _initialY - SIN_HEIGHT * Math.sin(_accum);
+			if (!_falling)
+			{
+				_accum += SIN_FACTOR;
+				if (_accum > 2 * Math.PI)
+					_accum -= 2 * Math.PI;
 			
-			_smokeEmitter.x = controlledActor.x;			
-			_smokeEmitter.y = controlledActor.y;
-			
-			dropBombs();
-			
-			controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
+				controlledActor.y = _initialY - SIN_HEIGHT * Math.sin(_accum);
+				
+				dropBombs();
+				
+				controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
+			}
 			
 			if (_emitSparks)
 			{
-				_sparkEmitter.x = controlledActor.x;// + controlledActor.width / 2;			
+				_sparkEmitter.x = controlledActor.x + controlledActor.width / 4;			
 				_sparkEmitter.y = controlledActor.y + controlledActor.height / 2;
 				
 				if (!_sparkEmitter.on)
@@ -128,7 +136,18 @@ package actor
 		{
 			_emitSparks = true;
 			
-			return true;
+			if ((controlledActor.health -= Damage) <= 0)
+			{
+				controlledActor.dead = true;
+				
+				controlledActor.angularAcceleration = -120;
+				controlledActor.acceleration.y = 140;
+				_falling = true;
+				
+				_smokeEmitter.start(false);
+			}
+			
+			return false;
 		}
 		
 		private function dropBombs():void
@@ -173,19 +192,23 @@ package actor
 				var smoke:FlxSprite = new FlxSprite();
 				if (i % 2)
 				{
-					smoke.loadGraphic(Assets.SpriteSmoke, true, false, 14, 12);
+					smoke.loadGraphic(Assets.SpriteSmoke, true, false, 14, 12);					
 				}
 				else
 				{
 					smoke.loadGraphic(Assets.SpriteSmokeBig, true, false, 28, 24);
 				}
+				
+				var randomGrey:Number = FlxU.random() * 3;	
+				randomGrey = Number(randomGrey.toFixed()) * 0x333333;
+				smoke.color = randomGrey;
+				
 				smoke.exists = false;
 				smoke.solid = false;
 				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
 				smoke.play("smoke");
 				_smokeEmitter.add(smoke, true);
 			}
-			//_smokeEmitter.start(false);
 			
 			_layer.add(_smokeEmitter, true);
 		}
