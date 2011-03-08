@@ -11,9 +11,9 @@ package actor
 		private var _sprites:Vector.<FlxSprite> = new Vector.<FlxSprite>();
 		private var _offsets:Vector.<FlxPoint> = new Vector.<FlxPoint>();
 		
-		public function CompositeActor(actorController:ActorController, X:Number = 0, Y:Number = 0) 
+		public function CompositeActor(actorController:ActorController, layer:FlxGroup, X:Number = 0, Y:Number = 0) 
 		{
-			super(actorController, X, Y);
+			super(actorController, layer, X, Y);
 		}
 		
 		public function addSprite(sprite:FlxSprite, offset:FlxPoint):void

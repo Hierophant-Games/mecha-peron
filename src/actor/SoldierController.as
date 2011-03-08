@@ -35,16 +35,24 @@ package actor
 		override public function update():void
 		{
 			// only shoot if the actor is on the screen
-			if (controlledActor.onScreen())
+			if (controlledActor.onScreen() && !controlledActor.dead)
 			{
 				aim();
 			}
 		}
 		
-		override public function onHurt(Damage:Number):void
+		override public function onHurt(Damage:Number):Boolean
 		{
-			// explosion
-			controlledActor.play("Die");
+			if((controlledActor.health -= Damage) <= 0)
+			{
+				// explosion
+				controlledActor.play("Die");
+				controlledActor.dead = true;
+			}
+			
+			return false;
+			// Avoid calling super.hurt() on purpose so it doesn´t stops rendering
+			// when killed so we can render the broken window frame in soldier sprite
 		}
 		
 		private const SHOOT_TIME:Number = 6;
@@ -97,7 +105,7 @@ package actor
 				}
 				case "Shoot":
 				{
-					if (frameIndex == 2)
+					if (frameIndex == 4)
 						reload();
 					break;
 				}
