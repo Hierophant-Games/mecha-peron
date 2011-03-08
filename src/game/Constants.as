@@ -6,7 +6,7 @@ package game
 	 */
 	public class Constants 
 	{
-		public static const GRAVITY:Number = 50;
+		public static const GRAVITY:Number = 100;
 		
 		public static const PERON_SPEED_X:Number = 40;
 		public static const PLANE_SPEED_X:Number = -100;
