@@ -84,15 +84,13 @@
 		}
 		
 		private function initLevel():void
-		{/*
+		{
 			addActor(new PlaneController(_player, _layerAction), 400, 20, _layerAction);
-			addActor(new PlaneController(_player, _layerAction), 800, 40, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 1000, 40, _layerAction);
 			addActor(new PlaneController(_player, _layerAction), 1500, 30, _layerAction);
-			addActor(new PlaneController(_player, _layerAction), 1700, 20, _layerAction);
-			addActor(new PlaneController(_player, _layerAction), 2100, 30, _layerAction);
-			*/
+			
 			// random number of soldiers between 4 and 12
-			//addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40, _layerAction);
+			addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40, _layerAction);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
