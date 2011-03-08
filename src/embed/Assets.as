@@ -39,6 +39,16 @@ package embed
 		[Embed(source = "../../data/sprites/hudGauge.png")]
 		public static var SpriteHUDGauge:Class;
 		
+		
+		[Embed(source = "../../data/sprites/rocket.png")]
+		public static var SpriteRocket:Class;		
+		[Embed(source = "../../data/sprites/enemyBuilding.png")]
+		public static var SpriteEnemyBuilding:Class;		
+		[Embed(source = "../../data/sprites/soldier.png")]
+		public static var SpriteSoldier:Class;
+		
+		[Embed(source = "../../data/sprites/bomb.png")]
+		public static var SpriteBomb:Class;		
 		[Embed(source = "../../data/sprites/plane.png")]
 		public static var SpritePlane:Class;
 		

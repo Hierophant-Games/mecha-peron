@@ -2,6 +2,7 @@ package level
 {
 	import actor.*;
 	import embed.Assets;
+	import game.Constants;
 	import org.flixel.*;
 	
 	/**
@@ -16,8 +17,13 @@ package level
 		{
 			super(X, Y);
 			_layer = layer;
-			createGraphic(6, 6, 0xffcc0000);
+			loadGraphic(Assets.SpriteRocket, true, false, 9, 9, false);
+			addAnimation("Thrust", new Array(0, 1), 6, true);
+			addAnimation("Burst", new Array(2, 3, 4, 5, 6, 7, 8), 12, true);
+			addAnimationCallback(bulletAnimCallback);
 			fixed = true;
+			
+			play("Thrust");
 		}
 		
 		public override function hitLeft(Contact:FlxObject, Velocity:Number):void
@@ -25,8 +31,17 @@ package level
 			var other:Actor = Contact as Actor;
 			if (other && other.controller is PlayerController)
 			{
+				play("Burst");
 				other.flicker();
-				
+				other.hurt(Constants.SOLDIER_BULLET_DAMAGE);
+				velocity.x = velocity.y = 0;
+			}
+		}
+		
+		private function bulletAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void 
+		{
+			if(name == "Burst" && frameIndex == 8) 
+			{
 				kill();
 			}
 		}

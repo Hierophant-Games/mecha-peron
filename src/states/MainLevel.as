@@ -84,16 +84,15 @@
 		}
 		
 		private function initLevel():void
-		{
+		{/*
 			addActor(new PlaneController(_player, _layerAction), 400, 20, _layerAction);
 			addActor(new PlaneController(_player, _layerAction), 800, 40, _layerAction);
 			addActor(new PlaneController(_player, _layerAction), 1500, 30, _layerAction);
 			addActor(new PlaneController(_player, _layerAction), 1700, 20, _layerAction);
 			addActor(new PlaneController(_player, _layerAction), 2100, 30, _layerAction);
-			
-			//addActor(new BuildingController(_player, _layerAction), 400, 60, _layerAction);
-			
-			//addActor(new CannonController(_player, _layerAction), 320 + 146, 147 - 21, _layerFront);
+			*/
+			// random number of soldiers between 4 and 12
+			//addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40, _layerAction);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
@@ -164,12 +163,12 @@
 					
 					var cannon:Actor = _cannons[i];
 					
-					var armX1:Number = _player.getScreenXY().x + _player.width / 2;
-					var armX2:Number = _player.getScreenXY().x + _player.width;
-					if (cannon.getScreenXY().x < armX2 && cannon.getScreenXY().x + cannon.width > armX1)
+					var rightArmX1:Number = _player.getScreenXY().x + _player.width / 2;
+					var rightArmX2:Number = rightArmX1 + _player.width;
+					if (cannon.getScreenXY().x < rightArmX2 && cannon.getScreenXY().x + cannon.width > rightArmX1)
 					{
-						cannon.destroy();
-									
+						cannon.destroy();									
+						
 						_layerFront.remove(cannon, true);
 						_cannons.splice(i, 1);
 					}

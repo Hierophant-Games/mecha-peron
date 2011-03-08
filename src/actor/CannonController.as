@@ -52,7 +52,7 @@ package actor
 			else
 				_visibleTimer = 0;
 
-			if (controlledActor.getScreenXY().x > _player.getScreenXY().x + (_player.width * 0.75))
+			if (controlledActor.getScreenXY().x > _player.getScreenXY().x + (_player.width * 1.5))
 			{
 				if (_visibleTimer > Constants.CANNON_ATTACK_DELAY - 1.0)
 					controlledActor.play("leftShoot");
