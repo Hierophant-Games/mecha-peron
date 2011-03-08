@@ -124,7 +124,7 @@ package actor
 			if (FlxG.mouse.pressed())
 			{
 				startLaser();
-			
+				
 				_isLaserRecharging = false;
 				_laserRechargeTimer = 0;
 				_laserCharge -= LASER_CHARGE_STEP;
@@ -213,7 +213,7 @@ package actor
 			_laserSprite.frame = 0;
 		}
 		
-		override public function hurt(Damage:Number):void
+		override public function onHurt(Damage:Number):void
 		{
 			if (!_shootingLaser)
 			{

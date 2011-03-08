@@ -31,15 +31,14 @@ package level
 			if (other && other.controller is PlayerController)
 			{
 				play("Burst");
-				other.flicker();
-				other.controller.hurt(1);
+				other.hurt(1);
 				velocity.x = velocity.y = 0;
 			}
 		}
 		
 		private function bulletAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void 
 		{
-			if(name == "Burst" && frameIndex == 8) 
+			if (name == "Burst" && finished) 
 			{
 				kill();
 			}

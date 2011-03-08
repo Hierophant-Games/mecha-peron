@@ -56,7 +56,7 @@ package actor
 		
 		public override function hurt(Damage:Number):void
 		{
-			_controller.hurt(Damage);
+			_controller.onHurt(Damage);
 			super.hurt(Damage);
 		}
 		

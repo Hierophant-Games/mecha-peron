@@ -49,7 +49,7 @@ package actor
 		 * Override to implement some custom behaviour when the actor was hurt
 		 * @param	Damage		the amount of health that changed
 		 */
-		public function hurt(Damage:Number):void
+		public function onHurt(Damage:Number):void
 		{
 			trace("implement me!!!");
 		}

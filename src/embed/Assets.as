@@ -23,6 +23,8 @@ package embed
 		public static var SpriteSmoke:Class;
 		[Embed(source = "../../data/sprites/smokeBig.png")]
 		public static var SpriteSmokeBig:Class;
+		[Embed(source = "../../data/sprites/smokeBuilding.png")]
+		public static var SpriteSmokeBuilding:Class;
 		[Embed(source = "../../data/sprites/spark.png")]
 		public static var SpriteSpark:Class;
 		
