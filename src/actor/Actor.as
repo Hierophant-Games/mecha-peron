@@ -9,6 +9,7 @@ package actor
 	public class Actor extends FlxSprite
 	{
 		private var _controller:ActorController;
+		private var _layer:FlxGroup;
 		
 		public static const COLLIDE_LEFT:uint = 0;
 		public static const COLLIDE_RIGHT:uint = 1;
@@ -27,10 +28,22 @@ package actor
 			return _controller;
 		}
 		
-		public function Actor(actorController:ActorController, X:Number = 0, Y:Number = 0) 
+		public function set layer(actorLayer:FlxGroup):void
+		{
+			_layer = actorLayer;
+		}
+		
+		public function get layer():FlxGroup
+		{
+			return _layer;
+		}
+		
+		public function Actor(actorController:ActorController, layer:FlxGroup, X:Number = 0, Y:Number = 0) 
 		{
 			super(X, Y);
 			controller = actorController;
+			
+			_layer = layer;
 			
 			FlxG.log("Added actor (" + X + "," + Y + ") with controller: " + actorController);
 		}
@@ -50,14 +63,14 @@ package actor
 		
 		override public function kill():void
 		{
-			_controller.onKill();
-			super.kill();
+			if(_controller.onKill())
+				super.kill();
 		}
 		
 		public override function hurt(Damage:Number):void
 		{
-			_controller.onHurt(Damage);
-			super.hurt(Damage);
+			if(_controller.onHurt(Damage))
+				super.hurt(Damage);
 		}
 		
 		override public function hitLeft(Contact:FlxObject,Velocity:Number):void

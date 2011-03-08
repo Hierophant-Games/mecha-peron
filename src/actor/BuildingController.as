@@ -12,23 +12,25 @@ package actor
 	{
 		private var _player:Actor;
 		private var _layer:FlxGroup;
+		
 		private var _soldierCount:int;
 		private var _soldierPositions:Vector.<FlxPoint> = new Vector.<FlxPoint>();
 		private var _soldiers:Vector.<Actor> = new Vector.<Actor>();
 		
 		private var _collapsing:Boolean = false;
 		
-		public function BuildingController(player:Actor, layer:FlxGroup, soldierCount:int = 4) 
+		public function BuildingController(player:Actor, layer:FlxGroup) 
 		{
 			_player = player;
 			_layer = layer;
-			_soldierCount = soldierCount;
 		}
 		
 		override public function init():void 
 		{
 			controlledActor.loadGraphic(Assets.SpriteEnemyBuilding, false, false, 79, 225, false);
 			controlledActor.fixed = true;
+			
+			_soldierCount = FlxU.random() * 8 + 8;
 		}
 		
 		override public function preFirstUpdate():void
@@ -56,9 +58,12 @@ package actor
 			for (var i:uint = 0; i < _soldierCount; ++i)
 			{
 				var randomPos:FlxPoint = randomSoldierPosition();
-				var soldier:Actor = new Actor(new SoldierController(_player, _layer),
-											  randomPos.x, randomPos.y);
-				_layer.add(soldier, true);
+				
+				var soldier:Actor = new Actor(new SoldierController(_player, _layer), 
+					controlledActor.layer, randomPos.x, randomPos.y);
+				soldier.health = 1;
+				
+				controlledActor.layer.add(soldier, true);
 				_soldiers.push(soldier);
 			}
 		}
@@ -100,6 +105,10 @@ package actor
 			_collapsing = true;
 			controlledActor.velocity.y = 20;
 			killAllSoldiers();
+			for each (var soldier:Actor in _soldiers) 
+			{
+				soldier.velocity.y = 20;
+			}
 			startSmokeEmitter(0, controlledActor.width / 2);
 			startSmokeEmitter(controlledActor.width / 2, controlledActor.width / 2);
 		}
@@ -133,16 +142,23 @@ package actor
 		{
 			for each (var soldier:Actor in _soldiers) 
 			{
-				soldier.hurt(1);
+				soldier.hurt(soldier.health);
 			}
 		}
 		
-		override public function onKill():void
+		override public function onKill():Boolean
 		{
 			for each (var smokeEmitter:FlxEmitter in _smokeEmitters)
 			{
 				smokeEmitter.stop();
 			}
+			_soldiers.splice(0, _soldiers.length);
+			return true;
+		}
+		
+		public function get Soldiers():Vector.<Actor>
+		{
+			return _soldiers;
 		}
 	}
 }
