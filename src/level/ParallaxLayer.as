@@ -13,6 +13,14 @@ package level
 		private var _emitters:Vector.<FlxEmitter> = new Vector.<FlxEmitter>();
 		private var _emittersStartFunctions:Vector.<Function> = new Vector.<Function>();
 		
+		// Callback called when offseting sprite
+		private var _onSpriteOffset:Function;
+		
+		public function set OnSpriteOffset(func:Function):void
+		{
+			_onSpriteOffset = func;
+		}
+		
 		public function ParallaxLayer(Graphic:Class, scrollFactor:Number) 
 		{
 			this.scrollFactor = new FlxPoint(scrollFactor, scrollFactor);
@@ -39,6 +47,9 @@ package level
 				if (background.x + pos < -_layerWidth)
 				{
 					background.x += _layerWidth * 2;
+					
+					if(_onSpriteOffset != null)
+						_onSpriteOffset(background.x);
 				}
 			}
 			// update emitters

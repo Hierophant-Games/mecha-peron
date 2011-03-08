@@ -2,6 +2,7 @@ package level
 {
 	import actor.*;
 	import embed.Assets;
+	import game.Constants;
 	import org.flixel.*;
 	
 	/**
@@ -31,7 +32,7 @@ package level
 			if (other && other.controller is PlayerController)
 			{
 				play("Burst");
-				other.hurt(1);
+				other.hurt(Constants.SOLDIER_BULLET_DAMAGE);
 				velocity.x = velocity.y = 0;
 			}
 		}

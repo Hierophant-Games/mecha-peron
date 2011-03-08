@@ -27,6 +27,8 @@ package embed
 		public static var SpriteSmokeBuilding:Class;
 		[Embed(source = "../../data/sprites/spark.png")]
 		public static var SpriteSpark:Class;
+		[Embed(source = "../../data/sprites/cannon.png")]
+		public static var SpriteCannon:Class;
 		
 		[Embed(source = "../../data/sprites/torso.png")]
 		public static var SpriteBody:Class;
@@ -47,6 +49,8 @@ package embed
 		[Embed(source = "../../data/sprites/soldier.png")]
 		public static var SpriteSoldier:Class;
 		
+		[Embed(source = "../../data/sprites/bomb.png")]
+		public static var SpriteBomb:Class;		
 		[Embed(source = "../../data/sprites/plane.png")]
 		public static var SpritePlane:Class;
 		

@@ -6,6 +6,7 @@
 	import embed.Assets;
 	import level.HUD;
 	import level.ParallaxLayer;
+	import game.Constants;
 	import level.TutorialText;
 	import org.flixel.*;
 	
@@ -26,6 +27,8 @@
 		
 		private var _planes:Vector.<Actor> = new Vector.<Actor>();
 		
+		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
+		
 		private var _hud:HUD = new HUD();
 		
 		private var _distanceTraveled:uint = 0;
@@ -45,6 +48,8 @@
 			_layerAction = new ParallaxLayer(null,					1.0);
 			_layerFront = new ParallaxLayer(Assets.SpriteFront,		1.5);
 			
+			_layerFront.OnSpriteOffset = spawnCannons;
+			
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
@@ -59,8 +64,6 @@
 			add(_layerFront);
 			
 			_previousDistance = _player.x;
-			
-			FlxG.music.stop();
 			
 			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
 			FlxG.mouse.show();
@@ -77,35 +80,39 @@
 			FlxG.follow(_followBeacon, 3);
 			
 			_layerAction.add(_player);
+			(_player.controller as PlayerController).beforeLevelStart = true;
 		}
 		
 		private function initLevel():void
 		{
-			addActor(new PlaneController(_player, _layerAction), 400, 20);
-			addActor(new PlaneController(_player, _layerAction), 600, 40);
-			addActor(new PlaneController(_player, _layerAction), 1000, 60);
-			addActor(new PlaneController(_player, _layerAction), 1400, 40);
-			addActor(new PlaneController(_player, _layerAction), 1800, 20);
+			addActor(new PlaneController(_player, _layerAction), 400, 20, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 1000, 40, _layerAction);
+			addActor(new PlaneController(_player, _layerAction), 1500, 30, _layerAction);
 			
 			// random number of soldiers between 4 and 12
-			addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40);
+			addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40, _layerAction);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
 			_levelStarted = true;
+			(_player.controller as PlayerController).beforeLevelStart = false;
 		}
 		
-		private function addActor(actorController:ActorController, x:Number, y:Number):void
+		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):void
 		{
 			var theActor:Actor = new Actor(actorController, x, y);
 			
 			if ((actorController as PlaneController) != null)
 			{
-				theActor.health = 100;
+				theActor.health = Constants.PLANE_MAX_HEALTH;
 				_planes.push(theActor);
 			}
+			else if ((actorController as CannonController) != null)
+			{
+				_cannons.push(theActor);
+			}
 			
-			_layerAction.add(theActor, true);
+			layer.add(theActor, true);
 		}
 		
 		private var _robotVoiceTimer:Number = 0;
@@ -141,15 +148,72 @@
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
 			
-			var playerController:PlayerController = (_player.controller as PlayerController);
-			//if (playerController == null) assert this?
+			// Laser
+			updateLaserCombat();
 			
+			// Crushing arm
+			if (FlxG.keys.justPressed("SPACE"))
+			{
+				for (var i:uint = 0; i < _cannons.length; ++i)
+				{
+					if (_cannons[i].getScreenXY().x > FlxG.width)
+						continue;
+					
+					var cannon:Actor = _cannons[i];
+					
+					var rightArmX1:Number = _player.getScreenXY().x + _player.width / 2;
+					var rightArmX2:Number = rightArmX1 + _player.width;
+					if (cannon.getScreenXY().x < rightArmX2 && cannon.getScreenXY().x + cannon.width > rightArmX1)
+					{
+						cannon.destroy();									
+						
+						_layerFront.remove(cannon, true);
+						_cannons.splice(i, 1);
+					}
+				}
+			}
+			
+			// HUD
+			var playerController:PlayerController = (_player.controller as PlayerController);
+			playerController.updateHUD(_hud);
+			
+			_distanceTraveled += _player.x - _previousDistance;
+			_previousDistance = _player.x;
+			
+			var scaledDistance:Number = _distanceTraveled / 70;
+			_hud.setDistance(scaledDistance.toFixed(1));
+			
+			collide();
+			super.update();
+			
+			// update beacon (?)
+			_followBeacon.x = _player.x + FOLLOW_OFFSET;
+			_followBeacon.y = _player.y;
+		}
+		
+		private function spawnCannons(x:Number):void
+		{
+			//Front buildings cannon positions
+			//48, 135
+			//146, 147
+			//236, 120
+			if(FlxU.random() * 100 > 70)
+				addActor(new CannonController(_player, _layerAction), x + 146, 147 - 20, _layerFront);
+			if(FlxU.random() * 100 > 70)
+				addActor(new CannonController(_player, _layerAction), x + 48, 135 - 20, _layerFront);
+			if(FlxU.random() * 100 > 70)
+				addActor(new CannonController(_player, _layerAction), x + 236, 120 - 20, _layerFront);
+		}
+		
+		private function updateLaserCombat():void
+		{
+			var playerController:PlayerController = (_player.controller as PlayerController);
 			if (playerController.isLaserActive())
 			{
 				//playerController.setLaserClip(null);
 				for (var i:uint = 0; i < _planes.length; ++i)
 				{
-					if (_planes[i].x > FlxG.width - FlxG.scroll.x)
+					if (_planes[i].getScreenXY().x > FlxG.width)
 						continue;
 					
 					var enemy:Actor = _planes[i];
@@ -173,7 +237,7 @@
 								laserX, 
 								laserY);
 						
-						enemy.hurt(3);
+						enemy.hurt(Constants.LASER_PLANE_DAMAGE);
 						
 						if (enemy.health <= 0)
 						{
@@ -187,21 +251,6 @@
 					}
 				}
 			}
-			
-			playerController.updateHUD(_hud);
-			
-			_distanceTraveled += _player.x - _previousDistance;
-			_previousDistance = _player.x;
-			
-			var scaledDistance:Number = _distanceTraveled / 70;
-			_hud.setDistance(scaledDistance.toFixed(1));
-			
-			collide();
-			super.update();
-			
-			// update beacon (?)
-			_followBeacon.x = _player.x + FOLLOW_OFFSET;
-			_followBeacon.y = _player.y;
 		}
 		
 		private function setupSmoke(emitter:FlxEmitter):void

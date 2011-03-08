@@ -7,22 +7,22 @@ package level
 	
 	/**
 	 * ...
-	 * @author Santiago Vilar
+	 * @author
 	 */
-	public class PlaneBomb extends FlxSprite
+	public class CannonBomb extends FlxSprite
 	{
 		private var _sprExplosion:FlxSprite;
 		private var _layer:FlxGroup;
 		
-		public function PlaneBomb(layer:FlxGroup, X:Number, Y:Number) 
+		public function CannonBomb(layer:FlxGroup, X:Number, Y:Number) 
 		{
 			super(X, Y);
 			_layer = layer;
-			loadGraphic(Assets.SpriteBomb, false, false, 10, 5, false);
+			createGraphic(5, 5, 0xffffff00);
 			fixed = true;
-		}
+		}		
 		
-		public override function hitBottom(Contact:FlxObject, Velocity:Number):void
+		public override function hitLeft(Contact:FlxObject, Velocity:Number):void
 		{
 			var other:Actor = Contact as Actor;
 			if (other && other.controller is PlayerController)
@@ -41,7 +41,7 @@ package level
 				
 				kill();
 				
-				other.hurt(Constants.PLANE_BOMB_DAMAGE);
+				other.hurt(Constants.CANNON_BOMB_DAMAGE);
 			}
 		}
 		

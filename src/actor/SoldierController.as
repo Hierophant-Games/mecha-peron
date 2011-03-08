@@ -68,14 +68,16 @@ package actor
 		private function shoot():void
 		{
 			controlledActor.play("Shoot");
-			var originPos:Point = new Point(controlledActor.x, controlledActor.y);
 			
-			// Bullets will have a random "Y" component in their velocity between 5 and -5 pixels height
+			var originScreenPos:Point = new Point(controlledActor.getScreenXY().x, controlledActor.getScreenXY().y);
+			
 			var velocity:Point = new Point(Constants.SOLDIER_BULLET_SPEED_X, ((FlxU.random()*10) - 5));
-			
-			var bullet:Bullet = new Bullet(_layer, originPos.x, originPos.y);
+				
+			var bullet:Bullet = new Bullet(_layer, originScreenPos.x, originScreenPos.y);
+			bullet.x -= FlxG.scroll.x * _layer.scrollFactor.x;
+				
 			bullet.velocity = new FlxPoint(velocity.x, velocity.y);
-			_layer.add(bullet);			
+			_layer.add(bullet, true);
 		}
 		
 		private function reload():void 

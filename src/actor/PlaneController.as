@@ -16,7 +16,7 @@ package actor
 		 * Constants
 		 */
 		private const SIN_FACTOR:Number = 0.03;
-		private const SIN_HEIGHT:Number = 16;
+		private const SIN_HEIGHT:Number = 5;
 		
 		private var _initialY:Number;
 		private var _accum:Number = 0;
@@ -28,6 +28,8 @@ package actor
 		
 		private var _emitSparks:Boolean = false;
 		private var _bombDropped:Boolean = false;
+		
+		private var _warningSign:FlxText;
 		
 		public function PlaneController(player:Actor, layer:FlxGroup) 
 		{
@@ -57,6 +59,10 @@ package actor
 			// AFTER the plane so they are rendered in front
 			initSmokeEmitter();
 			initSparkEmitter();
+			
+			_warningSign = new FlxText(0, 0, FlxG.width, "WARNING ->");
+			_warningSign.setFormat(null, 8, 0xffff00, "right", 0xff0000);
+			_layer.add(_warningSign, false);
 		}
 		
 		override public function update():void
@@ -103,6 +109,19 @@ package actor
 					_sparkEmitter.stop(0);
 				}
 			}
+			
+			// Warning signs
+			if (controlledActor.x > FlxG.width - FlxG.scroll.x
+				&& controlledActor.x < FlxG.width - FlxG.scroll.x + Constants.PLANE_WARNING_X_THRESHOLD)
+			{
+				_warningSign.visible = true;
+				_warningSign.x = -FlxG.scroll.x;
+				_warningSign.y = controlledActor.y;
+			}
+			else
+			{
+				_warningSign.visible = false;
+			}
 		}
 		
 		override public function onHurt(Damage:Number):void
@@ -114,8 +133,12 @@ package actor
 		{
 			if (_bombDropped) return;
 			
-			var originPos:Point = new Point(controlledActor.x + controlledActor.width / 2, controlledActor.y + controlledActor.height);
-			var targetPos:Point = new Point(_player.x + _player.width / 2, _player.y + _player.height / 2);
+			var actorScreenPos:FlxPoint = controlledActor.getScreenXY();
+			var originPos:Point = new Point(actorScreenPos.x + controlledActor.width / 2, actorScreenPos.y + controlledActor.height / 2);
+			
+			// Randomize target y
+			var randomY:Number = FlxU.random() * (_player.height / 4) + (_player.height / 4);
+			var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
 			
 			// dy = 1/2*g*t^2
 			// t = v(dy/(1/2*g))
@@ -126,10 +149,12 @@ package actor
 				_bombDropped = true;
 				
 				var bomb:PlaneBomb = new PlaneBomb(_layer, originPos.x, originPos.y);
+				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
+				
 				bomb.acceleration.y = Constants.GRAVITY;
 				bomb.velocity.x =  controlledActor.velocity.x;
 				
-				_layer.add(bomb);
+				_layer.add(bomb, true);
 			}
 		}
 		

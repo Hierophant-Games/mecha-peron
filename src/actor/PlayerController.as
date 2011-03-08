@@ -15,8 +15,6 @@ package actor
 	 */
 	public class PlayerController extends ActorController
 	{
-		private const MAX_HEALTH:Number = 100;
-		
 		private var _layer:FlxGroup;
 		
 		private var _laserSprite:FlxSprite;
@@ -25,12 +23,10 @@ package actor
 		private var _laserCharge:Number;
 		private var _isLaserRecharging:Boolean;
 		private var _laserRechargeTimer:Number;
-		private const LASER_MAX_CHARGE:Number = 5000;
-		private const LASER_CHARGE_STEP:Number = 10;
-		private const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
 		
 		private var _laserSfx:FlxSound;
 		
+		private var _beforeLevelStart:Boolean = false;
 		private var _shootingLaser:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
 		private var _beingDamaged:Boolean = false;
@@ -46,7 +42,7 @@ package actor
 		
 		public override function init():void
 		{
-			controlledActor.health = MAX_HEALTH;
+			controlledActor.health = Constants.PERON_MAX_HEALTH;
 			
 			controlledActor.fixed = true;
 			
@@ -95,7 +91,7 @@ package actor
 									_laserSprite.angle, 
 									new Point(_laserSprite.origin.x, _laserSprite.origin.y));
 			
-			_laserCharge = LASER_MAX_CHARGE;
+			_laserCharge = Constants.LASER_MAX_CHARGE;
 			_isLaserRecharging = false;
 			_laserRechargeTimer = 0;
 			
@@ -121,13 +117,13 @@ package actor
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
-			if (FlxG.mouse.pressed())
+			if (FlxG.mouse.pressed() && !_beforeLevelStart)
 			{
 				startLaser();
 				
 				_isLaserRecharging = false;
 				_laserRechargeTimer = 0;
-				_laserCharge -= LASER_CHARGE_STEP;
+				_laserCharge -= Constants.LASER_CHARGE_STEP;
 				
 				if (_laserCharge <= 0)
 				{
@@ -144,15 +140,15 @@ package actor
 			}
 			else if (_isLaserRecharging)
 			{
-				_laserCharge += LASER_CHARGE_STEP;
+				_laserCharge += Constants.LASER_CHARGE_STEP;
 				
-				if (_laserCharge >= LASER_MAX_CHARGE)
+				if (_laserCharge >= Constants.LASER_MAX_CHARGE)
 				{
-					_laserCharge = LASER_MAX_CHARGE;
+					_laserCharge = Constants.LASER_MAX_CHARGE;
 					_isLaserRecharging = false;
 				}
 			}
-			else if(FlxG.mouse.justReleased())
+			else if(FlxG.mouse.justReleased() && !_beforeLevelStart)
 			{
 				stopLaser();
 			}
@@ -207,7 +203,7 @@ package actor
 			laserOff();
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
-			_laserRechargeTimer = LASER_RECHARGE_DELAY;
+			_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
 
 			_laserSfx.stop();
 			_laserSprite.frame = 0;
@@ -332,13 +328,18 @@ package actor
 		
 		public function updateHUD(hud:HUD):void
 		{
-			hud.setLifeBarW(controlledActor.health / MAX_HEALTH);
-			if(controlledActor.health < MAX_HEALTH / 3)
+			hud.setLifeBarW(controlledActor.health / Constants.PERON_MAX_HEALTH);
+			if(controlledActor.health < Constants.PERON_MAX_HEALTH / 3)
 				hud.flickerLifeBar(0.1);
 			
-			hud.setLaserBarW(_laserCharge / LASER_MAX_CHARGE);
+			hud.setLaserBarW(_laserCharge / Constants.LASER_MAX_CHARGE);
 			if (_isLaserRecharging > 0)
 				hud.flickerLaserBar(0.1);
+		}
+		
+		public function set beforeLevelStart(beforeLevelStart:Boolean):void
+		{
+			_beforeLevelStart = beforeLevelStart;
 		}
 	}
 }
