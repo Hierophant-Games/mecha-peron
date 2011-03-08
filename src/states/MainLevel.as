@@ -18,16 +18,19 @@
 	{
 		private const RANDOM_VOICEFX_COUNT:uint = 2;
 		
+		// Layers
 		private var _layerBack:ParallaxLayer;
 		private var _layerMiddle:ParallaxLayer;
-		private var _layerAction:ParallaxLayer;
+		private var _layerActionBack:ParallaxLayer;
+		private var _layerActionMiddle:ParallaxLayer;
+		private var _layerActionFront:ParallaxLayer;
 		private var _layerFront:ParallaxLayer;
 		
-		private var _player:Actor;
-		
-		private var _planes:Vector.<Actor> = new Vector.<Actor>();
-		
+		// Actors
+		private var _player:Actor;		
+		private var _planes:Vector.<Actor> = new Vector.<Actor>();		
 		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
+		private var _soldierBuildings:Vector.<Actor> = new Vector.<Actor>();
 		
 		private var _hud:HUD = new HUD();
 		
@@ -45,7 +48,9 @@
 			bgColor = 0xffd3a9a9;
 			_layerBack = new ParallaxLayer(Assets.SpriteBack,		0.2);
 			_layerMiddle = new ParallaxLayer(Assets.SpriteMiddle,	0.5);
-			_layerAction = new ParallaxLayer(null,					1.0);
+			_layerActionBack = new ParallaxLayer(null,				1.0);
+			_layerActionMiddle = new ParallaxLayer(null,			1.0);
+			_layerActionFront = new ParallaxLayer(null,				1.0);
 			_layerFront = new ParallaxLayer(Assets.SpriteFront,		1.5);
 			
 			_layerFront.OnSpriteOffset = spawnCannons;
@@ -60,7 +65,9 @@
 			
 			add(_layerBack);
 			add(_layerMiddle);
-			add(_layerAction);
+			add(_layerActionBack);
+			add(_layerActionMiddle);
+			add(_layerActionFront);
 			add(_layerFront);
 			
 			_previousDistance = _player.x;
@@ -71,7 +78,7 @@
 		
 		private function initPlayer():void
 		{
-			_player = new CompositeActor(new PlayerController(_layerAction));
+			_player = new CompositeActor(new PlayerController(_layerActionMiddle), _layerActionMiddle);
 			_player.x = -_player.width;
 			_player.y = FlxG.height - 222;
 			
@@ -79,18 +86,18 @@
 			FlxG.followBounds(0, 0, 100000, FlxG.height);
 			FlxG.follow(_followBeacon, 3);
 			
-			_layerAction.add(_player);
+			_layerActionMiddle.add(_player);
 			(_player.controller as PlayerController).beforeLevelStart = true;
 		}
 		
 		private function initLevel():void
 		{
-			addActor(new PlaneController(_player, _layerAction), 400, 20, _layerAction);
-			addActor(new PlaneController(_player, _layerAction), 1000, 40, _layerAction);
-			addActor(new PlaneController(_player, _layerAction), 1500, 30, _layerAction);
+			addActor(new PlaneController(_player, _layerActionMiddle), 400, 20, _layerActionFront);
+			addActor(new PlaneController(_player, _layerActionMiddle), 1000, 40, _layerActionFront);
+			addActor(new PlaneController(_player, _layerActionMiddle), 1500, 30, _layerActionFront);
 			
 			// random number of soldiers between 4 and 12
-			addActor(new BuildingController(_player, _layerAction, FlxU.random()*8 + 8), 600, 40, _layerAction);
+			addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);
 			
 			FlxG.playMusic(Assets.MusicTheme, 0.5);
 			
@@ -100,7 +107,7 @@
 		
 		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):void
 		{
-			var theActor:Actor = new Actor(actorController, x, y);
+			var theActor:Actor = new Actor(actorController, layer, x, y);
 			
 			if ((actorController as PlaneController) != null)
 			{
@@ -110,6 +117,10 @@
 			else if ((actorController as CannonController) != null)
 			{
 				_cannons.push(theActor);
+			}
+			else if ((actorController as BuildingController) != null)
+			{
+				_soldierBuildings.push(theActor);
 			}
 			
 			layer.add(theActor, true);
@@ -122,7 +133,9 @@
 		{
 			// Debug keys!
 			if (FlxG.keys.justPressed("ONE")) 	_layerFront.visible = !_layerFront.visible;
-			if (FlxG.keys.justPressed("TWO")) 	_layerAction.visible = !_layerAction.visible;
+			if (FlxG.keys.justPressed("TWO")) 	{ 	_layerActionBack.visible = !_layerActionBack.visible;
+													_layerActionMiddle.visible = !_layerActionMiddle.visible;
+													_layerActionFront.visible = !_layerActionFront.visible; }
 			if (FlxG.keys.justPressed("THREE"))	_layerMiddle.visible = !_layerMiddle.visible;
 			if (FlxG.keys.justPressed("FOUR")) 	_layerBack.visible = !_layerBack.visible;
 			
@@ -191,18 +204,18 @@
 			_followBeacon.y = _player.y;
 		}
 		
-		private function spawnCannons(x:Number):void
+		private function spawnCannons(x:Number):void // Callback
 		{
 			//Front buildings cannon positions
 			//48, 135
 			//146, 147
 			//236, 120
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerAction), x + 146, 147 - 20, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle), x + 146, 147 - 20, _layerFront);
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerAction), x + 48, 135 - 20, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle), x + 48, 135 - 20, _layerFront);
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerAction), x + 236, 120 - 20, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle), x + 236, 120 - 20, _layerFront);
 		}
 		
 		private function updateLaserCombat():void
@@ -210,44 +223,60 @@
 			var playerController:PlayerController = (_player.controller as PlayerController);
 			if (playerController.isLaserActive())
 			{
+				var i:uint;
+				////// Soldier buildings
+				for (i = 0; i < _soldierBuildings.length; ++i)
+				{
+					if (_soldierBuildings[i].getScreenXY().x > FlxG.width)
+						continue;
+					
+					var soldiers:Vector.<Actor> = (_soldierBuildings[i].controller as BuildingController).soldiers;
+					
+					for (var j:uint = 0; j < soldiers.length; ++j)
+					{
+						if (playerController.checkLaserHit(soldiers[j]))
+						{
+							soldiers[j].hurt(Constants.LASER_SOLDIER_DAMAGE);
+							// Call controller´s hurt and not Actor´s (and FlxObject) on purpose (see SoldierController hurt())
+						}
+					}
+				}
+				
+				////// Planes
 				//playerController.setLaserClip(null);
-				for (var i:uint = 0; i < _planes.length; ++i)
+				for (i = 0; i < _planes.length; ++i)
 				{
 					if (_planes[i].getScreenXY().x > FlxG.width)
 						continue;
 					
-					var enemy:Actor = _planes[i];
+					var plane:Actor = _planes[i];
 					
-					if (playerController.checkLaserHit(enemy))
+					if (playerController.checkLaserHit(plane))
 					{
 						/*
 						var laserRect:Rectangle = playerController.getLaserRect();
 						var laserClip:Rectangle = new Rectangle(
 													laserRect.x, 
-													enemy.y, 
-													enemy.x + (enemy.width) - laserRect.x, 
-													laserRect.y + laserRect.height - enemy.y);
+													plane.y, 
+													plane.x + (plane.width) - laserRect.x, 
+													laserRect.y + laserRect.height - plane.y);
 						playerController.setLaserClip(laserClip);
 						*/
 						var laserRect:Rectangle = playerController.getLaserRect();
 						var laserX:Number = laserRect.x
 						var laserY:Number = laserRect.y + (laserRect.height / 2);
 						
-						(enemy.controller as PlaneController).setSparksDirection(
+						(plane.controller as PlaneController).setSparksDirection(
 								laserX, 
 								laserY);
 						
-						enemy.hurt(Constants.LASER_PLANE_DAMAGE);
+						plane.hurt(Constants.LASER_PLANE_DAMAGE);
 						
-						if (enemy.health <= 0)
+						if (plane.health <= 0)
 						{
-							enemy.destroy();
-							
-							_layerAction.remove(enemy, true);
+							_layerActionFront.remove(plane, true);
 							_planes.splice(i, 1);
 						}
-						
-						//break; // Multiple hits, laser isn´t clipped
 					}
 				}
 			}

@@ -27,7 +27,7 @@ package actor
 			controlledActor.addAnimation("Shoot", new Array(3, 4, 5, 2), 8, false);
 			controlledActor.addAnimation("Reload", new  Array(2, 1, 0), 6, false);
 			controlledActor.addAnimation("Aim", new Array(1, 2), 4, false);
-			controlledActor.addAnimation("Die", new Array(6), 1, false);
+			controlledActor.addAnimation("Die", new Array(6, 6), 1, false);
 			controlledActor.addAnimationCallback(soldierAnimCallback);
 			controlledActor.fixed = true;
 		}
@@ -35,16 +35,24 @@ package actor
 		override public function update():void
 		{
 			// only shoot if the actor is on the screen
-			if (controlledActor.onScreen())
+			if (controlledActor.onScreen() && !controlledActor.dead)
 			{
 				aim();
 			}
 		}
 		
-			override public function hurt(Damage:Number):void
+		override public function onHurt(Damage:Number):Boolean
 		{
-			// explosion
-			controlledActor.play("Die");
+			if((controlledActor.health -= Damage) <= 0)
+			{
+				// explosion
+				controlledActor.play("Die");
+				controlledActor.dead = true;
+			}
+			
+			return false;
+			// Avoid calling super.hurt() on purpose so it doesn´t stops rendering
+			// when killed so we can render the broken window frame in soldier sprite
 		}
 		
 		private const SHOOT_TIME:Number = 6;
@@ -65,7 +73,8 @@ package actor
 			}
 		}
 		
-		private function shoot():void {
+		private function shoot():void
+		{
 			controlledActor.play("Shoot");
 			
 			var originScreenPos:Point = new Point(controlledActor.getScreenXY().x, controlledActor.getScreenXY().y);
@@ -86,13 +95,20 @@ package actor
 			
 		private function soldierAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void 
 		{
-			if(name == "Aim" && frameIndex == 2) 
+			switch (name)
 			{
-				shoot();
-			}
-			else if (name == "Shoot" && frameIndex == 2)
-			{
-				reload();
+				case "Aim":
+				{
+					if (frameIndex == 2)
+						shoot();
+					break;
+				}
+				case "Shoot":
+				{
+					if (frameIndex == 4)
+						reload();
+					break;
+				}
 			}
 		}
 	}

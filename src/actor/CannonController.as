@@ -28,20 +28,23 @@ package actor
 			
 			controlledActor.addAnimation("leftIdle", new Array(0, 0));
 			controlledActor.addAnimation("leftShoot", new Array(1, 1));
-			controlledActor.addAnimation("topIdle", new Array(2, 2));
-			controlledActor.addAnimation("topShoot", new Array(3, 3));
+			controlledActor.addAnimation("topLeftIdle", new Array(2, 2));
+			controlledActor.addAnimation("topLeftShoot", new Array(3, 3));
+			controlledActor.addAnimation("topIdle", new Array(4, 4));
+			controlledActor.addAnimation("topShoot", new Array(5, 5));
 			
 			controlledActor.fixed = true;
 		}
 		
 		override public function update():void
 		{
-			var posXInScreen:Number = controlledActor.getScreenXY().x;
+			var screenX:Number = controlledActor.getScreenXY().x;
+			var screenY:Number = controlledActor.getScreenXY().y;
 			
 			// camera culling
-			controlledActor.visible = (posXInScreen < FlxG.width);
+			controlledActor.visible = (screenX < FlxG.width);
 			// mark as dead when it goes out of camera
-			if (posXInScreen < -controlledActor.frameWidth)
+			if (screenX < -controlledActor.frameWidth)
 			{
 				controlledActor.kill();
 				return;
@@ -52,16 +55,24 @@ package actor
 			else
 				_visibleTimer = 0;
 
-			if (controlledActor.getScreenXY().x > _player.getScreenXY().x + (_player.width * 1.5))
+			var readyToShoot:Boolean = _visibleTimer > Constants.CANNON_ATTACK_DELAY - 1.0;
+			if(screenX > FlxG.width - (FlxG.width / 3))
 			{
-				if (_visibleTimer > Constants.CANNON_ATTACK_DELAY - 1.0)
+				if (readyToShoot)
 					controlledActor.play("leftShoot");
 				else
 					controlledActor.play("leftIdle");
 			}
+			else if (screenX > FlxG.width / 3)
+			{
+				if (readyToShoot)
+					controlledActor.play("topLeftShoot");
+				else
+					controlledActor.play("topLeftIdle");
+			}
 			else
 			{
-				if (_visibleTimer > Constants.CANNON_ATTACK_DELAY - 1.0)
+				if (readyToShoot)
 					controlledActor.play("topShoot");
 				else
 					controlledActor.play("topIdle");
@@ -74,12 +85,11 @@ package actor
 				// Randomize target y
 				var randomY:Number = FlxU.random() * (_player.height / 4);
 				var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
-				
-				var actorScreenPos:FlxPoint = controlledActor.getScreenXY();
-				var bomb:CannonBomb = new CannonBomb(_layer, actorScreenPos.x, actorScreenPos.y);
+
+				var bomb:CannonBomb = new CannonBomb(_layer, screenX, screenY);
 				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
 				
-				var speed:Point = new Point(targetPos.x - actorScreenPos.x, targetPos.y - actorScreenPos.y);
+				var speed:Point = new Point(targetPos.x - screenX, targetPos.y - screenY);
 				speed.normalize(1);
 				
 				bomb.velocity.x = speed.x * Constants.CANNON_BOMB_SPEED;
@@ -89,14 +99,14 @@ package actor
 			}
 		}
 		
-		override public function hurt(Damage:Number):void
+		override public function onHurt(Damage:Number):Boolean
 		{
-			
+			return true;
 		}
 		
-		override public function onKill():void
+		override public function onKill():Boolean
 		{
-			
+			return true;
 		}
 	}
 

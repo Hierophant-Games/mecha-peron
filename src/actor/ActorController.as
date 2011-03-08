@@ -49,17 +49,19 @@ package actor
 		 * Override to implement some custom behaviour when the actor was hurt
 		 * @param	Damage		the amount of health that changed
 		 */
-		public function hurt(Damage:Number):void
+		public function onHurt(Damage:Number):Boolean
 		{
 			trace("implement me!!!");
+			return false;
 		}
 		
 		/**
 		 * Should be overrided if some custom behavior is wanted when the actor is killed,
 		 * like removing dependencies or stuff like that
 		 */
-		public function onKill():void
+		public function onKill():Boolean
 		{
+			return false;
 		}
 		
 		/**

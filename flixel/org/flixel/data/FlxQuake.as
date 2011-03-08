@@ -30,6 +30,14 @@ package org.flixel.data
 		public var y:int;
 		
 		/**
+		 * True if the effect is currently running
+		 */
+		public function get running():Boolean
+		{
+			return _timer > 0;
+		}
+		
+		/**
 		 * Constructor.
 		 */
 		public function FlxQuake(Zoom:uint)

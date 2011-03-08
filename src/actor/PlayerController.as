@@ -49,7 +49,7 @@ package actor
 			// load the head!
 			_headSprite = new FlxSprite();
 			_headSprite.loadGraphic(Assets.SpriteHead, true, false, 68, 100);
-			_headSprite.addAnimation("idle", new Array(0), 1, false);
+			_headSprite.addAnimation("idle", new Array(0, 0), 1, false);
 			_headSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
 			_headSprite.addAnimation("attack", new Array(1), 1, false);
 			_headSprite.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
@@ -63,12 +63,12 @@ package actor
 			// load the left arm sprite...
 			_leftArmSprite = new FlxSprite();
 			_leftArmSprite.loadGraphic(Assets.SpriteLeftArm, true, false, 88, 69);
-			_leftArmSprite.addAnimation("idle", new Array(1), 1, false);
+			_leftArmSprite.addAnimation("idle", new Array(1, 1), 1, false);
 			_leftArmSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			_leftArmSprite.addAnimation("attack", new Array(0), 1, false);
+			_leftArmSprite.addAnimation("attack", new Array(0, 0), 1, false);
 			_leftArmSprite.addAnimation("damage", new Array(3), 1, false);
-			_leftArmSprite.addAnimation("laser", new Array(0), 1, false);
-			_leftArmSprite.addAnimation("laserOff", new Array(1), 1, false);
+			_leftArmSprite.addAnimation("laser", new Array(0, 0), 1, false);
+			_leftArmSprite.addAnimation("laserOff", new Array(1, 1), 1, false);
 			
 			// add sprites to the composite actor!
 			var compositeActor:CompositeActor = controlledActor as CompositeActor;
@@ -104,7 +104,7 @@ package actor
 		{
 			// Do this to add other objects right after this one in the layer group members array
 			var index:int = _layer.members.indexOf(controlledActor);
-			_layer.members.splice(index, 0, _laserSprite);
+			_layer.members.splice(index + 1, 0, _laserSprite);
 			
 			//_layer.add(_laserSprite);
 		}
@@ -120,7 +120,7 @@ package actor
 			if (FlxG.mouse.pressed() && !_beforeLevelStart)
 			{
 				startLaser();
-			
+				
 				_isLaserRecharging = false;
 				_laserRechargeTimer = 0;
 				_laserCharge -= Constants.LASER_CHARGE_STEP;
@@ -166,7 +166,8 @@ package actor
 				if (_quakeTimer > QUAKE_TIME) // this should depend on Peron's footsteps
 				{
 					_quakeTimer -= QUAKE_TIME;
-					FlxG.quake.start(0.01, 0.2);
+					if (!FlxG.quake.running)
+						FlxG.quake.start(0.01, 0.2);
 					FlxG.play(Assets.SfxFootstep);
 				}
 			}
@@ -181,14 +182,14 @@ package actor
 			
 			_laserSfx.play();
 			
-			_laserSprite.x = controlledActor.x + controlledActor.width / 2;
+			_laserSprite.x = controlledActor.x + controlledActor.width;
 			_laserSprite.y = controlledActor.y + 40;
 			
 			var angle:Number = Math.atan2(FlxG.mouse.y - (_laserSprite.y + _laserSprite.height), FlxG.mouse.x - _laserSprite.x);
 			angle *= 180 / Math.PI;
 			
-			if (angle > 50) angle = 50;
-			else if (angle < -30) angle = -30;
+			if (angle > 30) angle = 30;
+			else if (angle < -10) angle = -10;
 			
 			if(FlxG.mouse.justPressed())
 				_laserSprite.play("default");
@@ -209,13 +210,15 @@ package actor
 			_laserSprite.frame = 0;
 		}
 		
-		override public function hurt(Damage:Number):void
+		override public function onHurt(Damage:Number):Boolean
 		{
 			if (!_shootingLaser)
 			{
 				damage();
 				_beingDamaged = true;
 			}
+			
+			return true;
 		}
 		
 		private function setVelocity(x:Number, y:Number):void

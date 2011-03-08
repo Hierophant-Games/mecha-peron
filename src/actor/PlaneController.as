@@ -124,9 +124,11 @@ package actor
 			}
 		}
 		
-		override public function hurt(Damage:Number):void
+		override public function onHurt(Damage:Number):Boolean
 		{
 			_emitSparks = true;
+			
+			return true;
 		}
 		
 		private function dropBombs():void
@@ -219,13 +221,15 @@ package actor
 			_sparkEmitter.setYSpeed(50 * direction.y, 80 * direction.y);
 		}
 		
-		override public function onKill():void
+		override public function onKill():Boolean
 		{
 			if (_smokeEmitter)
 				_smokeEmitter.stop();
 				
 			if (_sparkEmitter)
 				_sparkEmitter.stop();
+				
+			return true;
 		}
 
 	}
