@@ -6,7 +6,7 @@ package game
 	 */
 	public class Constants 
 	{
-		public static const GRAVITY:Number = 100;
+		public static const GRAVITY:Number = 200;
 		
 		// Peron
 		public static const PERON_SPEED_X:Number = 30;
@@ -17,7 +17,7 @@ package game
 		public static const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
 		
 		// Plane
-		public static const PLANE_SPEED_X:Number = -80;
+		public static const PLANE_SPEED_X:Number = -150;
 		public static const PLANE_MAX_HEALTH:Number = 100;
 		public static const PLANE_BOMB_DAMAGE:Number = 5;
 		public static const PLANE_WARNING_X_THRESHOLD:Number = 200; // distance from the right edge of the screen onwards in which the warning signs will appear
@@ -25,7 +25,7 @@ package game
 		// Cannon
 		public static const CANNON_ATTACK_DELAY:Number = 3.0; // how much seconds waits since it´s visible to release bomb
 		public static const CANNON_BOMB_DAMAGE:Number = 10;
-		public static const CANNON_BOMB_SPEED:Number = 60;	
+		public static const CANNON_BOMB_SPEED:Number = 60;
 		
 		// Soldier
 		public static const SOLDIER_BULLET_SPEED_X:Number = -50;

@@ -166,7 +166,8 @@ package actor
 				if (_quakeTimer > QUAKE_TIME) // this should depend on Peron's footsteps
 				{
 					_quakeTimer -= QUAKE_TIME;
-					FlxG.quake.start(0.01, 0.2);
+					if (!FlxG.quake.running)
+						FlxG.quake.start(0.01, 0.2);
 					FlxG.play(Assets.SfxFootstep);
 				}
 			}

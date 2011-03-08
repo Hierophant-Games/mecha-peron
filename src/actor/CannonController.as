@@ -89,7 +89,7 @@ package actor
 			}
 		}
 		
-		override public function hurt(Damage:Number):void
+		override public function onHurt(Damage:Number):void
 		{
 			
 		}

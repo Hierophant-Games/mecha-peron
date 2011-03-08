@@ -43,6 +43,7 @@ package actor
 				if (!controlledActor.onScreen())
 				{
 					controlledActor.kill();
+					FlxG.quake.stop();
 				}
 			}
 			else if (FlxG.keys.justPressed("Z"))
@@ -98,6 +99,7 @@ package actor
 		private function collapse():void
 		{
 			_collapsing = true;
+			FlxG.quake.start(0.01, 10); // lots of seconds
 			controlledActor.velocity.y = 20;
 			killAllSoldiers();
 			startSmokeEmitter(0, controlledActor.width / 2);
