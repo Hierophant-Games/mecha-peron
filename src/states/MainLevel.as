@@ -230,7 +230,7 @@
 					if (_soldierBuildings[i].getScreenXY().x > FlxG.width)
 						continue;
 					
-					var soldiers:Vector.<Actor> = (_soldierBuildings[i].controller as BuildingController).Soldiers;
+					var soldiers:Vector.<Actor> = (_soldierBuildings[i].controller as BuildingController).soldiers;
 					
 					for (var j:uint = 0; j < soldiers.length; ++j)
 					{

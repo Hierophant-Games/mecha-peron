@@ -106,10 +106,10 @@ package actor
 			_collapsing = true;
 			FlxG.quake.start(0.01, 10); // lots of seconds
 			controlledActor.velocity.y = 20;
-			killAllSoldiers();
 			for each (var soldier:Actor in _soldiers) 
 			{
 				soldier.velocity.y = 20;
+				soldier.hurt(soldier.health);
 			}
 			startSmokeEmitter(0, controlledActor.width / 2);
 			startSmokeEmitter(controlledActor.width / 2, controlledActor.width / 2);
@@ -140,14 +140,6 @@ package actor
 			_smokeEmitters.push(smokeEmitter);
 		}
 		
-		private function killAllSoldiers():void
-		{
-			for each (var soldier:Actor in _soldiers) 
-			{
-				soldier.hurt(soldier.health);
-			}
-		}
-		
 		override public function onKill():Boolean
 		{
 			for each (var smokeEmitter:FlxEmitter in _smokeEmitters)
@@ -158,7 +150,7 @@ package actor
 			return true;
 		}
 		
-		public function get Soldiers():Vector.<Actor>
+		public function get soldiers():Vector.<Actor>
 		{
 			return _soldiers;
 		}
