@@ -373,7 +373,7 @@ package actor
 			var other:Actor = contact as Actor;
 			if (other && other.controller is BuildingController)
 			{
-				_blockedByBuilding = true;
+				_blockedByBuilding = !other.dead;
 			}
 		}
 		

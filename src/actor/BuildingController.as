@@ -17,7 +17,10 @@ package actor
 		private var _soldierPositions:Vector.<FlxPoint> = new Vector.<FlxPoint>();
 		private var _soldiers:Vector.<Actor> = new Vector.<Actor>();
 		
-		private var _collapsing:Boolean = false;
+		public function get soldiers():Vector.<Actor>
+		{
+			return _soldiers;
+		}
 		
 		public function BuildingController(player:Actor, layer:FlxGroup) 
 		{
@@ -40,7 +43,7 @@ package actor
 		
 		override public function update():void
 		{
-			if (_collapsing)
+			if (controlledActor.dead)
 			{
 				if (!controlledActor.onScreen())
 				{
@@ -108,9 +111,9 @@ package actor
 		
 		private function collapse():void
 		{
-			if (!_collapsing)
+			if (!controlledActor.dead)
 			{
-				_collapsing = true;
+				controlledActor.dead = true;
 				FlxG.quake.start(0.01, 10); // lots of seconds
 				controlledActor.velocity.y = 20;
 				for each (var soldier:Actor in _soldiers) 
@@ -162,11 +165,6 @@ package actor
 			}
 			
 			return true;
-		}
-		
-		public function get soldiers():Vector.<Actor>
-		{
-			return _soldiers;
 		}
 	}
 }

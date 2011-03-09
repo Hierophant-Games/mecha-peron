@@ -215,7 +215,7 @@
 					
 					for (var j:uint = 0; j < soldiers.length; ++j)
 					{
-						if (soldiers[j].dead)
+						if (soldiers[j].dead || !soldiers[j].onScreen())
 							continue;
 						
 						if (playerController.checkLaserHit(soldiers[j]))
