@@ -30,10 +30,13 @@ package actor
 		private var _shootingLaser:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
 		private var _beingDamaged:Boolean = false;
+		private var _attackingLeftArm:Boolean = false;
 		
 		private var _headSprite:FlxSprite;
 		private var _bodySprite:FlxSprite;
 		private var _leftArmSprite:FlxSprite;
+		
+		private var _leftHand:Actor;
 		
 		public function PlayerController(layer:FlxGroup)
 		{
@@ -51,7 +54,7 @@ package actor
 			_headSprite.loadGraphic(Assets.SpriteHead, true, false, 68, 100);
 			_headSprite.addAnimation("idle", new Array(0, 0), 1, false);
 			_headSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			_headSprite.addAnimation("attack", new Array(1, 1), 1, false);
+			_headSprite.addAnimation("attackLeftArm", new Array(1, 2, 3, 2, 1, 2), 4, false);
 			_headSprite.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
 			_headSprite.addAnimation("laser", new Array(1, 3, 4), 9, false);
 			_headSprite.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
@@ -65,10 +68,11 @@ package actor
 			_leftArmSprite.loadGraphic(Assets.SpriteLeftArm, true, false, 88, 69);
 			_leftArmSprite.addAnimation("idle", new Array(1, 1), 1, false);
 			_leftArmSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			_leftArmSprite.addAnimation("attack", new Array(0, 0), 1, false);
+			_leftArmSprite.addAnimation("attackLeftArm", new Array(4, 5, 5), 2, false);
 			_leftArmSprite.addAnimation("damage", new Array(3, 3), 1, false);
 			_leftArmSprite.addAnimation("laser", new Array(0, 0), 1, false);
 			_leftArmSprite.addAnimation("laserOff", new Array(1, 1), 1, false);
+			_leftArmSprite.addAnimationCallback(leftArmAnimationCallback);
 			
 			// add sprites to the composite actor!
 			var compositeActor:CompositeActor = controlledActor as CompositeActor;
@@ -98,6 +102,9 @@ package actor
 			_laserSfx = new FlxSound();
 			_laserSfx.loadEmbedded(Assets.SfxLaser);
 			_laserSfx.volume = 0.7;
+			
+			_leftHand = new Actor(new LeftHandController(), _layer);
+			_leftHand.exists = false;
 		}
 		
 		override public function preFirstUpdate():void
@@ -107,6 +114,7 @@ package actor
 			_layer.members.splice(index + 1, 0, _laserSprite);
 			
 			//_layer.add(_laserSprite);
+			_layer.add(_leftHand);
 		}
 		
 		private var _quakeTimer:Number = 0;
@@ -117,7 +125,34 @@ package actor
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
-			if (FlxG.mouse.pressed() && !_beforeLevelStart)
+			if (!_beforeLevelStart)
+				updateAttacks();
+			
+			// some animations block the movement
+			var blockMovement:Boolean = _blockedByBuilding || _shootingLaser || _beingDamaged || _attackingLeftArm;
+			if (blockMovement)
+				stopMoving();
+			else
+			{
+				// Move forward! Viva Perón!
+				setVelocity(Constants.PERON_SPEED_X, yVelocity);
+				
+				// Earthquake effect!
+				_quakeTimer += FlxG.elapsed;
+				if (_quakeTimer > QUAKE_TIME) // this should depend on Peron's footsteps
+				{
+					_quakeTimer -= QUAKE_TIME;
+					if (!FlxG.quake.running)
+						FlxG.quake.start(0.01, 0.2);
+					FlxG.play(Assets.SfxFootstep);
+				}
+			}
+		}
+		
+		private function updateAttacks():void
+		{
+			// LASER
+			if (FlxG.mouse.pressed())
 			{
 				startLaser();
 				
@@ -148,28 +183,16 @@ package actor
 					_isLaserRecharging = false;
 				}
 			}
-			else if(FlxG.mouse.justReleased() && !_beforeLevelStart)
+			else if(FlxG.mouse.justReleased())
 			{
 				stopLaser();
 			}
 			
-			// some animations block the movement
-			if (_blockedByBuilding || _shootingLaser || _beingDamaged)
-				stopMoving();
-			else
+			// LEFT ARM
+			if (FlxG.keys.justReleased("Z"))
 			{
-				// Move forward! Viva Perón!
-				setVelocity(Constants.PERON_SPEED_X, yVelocity);
-				
-				// Earthquake effect!
-				_quakeTimer += FlxG.elapsed;
-				if (_quakeTimer > QUAKE_TIME) // this should depend on Peron's footsteps
-				{
-					_quakeTimer -= QUAKE_TIME;
-					if (!FlxG.quake.running)
-						FlxG.quake.start(0.01, 0.2);
-					FlxG.play(Assets.SfxFootstep);
-				}
+				_attackingLeftArm = true;
+				attackLeftArm();
 			}
 		}
 		
@@ -248,10 +271,10 @@ package actor
 			controlledActor.velocity.y = 0;
 		}
 		
-		private function attack():void
+		private function attackLeftArm():void
 		{
 			//trace("Started Playing attack Animation");
-			controlledActor.play("attack");
+			controlledActor.play("attackLeftArm");
 		}
 		
 		private function laser():void
@@ -288,6 +311,26 @@ package actor
 						_beingDamaged = false;
 						break;
 					}
+					case "attackLeftArm":
+					{
+						_attackingLeftArm = false;
+						break;
+					}
+				}
+			}
+		}
+		
+		private function leftArmAnimationCallback(name:String, frameNumber:uint, frameIndex:uint):void
+		{
+			switch (name)
+			{
+				case "attackLeftArm":
+				{
+					if (frameNumber == 1)
+					{
+						shootLeftHand();
+					}
+					break;
 				}
 			}
 		}
@@ -343,6 +386,16 @@ package actor
 		public function set beforeLevelStart(beforeLevelStart:Boolean):void
 		{
 			_beforeLevelStart = beforeLevelStart;
+		}
+		
+		private function shootLeftHand():void
+		{
+			_leftHand.exists = true;
+			_leftHand.x = _leftArmSprite.x + 56;
+			_leftHand.y = _leftArmSprite.y + 34;
+			_leftHand.velocity = new FlxPoint(Constants.FIST_SPEED_X, 0);
+			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY / 4);
+			_leftHand.play("launch");
 		}
 	}
 }

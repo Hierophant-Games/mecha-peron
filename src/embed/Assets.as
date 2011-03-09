@@ -38,6 +38,8 @@ package embed
 		public static var SpriteLeftArm:Class;
 		[Embed(source = "../../data/sprites/laser.png")]
 		public static var SpriteLaser:Class;
+		[Embed(source = "../../data/sprites/fist.png")]
+		public static var SpriteFist:Class;
 		[Embed(source = "../../data/sprites/hudGauge.png")]
 		public static var SpriteHUDGauge:Class;
 		
