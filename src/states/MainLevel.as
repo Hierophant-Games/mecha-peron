@@ -202,7 +202,7 @@
 		private function updateLaserCombat():void
 		{
 			var playerController:PlayerController = (_player.controller as PlayerController);
-			if (playerController.isLaserActive())
+			if (playerController.isLaserActive)
 			{
 				var i:uint;
 				// soldier buildings
@@ -245,7 +245,7 @@
 													laserRect.y + laserRect.height - plane.y);
 						playerController.setLaserClip(laserClip);
 						*/
-						var laserRect:Rectangle = playerController.getLaserRect();
+						var laserRect:Rectangle = playerController.laserRect;
 						var laserX:Number = laserRect.x
 						var laserY:Number = laserRect.y + (laserRect.height / 2);
 						

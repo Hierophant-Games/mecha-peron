@@ -38,6 +38,34 @@ package actor
 		
 		private var _leftHand:Actor;
 		
+		private var _quakeTimer:Number = 0;
+		private const QUAKE_TIME:Number = 1.5;
+		
+		public function set beforeLevelStart(beforeLevelStart:Boolean):void
+		{
+			_beforeLevelStart = beforeLevelStart;
+		}
+		
+		public function get isLaserActive():Boolean
+		{
+			return _laserSprite.active;
+		}
+		
+		public function get laserAngle():Number
+		{
+			return _laserSprite.angle;
+		}
+		
+		public function get laserRect():Rectangle
+		{
+			return new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height);
+		}
+		
+		public function set laserClip(clip:Rectangle):void
+		{
+			_laserSprite.clip = clip;
+		}
+		
 		public function PlayerController(layer:FlxGroup)
 		{
 			_layer = layer;
@@ -116,9 +144,6 @@ package actor
 			//_layer.add(_laserSprite);
 			_layer.add(_leftHand);
 		}
-		
-		private var _quakeTimer:Number = 0;
-		private const QUAKE_TIME:Number = 1.5;
 		
 		public override function update():void
 		{
@@ -343,26 +368,6 @@ package actor
 			return _laserColissionBox.collides2(poorBastard);
 		}
 		
-		public function isLaserActive():Boolean
-		{
-			return _laserSprite.active;
-		}
-		
-		public function getLaserAngle():Number
-		{
-			return _laserSprite.angle;
-		}
-		
-		public function getLaserRect():Rectangle
-		{
-			return new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height);
-		}
-		
-		public function setLaserClip(clip:Rectangle):void
-		{
-			_laserSprite.clip = clip;
-		}
-		
 		override public function onCollide(collideType:uint, contact:FlxObject):void
 		{
 			var other:Actor = contact as Actor;
@@ -381,11 +386,6 @@ package actor
 			hud.setLaserBarW(_laserCharge / Constants.LASER_MAX_CHARGE);
 			if (_isLaserRecharging > 0)
 				hud.flickerLaserBar(0.1);
-		}
-		
-		public function set beforeLevelStart(beforeLevelStart:Boolean):void
-		{
-			_beforeLevelStart = beforeLevelStart;
 		}
 		
 		private function shootLeftHand():void

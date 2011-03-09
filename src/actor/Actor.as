@@ -67,7 +67,7 @@ package actor
 				super.kill();
 		}
 		
-		public override function hurt(Damage:Number):void
+		override public function hurt(Damage:Number):void
 		{
 			if(_controller.onHurt(Damage))
 				super.hurt(Damage);
