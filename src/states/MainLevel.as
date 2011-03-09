@@ -192,11 +192,11 @@
 			//146, 147
 			//236, 120
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle), x + 48, 135 - 17, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle), x + 48, 135 - 15, _layerFront);
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle), x + 146, 147 - 17, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle), x + 146, 147 - 15, _layerFront);
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle), x + 236, 120 - 17, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle), x + 236, 120 - 15, _layerFront);
 		}
 		
 		private function updateLaserCombat():void
