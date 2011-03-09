@@ -48,7 +48,12 @@ package actor
 					FlxG.quake.stop();
 				}
 			}
-			else if (FlxG.keys.justPressed("Z"))
+		}
+		
+		override public function onCollide(collideType:uint, contact:FlxObject):void
+		{
+			var other:Actor = contact as Actor;
+			if (other && other.controller is LeftHandController)
 			{
 				collapse();
 			}
@@ -103,16 +108,19 @@ package actor
 		
 		private function collapse():void
 		{
-			_collapsing = true;
-			FlxG.quake.start(0.01, 10); // lots of seconds
-			controlledActor.velocity.y = 20;
-			for each (var soldier:Actor in _soldiers) 
+			if (!_collapsing)
 			{
-				soldier.velocity.y = 20;
-				soldier.hurt(soldier.health);
+				_collapsing = true;
+				FlxG.quake.start(0.01, 10); // lots of seconds
+				controlledActor.velocity.y = 20;
+				for each (var soldier:Actor in _soldiers) 
+				{
+					soldier.velocity.y = 20;
+					soldier.hurt(soldier.health);
+				}
+				startSmokeEmitter(0, controlledActor.width / 2);
+				startSmokeEmitter(controlledActor.width / 2, controlledActor.width / 2);
 			}
-			startSmokeEmitter(0, controlledActor.width / 2);
-			startSmokeEmitter(controlledActor.width / 2, controlledActor.width / 2);
 		}
 		
 		private var _smokeEmitters:Vector.<FlxEmitter> = new Vector.<FlxEmitter>();

@@ -27,7 +27,8 @@ package actor
 		
 		override public function update():void
 		{
-			
+			if (!controlledActor.onScreen())
+				controlledActor.kill();
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
