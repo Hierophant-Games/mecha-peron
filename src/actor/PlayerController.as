@@ -51,7 +51,7 @@ package actor
 			_headSprite.loadGraphic(Assets.SpriteHead, true, false, 68, 100);
 			_headSprite.addAnimation("idle", new Array(0, 0), 1, false);
 			_headSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			_headSprite.addAnimation("attack", new Array(1), 1, false);
+			_headSprite.addAnimation("attack", new Array(1, 1), 1, false);
 			_headSprite.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
 			_headSprite.addAnimation("laser", new Array(1, 3, 4), 9, false);
 			_headSprite.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
@@ -66,7 +66,7 @@ package actor
 			_leftArmSprite.addAnimation("idle", new Array(1, 1), 1, false);
 			_leftArmSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
 			_leftArmSprite.addAnimation("attack", new Array(0, 0), 1, false);
-			_leftArmSprite.addAnimation("damage", new Array(3), 1, false);
+			_leftArmSprite.addAnimation("damage", new Array(3, 3), 1, false);
 			_leftArmSprite.addAnimation("laser", new Array(0, 0), 1, false);
 			_leftArmSprite.addAnimation("laserOff", new Array(1, 1), 1, false);
 			
