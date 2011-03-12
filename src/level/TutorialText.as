@@ -1,6 +1,7 @@
 package level 
 {
 	import embed.Assets;
+	import game.Configuration;
 	import org.flixel.*;
 	
 	/**
@@ -63,7 +64,7 @@ package level
 		{
 			if (_currentString.length > 0)
 			{
-				FlxG.play(Assets.SfxConsoleBlip, 0.5);
+				FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 				
 				_text.text += _currentString.charAt();
 				_currentString = _currentString.slice(1);
@@ -78,7 +79,7 @@ package level
 					_text.text = _text.text.slice(0, _text.text.length - 1);
 				else
 				{
-					FlxG.play(Assets.SfxConsoleBlip, 0.5);
+					FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 					_text.text += "_";
 				}
 				_cursorToggle = !_cursorToggle;

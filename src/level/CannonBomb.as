@@ -2,8 +2,8 @@ package level
 {
 	import actor.*;
 	import embed.Assets;
+	import game.*;
 	import org.flixel.*;
-	import game.Constants;
 	
 	/**
 	 * ...
@@ -37,7 +37,7 @@ package level
 				_sprExplosion.x -= _sprExplosion.frameWidth / 2;
 				_sprExplosion.y -= _sprExplosion.frameHeight / 2;
 				_layer.add(_sprExplosion);
-				FlxG.play(Assets.SfxExplosion);
+				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 				
 				kill();
 				

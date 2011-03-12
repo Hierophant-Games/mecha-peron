@@ -2,10 +2,9 @@ package actor
 {
 	import collision.RotatedRectangle;
 	import embed.Assets;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+	import flash.geom.*;
+	import game.*;
 	import level.HUD;
-	import game.Constants;
 	import org.flixel.*;
 	
 	/**
@@ -127,7 +126,7 @@ package actor
 			
 			_laserSfx = new FlxSound();
 			_laserSfx.loadEmbedded(Assets.SfxLaser);
-			_laserSfx.volume = 0.7;
+			_laserSfx.volume = Configuration.soundVolume;
 			
 			_leftHand = new Actor(new LeftHandController(), _layer);
 			_leftHand.exists = false;
@@ -167,7 +166,7 @@ package actor
 					_quakeTimer -= QUAKE_TIME;
 					if (!FlxG.quake.running)
 						FlxG.quake.start(0.01, 0.2);
-					FlxG.play(Assets.SfxFootstep);
+					FlxG.play(Assets.SfxFootstep, Configuration.soundVolume);
 				}
 			}
 		}
