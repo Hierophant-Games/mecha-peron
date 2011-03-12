@@ -1,6 +1,7 @@
 package actor 
 {
 	import level.CannonBomb;
+	import level.LifeBar;
 	import org.flixel.*;
 	import embed.Assets;
 	import flash.geom.Point;
@@ -15,6 +16,8 @@ package actor
 		private var _layer:FlxGroup;
 		
 		private var _visibleTimer:Number;
+		
+		private var _lifeBar:LifeBar;
 		
 		public function CannonController(player:Actor, layer:FlxGroup) 
 		{
@@ -34,6 +37,12 @@ package actor
 			controlledActor.addAnimation("topShoot", new Array(5, 5));
 			
 			controlledActor.fixed = true;
+		}
+		
+		override public function preFirstUpdate():void
+		{
+			_lifeBar = new LifeBar(20, 2);
+			controlledActor.layer.add(_lifeBar, true);
 		}
 		
 		override public function update():void
@@ -83,20 +92,24 @@ package actor
 				_visibleTimer = 0;
 				
 				// Randomize target y
-				var randomY:Number = FlxU.random() * (_player.height / 4);
+				var randomY:Number = 0;//FlxU.random() * (_player.height / 4);
 				var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
 
 				var bomb:CannonBomb = new CannonBomb(_layer, screenX, screenY);
 				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
 				
 				var speed:Point = new Point(targetPos.x - screenX, targetPos.y - screenY);
-				speed.normalize(1);
+				speed.normalize(1);			
 				
 				bomb.velocity.x = speed.x * Constants.CANNON_BOMB_SPEED;
 				bomb.velocity.y = speed.y * Constants.CANNON_BOMB_SPEED;
 				
 				_layer.add(bomb, true);
 			}
+			
+			_lifeBar.x = controlledActor.x;
+			_lifeBar.y = controlledActor.y - _lifeBar.height;
+			_lifeBar.updateLife(controlledActor.health);
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
@@ -106,6 +119,7 @@ package actor
 		
 		override public function onKill():Boolean
 		{
+			controlledActor.layer.remove(_lifeBar);
 			return true;
 		}
 	}

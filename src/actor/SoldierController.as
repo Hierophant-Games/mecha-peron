@@ -3,6 +3,7 @@ package actor
 	import flash.geom.Point;
 	import game.Constants;
 	import level.Bullet;
+	import level.LifeBar;
 	import org.flixel.*;
 	import embed.Assets;
 	
@@ -14,6 +15,8 @@ package actor
 	{
 		private var _player:Actor;
 		private var _layer:FlxGroup;
+		
+		private var _lifeBar:LifeBar;
 		
 		public function SoldierController(player:Actor, layer:FlxGroup) 
 		{
@@ -32,6 +35,12 @@ package actor
 			controlledActor.fixed = true;
 		}
 		
+		override public function preFirstUpdate():void
+		{
+			_lifeBar = new LifeBar(10, 2);
+			controlledActor.layer.add(_lifeBar, true);
+		}
+		
 		override public function update():void
 		{
 			// only shoot if the actor is on the screen
@@ -39,6 +48,10 @@ package actor
 			{
 				aim();
 			}
+			
+			_lifeBar.x = controlledActor.x;
+			_lifeBar.y = controlledActor.y - _lifeBar.height;
+			_lifeBar.updateLife(controlledActor.health);
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
@@ -110,6 +123,12 @@ package actor
 					break;
 				}
 			}
+		}
+		
+		override public function onKill():Boolean
+		{
+			controlledActor.layer.remove(_lifeBar);
+			return true;
 		}
 	}
 }

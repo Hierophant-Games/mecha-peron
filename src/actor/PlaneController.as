@@ -3,6 +3,7 @@ package actor
 	import embed.Assets;
 	import flash.geom.Point;
 	import game.Constants;
+	import level.LifeBar;
 	import level.PlaneBomb;
 	import org.flixel.*;
 	
@@ -32,6 +33,8 @@ package actor
 		private var _falling:Boolean = false;
 		
 		private var _warningSign:FlxText;
+		
+		private var _lifeBar:LifeBar;
 		
 		public function PlaneController(player:Actor, layer:FlxGroup) 
 		{
@@ -64,7 +67,10 @@ package actor
 			
 			_warningSign = new FlxText(0, 0, FlxG.width, "WARNING ->");
 			_warningSign.setFormat(null, 8, 0xffff00, "right", 0xff0000);
-			_layer.add(_warningSign, false);
+			controlledActor.layer.add(_warningSign, false);
+			
+			_lifeBar = new LifeBar(20, 2);
+			controlledActor.layer.add(_lifeBar, true);
 		}
 		
 		override public function update():void
@@ -95,8 +101,12 @@ package actor
 				
 				dropBombs();
 				
-				controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
+				//controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
 			}
+			
+			_lifeBar.x = controlledActor.x;
+			_lifeBar.y = controlledActor.y - _lifeBar.height;
+			_lifeBar.updateLife(controlledActor.health);
 			
 			if (_emitSparks)
 			{
@@ -251,6 +261,9 @@ package actor
 				
 			if (_sparkEmitter)
 				_sparkEmitter.stop();
+				
+			controlledActor.layer.remove(_warningSign);
+			controlledActor.layer.remove(_lifeBar);
 				
 			return true;
 		}

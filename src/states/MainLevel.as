@@ -81,6 +81,7 @@
 			_player = new CompositeActor(new PlayerController(_layerActionMiddle), _layerActionMiddle);
 			_player.x = -_player.width;
 			_player.y = FlxG.height - 222;
+			_player.health = 100;
 			
 			_followBeacon = new FlxObject(_player.x + FOLLOW_OFFSET, _player.y);
 			FlxG.followBounds(0, 0, 100000, FlxG.height);
@@ -108,10 +109,10 @@
 		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):void
 		{
 			var theActor:Actor = new Actor(actorController, layer, x, y);
+			theActor.health = 100;
 			
 			if ((actorController as PlaneController) != null)
 			{
-				theActor.health = Constants.PLANE_MAX_HEALTH;
 				_planes.push(theActor);
 			}
 			else if ((actorController as CannonController) != null)

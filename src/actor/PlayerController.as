@@ -73,8 +73,6 @@ package actor
 		
 		public override function init():void
 		{
-			controlledActor.health = Constants.PERON_MAX_HEALTH;
-			
 			controlledActor.fixed = true;
 			
 			// load the head!
@@ -379,8 +377,8 @@ package actor
 		
 		public function updateHUD(hud:HUD):void
 		{
-			hud.setLifeBarW(controlledActor.health / Constants.PERON_MAX_HEALTH);
-			if(controlledActor.health < Constants.PERON_MAX_HEALTH / 3)
+			hud.setLifeBarW(controlledActor.health / 100);
+			if(controlledActor.health < 100 / 3)
 				hud.flickerLifeBar(0.1);
 			
 			hud.setLaserBarW(_laserCharge / Constants.LASER_MAX_CHARGE);

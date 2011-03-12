@@ -3,6 +3,7 @@ package actor
 	import org.flixel.*;
 	import embed.Assets;
 	import org.flixel.data.FlxAnim;
+	import level.LifeBar;
 
 	/**
 	 * ...
@@ -16,6 +17,8 @@ package actor
 		private var _soldierCount:int;
 		private var _soldierPositions:Vector.<FlxPoint> = new Vector.<FlxPoint>();
 		private var _soldiers:Vector.<Actor> = new Vector.<Actor>();
+		
+		private var _lifeBar:LifeBar;
 		
 		public function get soldiers():Vector.<Actor>
 		{
@@ -39,6 +42,9 @@ package actor
 		override public function preFirstUpdate():void
 		{
 			initSoldiers();
+			
+			_lifeBar = new LifeBar(40, 5);
+			controlledActor.layer.add(_lifeBar, true);
 		}
 		
 		override public function update():void
@@ -51,6 +57,10 @@ package actor
 					FlxG.quake.stop();
 				}
 			}
+			
+			_lifeBar.x = controlledActor.x;
+			_lifeBar.y = controlledActor.y - _lifeBar.height;
+			_lifeBar.updateLife(controlledActor.health);
 		}
 		
 		override public function onCollide(collideType:uint, contact:FlxObject):void
@@ -70,7 +80,7 @@ package actor
 				
 				var soldier:Actor = new Actor(new SoldierController(_player, _layer), 
 					controlledActor.layer, randomPos.x, randomPos.y);
-				soldier.health = 1;
+				soldier.health = 100;
 				
 				controlledActor.layer.add(soldier, true);
 				_soldiers.push(soldier);
@@ -163,6 +173,8 @@ package actor
 			{
 				controlledActor.layer.remove(soldier);
 			}
+			
+			controlledActor.layer.remove(_lifeBar);
 			
 			return true;
 		}
