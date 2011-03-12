@@ -4,6 +4,7 @@
 	import flash.geom.Rectangle;
 	import actor.*;
 	import embed.Assets;
+	import game.Configuration;
 	import level.HUD;
 	import level.ParallaxLayer;
 	import game.Constants;
@@ -74,6 +75,8 @@
 			
 			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
 			FlxG.mouse.show();
+			
+			FlxG.music.stop();
 		}
 		
 		private function initPlayer():void
@@ -100,7 +103,7 @@
 			// random number of soldiers between 4 and 12
 			addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);
 			
-			FlxG.playMusic(Assets.MusicTheme, 0.5);
+			FlxG.playMusic(Assets.MusicTheme, Configuration.musicVolume);
 			
 			_levelStarted = true;
 			(_player.controller as PlayerController).beforeLevelStart = false;

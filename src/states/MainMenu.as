@@ -1,6 +1,7 @@
 package states 
 {
 	import embed.Assets;
+	import game.Configuration;
 	import menu.*;
 	import org.flixel.*;
 	
@@ -10,13 +11,11 @@ package states
 	 */
 	public class MainMenu extends MenuBase
 	{
-		private var _gameNameText:FlxText;
-		
 		override public function create():void
 		{
-			_gameNameText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
-			_gameNameText.setFormat(null, 16);
-			add(_gameNameText);
+			var gameNameText:FlxText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
+			gameNameText.setFormat(null, 16);
+			add(gameNameText);
 			
 			initMenuEntries();
 			
@@ -43,16 +42,19 @@ package states
 		private function onPlay():void
 		{
 			Game.setState(new MainLevel());
+			FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 		}
 		
 		private function onOptions():void
 		{
-			trace("options");
+			Game.setState(new Options());
+			FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 		}
 		
 		private function onHelp():void
 		{
 			Game.setState(new Help());
+			FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 		}
 	}
 }

@@ -13,6 +13,11 @@ package menu
 		private var _selectedMenuEntry:int = 0;
 		private var _enabled:Boolean = true;
 		
+		public function get menuEnabled():Boolean
+		{
+			return _enabled;
+		}
+		
 		override public function destroy():void 
 		{
 			// reset the menu entry stuff
@@ -91,11 +96,6 @@ package menu
 		public function disableMenu():void 
 		{
 			toggleEnabled(false);
-		}
-		
-		public function get menuEnabled():Boolean
-		{
-			return _enabled;
 		}
 	}
 }

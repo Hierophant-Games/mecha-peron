@@ -1,5 +1,7 @@
 package states 
 {
+	import embed.Assets;
+	import game.Configuration;
 	import menu.*;
 	import org.flixel.*;
 	/**
@@ -12,6 +14,10 @@ package states
 		{
 			bgColor = 0xff000000;
 			
+			var gameNameText:FlxText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
+			gameNameText.setFormat(null, 16);
+			add(gameNameText);
+			
 			var text:String = new String();
 			text = Game.Strings.languageXML.Help.Help1;
 			text += "\n\n"
@@ -19,7 +25,7 @@ package states
 			text += "\n\n"
 			text += Game.Strings.languageXML.Help.Help3;
 			
-			add(new FlxText(20, 20, FlxG.width - 40, text));
+			add(new FlxText(20, 80, FlxG.width - 40, text));
 			
 			addMenuEntry(new MenuEntry(0, FlxG.height - 20, onBack, new FlxText(0, 0,FlxG.width - 10, Game.Strings.languageXML.Menu.Back).setFormat(null, 8, 0xffffff, "right")));
 		}
@@ -27,6 +33,7 @@ package states
 		private function onBack():void
 		{
 			Game.goToPreviousState();
+			FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 		}
 	}
 }

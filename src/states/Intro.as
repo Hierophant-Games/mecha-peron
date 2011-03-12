@@ -1,6 +1,7 @@
 package states 
 {
 	import embed.Assets;
+	import game.Configuration;
 	import org.flixel.*;
 	
 	/**
@@ -33,7 +34,7 @@ package states
 			_notText.setFormat(null, 16, 0xffffff, "center");
 			_notText.y = FlxG.height - _notText.height - 10;
 			
-			FlxG.playMusic(Assets.LosMuchachos8Bit);
+			FlxG.playMusic(Assets.LosMuchachos8Bit, Configuration.musicVolume);
 		}
 		
 		override public function update():void
