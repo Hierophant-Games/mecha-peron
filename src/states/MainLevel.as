@@ -143,6 +143,8 @@
 			if (FlxG.keys.justPressed("THREE"))	_layerMiddle.visible = !_layerMiddle.visible;
 			if (FlxG.keys.justPressed("FOUR")) 	_layerBack.visible = !_layerBack.visible;
 			
+			if (FlxG.keys.justPressed("ESCAPE")) Game.goToPreviousState();
+			
 			if (!_levelStarted)
 			{
 				if (_playingTutorial)
