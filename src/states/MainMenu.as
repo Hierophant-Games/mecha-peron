@@ -13,6 +13,8 @@ package states
 	{
 		override public function create():void
 		{
+			bgColor = 0xff000000;
+			
 			var gameNameText:FlxText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
 			gameNameText.setFormat(null, 16);
 			add(gameNameText);
