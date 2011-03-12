@@ -257,7 +257,8 @@ package actor
 		
 		override public function onHurt(Damage:Number):Boolean
 		{
-			if (!_shootingLaser)
+			var attacking:Boolean = _shootingLaser || _attackingLeftArm;
+			if (!attacking)
 			{
 				damage();
 				_beingDamaged = true;
