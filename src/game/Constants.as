@@ -11,7 +11,7 @@ package game
 		// Peron
 		public static const PERON_SPEED_X:Number = 30;
 		public static const LASER_PLANE_DAMAGE:Number = 2;
-		public static const LASER_SOLDIER_DAMAGE:Number = 2.5;
+		public static const LASER_SOLDIER_DAMAGE:Number = 5;
 		public static const LASER_MAX_CHARGE:Number = 5000;
 		public static const LASER_CHARGE_STEP:Number = 10; // how much charge the laser consumes and reloads each frame
 		public static const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
