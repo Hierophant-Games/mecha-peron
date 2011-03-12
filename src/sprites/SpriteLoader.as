@@ -18,8 +18,6 @@ package sprites
 			var width:uint = new uint(xml.graphic.@width);
 			var height:uint = new uint(xml.graphic.@height);
 			
-			trace(animated, reverse, width, height);
-			
 			sprite.loadGraphic(GraphicAsset, animated, reverse, width, height);
 			
 			var xmlAnims:XMLList = xml.animations.elements("animation");

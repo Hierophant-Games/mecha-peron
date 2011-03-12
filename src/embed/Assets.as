@@ -70,6 +70,8 @@ package embed
 		public static var XMLSpriteHead:Class;
 		[Embed(source = "../../data/sprites/leftArm.xml", mimeType = "application/octet-stream")]
 		public static var XMLSpriteLeftArm:Class;
+		[Embed(source = "../../data/sprites/laser.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteLaser:Class;
 		
 		// embedded sounds and music
 		

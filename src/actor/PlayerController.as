@@ -94,13 +94,11 @@ package actor
 			compositeActor.width = _headSprite.width;
 			compositeActor.height = 222;
 			
-			_laserSprite = new FlxSprite();
+			_laserSprite = new SpriteLoader().load(Assets.XMLSpriteLaser, Assets.SpriteLaser);
 			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
 			_laserSprite.origin = new FlxPoint(0, _laserSprite.height);
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
-			
-			_laserSprite.addAnimation("default", new Array(0, 1, 2, 3, 4), 30, false);
 			
 			_laserColissionBox = new RotatedRectangle(
 									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 

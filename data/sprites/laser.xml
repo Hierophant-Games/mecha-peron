@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<graphic animated="true" reverse="false" width="320" height="8" />
+	<animations>
+		<animation name="default" frames="0, 1, 2, 3, 4" frameRate="30" loop="false" />
+	</animations>
+</data>
