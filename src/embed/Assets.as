@@ -64,6 +64,13 @@ package embed
 		[Embed(source = "../../data/sprites/cursor.png")]
 		public static var SpriteCursor:Class;
 		
+		// embedded sprites definition
+		
+		[Embed(source = "../../data/sprites/head.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteHead:Class;
+		[Embed(source = "../../data/sprites/leftArm.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteLeftArm:Class;
+		
 		// embedded sounds and music
 		
 		[Embed(source = "../../data/sfx/console_blip.mp3")]

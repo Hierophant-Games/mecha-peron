@@ -6,6 +6,7 @@ package actor
 	import game.*;
 	import level.HUD;
 	import org.flixel.*;
+	import sprites.SpriteLoader;
 	
 	/**
 	 * PlayerController.
@@ -75,28 +76,14 @@ package actor
 			controlledActor.fixed = true;
 			
 			// load the head!
-			_headSprite = new FlxSprite();
-			_headSprite.loadGraphic(Assets.SpriteHead, true, false, 68, 100);
-			_headSprite.addAnimation("idle", new Array(0, 0), 1, false);
-			_headSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			_headSprite.addAnimation("attackLeftArm", new Array(1, 2, 3, 2, 1, 2), 4, false);
-			_headSprite.addAnimation("damage", new Array(1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0), 16, false);
-			_headSprite.addAnimation("laser", new Array(1, 3, 4), 9, false);
-			_headSprite.addAnimation("laserOff", new Array(4, 3, 1), 9, false);
+			_headSprite = new SpriteLoader().load(Assets.XMLSpriteHead, Assets.SpriteHead);
 			_headSprite.addAnimationCallback(headAnimationCallback);
 			
 			// load the body sprite... no animations
 			_bodySprite = new FlxSprite(0, 0, Assets.SpriteBody);
 			
 			// load the left arm sprite...
-			_leftArmSprite = new FlxSprite();
-			_leftArmSprite.loadGraphic(Assets.SpriteLeftArm, true, false, 88, 69);
-			_leftArmSprite.addAnimation("idle", new Array(1, 1), 1, false);
-			_leftArmSprite.addAnimation("walk", new Array(0, 1, 2, 1), 5, true);
-			_leftArmSprite.addAnimation("attackLeftArm", new Array(4, 5, 5), 2, false);
-			_leftArmSprite.addAnimation("damage", new Array(3, 3), 1, false);
-			_leftArmSprite.addAnimation("laser", new Array(0, 0), 1, false);
-			_leftArmSprite.addAnimation("laserOff", new Array(1, 1), 1, false);
+			_leftArmSprite = new SpriteLoader().load(Assets.XMLSpriteLeftArm, Assets.SpriteLeftArm);
 			_leftArmSprite.addAnimationCallback(leftArmAnimationCallback);
 			
 			// add sprites to the composite actor!
