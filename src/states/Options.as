@@ -88,17 +88,20 @@ package states
 		
 		private function saveMusicVolume(volume:Number):void
 		{
-			Configuration.musicVolume = volume;
 			FlxG.music.volume = volume;
+			Configuration.musicVolume = volume;
+			
 		}
 		
 		private function saveSoundVolume(volume:Number):void
 		{
+			FlxG.play(Assets.SfxConsoleBlip, volume);
 			Configuration.soundVolume = volume;
 		}
 		
 		private function loadConfig():void
 		{
+			Configuration.load();
 			updateBar(_musicBar, _musicSlide, Configuration.musicVolume);
 			updateBar(_soundBar, _soundSlide, Configuration.soundVolume);
 		}
@@ -110,6 +113,8 @@ package states
 		
 		private function onBack():void
 		{
+			// save here... too slow to do it as the slider goes
+			Configuration.save();
 			Game.goToPreviousState();
 			FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
 		}
