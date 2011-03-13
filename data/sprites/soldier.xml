@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<graphic animated="true" reverse="false" width="18" height="9" />
+	<animations>
+		<animation name="Shoot" frames="3, 4, 5, 2" frameRate="8" loop="false" />
+		<animation name="Reload" frames="2, 1, 0" frameRate="6" loop="false" />
+		<animation name="Aim" frames="1, 2" frameRate="4" loop="false" />
+		<animation name="Die" frames="6" frameRate="1" loop="false" />
+	</animations>
+</data>

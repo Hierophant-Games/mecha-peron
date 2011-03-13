@@ -65,6 +65,8 @@ package actor
 		
 		override public function onCollide(collideType:uint, contact:FlxObject):void
 		{
+			if (!controlledActor.onScreen()) return;
+			
 			var other:Actor = contact as Actor;
 			if (other && other.controller is LeftHandController)
 			{

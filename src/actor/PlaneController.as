@@ -90,8 +90,7 @@ package actor
 				_smokeEmitter.x = controlledActor.x;			
 				_smokeEmitter.y = controlledActor.y;
 			}
-			
-			if (!_falling)
+			else
 			{
 				_accum += SIN_FACTOR;
 				if (_accum > 2 * Math.PI)
@@ -110,7 +109,7 @@ package actor
 			
 			if (_emitSparks)
 			{
-				_sparkEmitter.x = controlledActor.x + controlledActor.width / 4;			
+				_sparkEmitter.x = controlledActor.x + controlledActor.width / 4;
 				_sparkEmitter.y = controlledActor.y + controlledActor.height / 2;
 				
 				if (!_sparkEmitter.on)

@@ -6,6 +6,7 @@ package actor
 	import embed.Assets;
 	import flash.geom.Point;
 	import game.Constants;
+	import sprites.SpriteLoader;
 	/**
 	 * ...
 	 * @author 
@@ -27,15 +28,7 @@ package actor
 		
 		override public function init():void
 		{
-			controlledActor.loadGraphic(Assets.SpriteCannon, true, false, 19, 23);
-			
-			controlledActor.addAnimation("leftIdle", new Array(0, 0));
-			controlledActor.addAnimation("leftShoot", new Array(1, 1));
-			controlledActor.addAnimation("topLeftIdle", new Array(2, 2));
-			controlledActor.addAnimation("topLeftShoot", new Array(3, 3));
-			controlledActor.addAnimation("topIdle", new Array(4, 4));
-			controlledActor.addAnimation("topShoot", new Array(5, 5));
-			
+			new SpriteLoader().loadIntoSprite(controlledActor, Assets.XMLSpriteCannon, Assets.SpriteCannon);
 			controlledActor.fixed = true;
 		}
 		
