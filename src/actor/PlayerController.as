@@ -17,9 +17,7 @@ package actor
 	{
 		private var _layer:FlxGroup;
 		
-		private var _laserSprite:FlxSprite;
-		private var _laserColissionBox:RotatedRectangle;
-		
+		private var _laser:CompositeActor;
 		private var _laserCharge:Number;
 		private var _isLaserRecharging:Boolean;
 		private var _laserRechargeTimer:Number;
@@ -49,22 +47,22 @@ package actor
 		
 		public function get isLaserActive():Boolean
 		{
-			return _laserSprite.active;
+			return _laser.active;
 		}
 		
 		public function get laserAngle():Number
 		{
-			return _laserSprite.angle;
+			return _laser.angle;
 		}
 		
-		public function get laserRect():Rectangle
+		public function get laserXY():FlxPoint
 		{
-			return new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height);
+			return new FlxPoint(_laser.x, _laser.y);
 		}
 		
 		public function set laserClip(clip:Rectangle):void
 		{
-			_laserSprite.clip = clip;
+			_laser.clip = clip;
 		}
 		
 		public function PlayerController(layer:FlxGroup)
@@ -95,17 +93,9 @@ package actor
 			compositeActor.width = _headSprite.width;
 			compositeActor.height = 222;
 			
-			_laserSprite = new SpriteLoader().load(Assets.XMLSpriteLaser, Assets.SpriteLaser);
-			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
-			_laserSprite.origin = new FlxPoint(0, _laserSprite.height);
-			_laserSprite.visible = false;
-			_laserSprite.active = false;
-			
-			_laserColissionBox = new RotatedRectangle(
-									new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height), 
-									_laserSprite.angle, 
-									new Point(_laserSprite.origin.x, _laserSprite.origin.y));
-			
+			_laser = new CompositeActor(new LaserController(controlledActor), _layer);
+			_laser.visible = false;
+			_laser.active = false;
 			_laserCharge = Constants.LASER_MAX_CHARGE;
 			_isLaserRecharging = false;
 			_laserRechargeTimer = 0;
@@ -121,11 +111,7 @@ package actor
 		
 		override public function preFirstUpdate():void
 		{
-			// Do this to add other objects right after this one in the layer group members array
-			var index:int = _layer.members.indexOf(controlledActor);
-			_layer.members.splice(index + 1, 0, _laserSprite);
-			
-			//_layer.add(_laserSprite);
+			_layer.add(_laser);
 			_layer.add(_leftHand);
 		}
 		
@@ -221,32 +207,31 @@ package actor
 			
 			_laserSfx.play();
 			
-			_laserSprite.x = controlledActor.x + controlledActor.width;
-			_laserSprite.y = controlledActor.y + 40;
+			_laser.x = controlledActor.x + controlledActor.width + 7;
+			_laser.y = controlledActor.y + 37;
 			
-			var angle:Number = Math.atan2(FlxG.mouse.y - (_laserSprite.y + _laserSprite.height), FlxG.mouse.x - _laserSprite.x);
+			var angle:Number = Math.atan2(FlxG.mouse.y - (_laser.y + _laser.height), FlxG.mouse.x - _laser.x);
 			angle *= 180 / Math.PI;
 			
 			if (angle > 30) angle = 30;
 			else if (angle < -10) angle = -10;
 			
 			if(FlxG.mouse.justPressed())
-				_laserSprite.play("default");
+				_laser.play("default", true);
 			
-			_laserSprite.visible = true;
-			_laserSprite.active = true;
-			_laserSprite.angle = angle;
+			_laser.visible = true;
+			_laser.active = true;
+			(_laser.controller as LaserController).angle = angle;
 		}
 		
 		private function stopLaser():void
 		{
 			laserOff();
-			_laserSprite.visible = false;
-			_laserSprite.active = false;
+			_laser.visible = false;
+			_laser.active = false;
 			_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
 
 			_laserSfx.stop();
-			_laserSprite.frame = 0;
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
@@ -354,10 +339,7 @@ package actor
 		
 		public function checkLaserHit(poorBastard:FlxObject):Boolean
 		{
-			_laserColissionBox.rect = new Rectangle(_laserSprite.x, _laserSprite.y, _laserSprite.width, _laserSprite.height);
-			_laserColissionBox.angle = _laserSprite.angle;
-			_laserColissionBox.origin = new Point(_laserSprite.origin.x, _laserSprite.origin.y);
-			return _laserColissionBox.collides2(poorBastard);
+			return (_laser.controller as LaserController).checkLaserHit(poorBastard);
 		}
 		
 		override public function onCollide(collideType:uint, contact:FlxObject):void

@@ -6,7 +6,7 @@
 		<animation name="walk" frames="0, 1, 2, 1" frameRate="5" loop="true" />
 		<animation name="attackLeftArm" frames="1, 2, 3, 2, 1, 2" frameRate="4" loop="false" />
 		<animation name="damage" frames="1, 2, 3, 4, 3, 2, 1, 2, 3, 2, 1, 2, 3, 2, 1, 0" frameRate="16" loop="false" />
-		<animation name="laser" frames="1, 3, 4" frameRate="9" loop="false" />
-		<animation name="laserOff" frames="4, 3, 1" frameRate="9" loop="false" />
+		<animation name="laser" frames="1, 5, 6" frameRate="9" loop="false" />
+		<animation name="laserOff" frames="5, 6, 1" frameRate="9" loop="false" />
 	</animations>
 </data>
