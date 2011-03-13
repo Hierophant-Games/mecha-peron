@@ -11,6 +11,12 @@ package sprites
 		public function load(DefAsset:Class, GraphicAsset:Class):FlxSprite
 		{
 			var sprite:FlxSprite = new FlxSprite();
+			loadIntoSprite(sprite, DefAsset, GraphicAsset);
+			return sprite;
+		}
+		
+		public function loadIntoSprite(sprite:FlxSprite, DefAsset:Class, GraphicAsset:Class):void
+		{
 			var xml:XML = XML(new DefAsset() as Object); // weird cast stuff to make it work
 			
 			var animated:Boolean = readBoolean(xml.graphic.@animated);
@@ -30,8 +36,6 @@ package sprites
 				
 				sprite.addAnimation(name, frames, frameRate, loop);
 			}
-			
-			return sprite;
 		}
 		
 		private function readBoolean(string:String):Boolean

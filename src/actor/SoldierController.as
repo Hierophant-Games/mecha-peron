@@ -6,6 +6,7 @@ package actor
 	import level.LifeBar;
 	import org.flixel.*;
 	import embed.Assets;
+	import sprites.SpriteLoader;
 	
 	/**
 	 * ...
@@ -26,11 +27,7 @@ package actor
 		
 		override public function init():void 
 		{
-			controlledActor.loadGraphic(Assets.SpriteSoldier, true, false, 18, 9, false);
-			controlledActor.addAnimation("Shoot", new Array(3, 4, 5, 2), 8, false);
-			controlledActor.addAnimation("Reload", new  Array(2, 1, 0), 6, false);
-			controlledActor.addAnimation("Aim", new Array(1, 2), 4, false);
-			controlledActor.addAnimation("Die", new Array(6, 6), 1, false);
+			new SpriteLoader().loadIntoSprite(controlledActor, Assets.XMLSpriteSoldier, Assets.SpriteSoldier);
 			controlledActor.addAnimationCallback(soldierAnimCallback);
 			controlledActor.fixed = true;
 		}
