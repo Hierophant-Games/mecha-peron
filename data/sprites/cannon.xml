@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<graphic animated="true" reverse="false" width="19" height="23" />
+	<animations>
+		<animation name="leftIdle" frames="0" />
+		<animation name="leftShoot" frames="1" />
+		<animation name="topLeftIdle" frames="2" />
+		<animation name="topLeftShoot" frames="3" />
+		<animation name="topIdle" frames="4" />
+		<animation name="topShoot" frames="5" />
+	</animations>
+</data>
