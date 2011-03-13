@@ -96,9 +96,9 @@
 		
 		private function initLevel():void
 		{
-			addActor(new PlaneController(_player, _layerActionMiddle), 400, 20, _layerActionFront);
-			addActor(new PlaneController(_player, _layerActionMiddle), 1000, 40, _layerActionFront);
-			addActor(new PlaneController(_player, _layerActionMiddle), 1500, 30, _layerActionFront);
+			addActor(new PlaneController(_player, _layerActionMiddle), 400, 20, _layerActionMiddle);
+			addActor(new PlaneController(_player, _layerActionMiddle), 1000, 40, _layerActionMiddle);
+			addActor(new PlaneController(_player, _layerActionMiddle), 1500, 30, _layerActionMiddle);
 			
 			// random number of soldiers between 4 and 12
 			addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);

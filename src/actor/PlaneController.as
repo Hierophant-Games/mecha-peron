@@ -6,6 +6,7 @@ package actor
 	import level.LifeBar;
 	import level.PlaneBomb;
 	import org.flixel.*;
+	import sprites.SpriteLoader;
 	
 	/**
 	 * ...
@@ -154,6 +155,10 @@ package actor
 				_falling = true;
 				
 				_smokeEmitter.start(false);
+				
+				// create explosion
+				var explosion:Actor = new Actor(new ExplosionController(), _layer, controlledActor.x, controlledActor.y);
+				_layer.add(explosion);
 			}
 			
 			return false;
@@ -266,6 +271,5 @@ package actor
 				
 			return true;
 		}
-
 	}
 }

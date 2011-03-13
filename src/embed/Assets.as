@@ -78,6 +78,8 @@ package embed
 		public static var XMLSpriteSoldier:Class;
 		[Embed(source = "../../data/sprites/cannon.xml", mimeType = "application/octet-stream")]
 		public static var XMLSpriteCannon:Class;
+		[Embed(source = "../../data/sprites/explosion.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteExplosion:Class;
 		
 		// embedded sounds and music
 		

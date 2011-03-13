@@ -92,11 +92,10 @@ package actor
 			compositeActor.addSprite(_leftArmSprite, new FlxPoint(75, 88));
 			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
 			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
-			compositeActor.width = _headSprite.width;
+			compositeActor.width = 16 + _headSprite.width;
 			compositeActor.height = 222;
 			
 			_laserSprite = new SpriteLoader().load(Assets.XMLSpriteLaser, Assets.SpriteLaser);
-			_laserSprite.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
 			_laserSprite.origin = new FlxPoint(0, _laserSprite.height);
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
@@ -243,10 +242,10 @@ package actor
 			laserOff();
 			_laserSprite.visible = false;
 			_laserSprite.active = false;
+			_laserSprite.frame = 0;
 			_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
 
 			_laserSfx.stop();
-			_laserSprite.frame = 0;
 		}
 		
 		override public function onHurt(Damage:Number):Boolean

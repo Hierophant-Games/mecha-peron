@@ -4,6 +4,7 @@ package level
 	import embed.Assets;
 	import game.*;
 	import org.flixel.*;
+	import sprites.SpriteLoader;
 	
 	/**
 	 * ...
@@ -27,16 +28,10 @@ package level
 			var other:Actor = Contact as Actor;
 			if (other && other.controller is PlayerController)
 			{
-				_sprExplosion = new FlxSprite(x, y);
-				_sprExplosion.solid = false;
-				_sprExplosion.loadGraphic(Assets.SpriteExplosion, true, false, 50, 50);
-				_sprExplosion.addAnimation("explode", new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 24, false);
-				_sprExplosion.addAnimationCallback(exploAnimCallback);
-				_sprExplosion.play("explode");
-				// adjust position
-				_sprExplosion.x -= _sprExplosion.frameWidth / 2;
-				_sprExplosion.y -= _sprExplosion.frameHeight / 2;
-				_layer.add(_sprExplosion);
+				// create explosion
+				var explosion:Actor = new Actor(new ExplosionController(), _layer, x, y);
+				_layer.add(explosion);
+				
 				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 				
 				kill();
