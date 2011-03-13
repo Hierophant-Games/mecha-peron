@@ -305,6 +305,11 @@ package org.flixel
 			resetHelpers();
 		}
 		
+		public function get framePixels():BitmapData
+		{
+			return _framePixels;
+		}
+		
 		/**
 		 * Resets some important variables for sprite optimization and rendering.
 		 */

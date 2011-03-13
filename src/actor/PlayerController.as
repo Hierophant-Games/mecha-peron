@@ -37,6 +37,7 @@ package actor
 		private var _leftArmSprite:FlxSprite;
 		
 		private var _leftHand:Actor;
+		private var _fistTimer:Number;
 		
 		private var _quakeTimer:Number = 0;
 		private const QUAKE_TIME:Number = 1.5;
@@ -115,6 +116,7 @@ package actor
 			
 			_leftHand = new Actor(new LeftHandController(), _layer);
 			_leftHand.exists = false;
+			_fistTimer = 0;
 		}
 		
 		override public function preFirstUpdate():void
@@ -196,10 +198,17 @@ package actor
 			}
 			
 			// LEFT ARM
-			if (FlxG.keys.justReleased("Z"))
+			if (_fistTimer > 0)
+			{
+				_fistTimer -= FlxG.elapsed;
+				if (_fistTimer < 0)
+					_fistTimer = 0;
+			}
+			else if (FlxG.keys.justReleased("Z"))
 			{
 				_attackingLeftArm = true;
 				attackLeftArm();
+				_fistTimer = Constants.FIST_RELOAD_TIME;
 			}
 		}
 		
@@ -369,6 +378,8 @@ package actor
 			hud.setLaserBarW(_laserCharge / Constants.LASER_MAX_CHARGE);
 			if (_isLaserRecharging > 0)
 				hud.flickerLaserBar(0.1);
+			
+			hud.setFistW(1 - (_fistTimer / Constants.FIST_RELOAD_TIME));
 		}
 		
 		private function shootLeftHand():void

@@ -1,6 +1,9 @@
 package level 
 {
 	import embed.Assets;
+	import flash.display.BitmapData;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -32,6 +35,9 @@ package level
 		private const LASER_FILL_H:Number = LASER_BAR_H - BAR_FILL_YOFF * 2;
 		
 		private var _distanceText:FlxText;
+		
+		private var _fist:FlxSprite;
+		private var _fistPixels:BitmapData;
 		
 		public function HUD()
 		{
@@ -67,6 +73,17 @@ package level
 			_distanceText = new FlxText(FlxG.width - 110, 10, 100);
 			_distanceText.setFormat(null, 8, 0xffffff, "right", 0xff000000);
 			add(_distanceText, true);
+			
+			// Flying fist
+			_fist = new FlxSprite();
+			_fist.solid = false;
+			_fist.loadGraphic(Assets.SpriteFistMini, false, false, 23, 21);
+			_fist.x = LIFE_BAR_X - (_fist.width) - 2;
+			_fist.y = LIFE_BAR_Y;
+			add(_fist, true);
+		
+			_fistPixels = new BitmapData(_fist.width, _fist.height);
+			_fistPixels.copyPixels(_fist.framePixels, new Rectangle(0, 0, _fist.width, _fist.height), new Point(0, 0));
 		}
 		
 		public function setLifeBarW(widthProp:Number):void
@@ -95,6 +112,16 @@ package level
 		{
 			//trace("Distance " + distance);
 			_distanceText.text = distance + " km";
+		}
+		
+		public function setFistW(widthProp:Number):void
+		{
+			_fist.framePixels.copyPixels(_fistPixels, new Rectangle(0, 0, _fist.width, _fist.height), new Point(0, 0));
+			
+			var alphaPixels:BitmapData = new BitmapData(_fist.width, _fist.height, true, 0x00000000);
+			var srcRect:Rectangle = new Rectangle(0, 0, alphaPixels.width, alphaPixels.height);
+			var destPoint:Point = new Point(_fist.width * widthProp, 0);
+			_fist.framePixels.copyPixels(alphaPixels, srcRect, destPoint, null, null, false);
 		}
 	}
 }

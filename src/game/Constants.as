@@ -16,6 +16,7 @@ package game
 		public static const LASER_CHARGE_STEP:Number = 10; // how much charge the laser consumes and reloads each frame
 		public static const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
 		public static const FIST_SPEED_X:Number = 200;
+		public static const FIST_RELOAD_TIME:Number = 15.0; // seconds
 		
 		// Plane
 		public static const PLANE_SPEED_X:Number = -150;
