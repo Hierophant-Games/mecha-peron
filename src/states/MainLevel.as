@@ -1,14 +1,10 @@
 ﻿package states 
 {
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	import actor.*;
 	import embed.Assets;
 	import game.Configuration;
-	import level.HUD;
-	import level.ParallaxLayer;
 	import game.Constants;
-	import level.TutorialText;
+	import level.*;
 	import org.flixel.*;
 	
 	/**
@@ -44,6 +40,8 @@
 		private var _levelStarted:Boolean = false;
 		private var _playingTutorial:Boolean = false;
 		
+		private var _aiDirector:AIDirector;
+		
 		override public function create():void
 		{
 			bgColor = 0xffd3a9a9;
@@ -60,7 +58,6 @@
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
 			initPlayer();
-			//initLevel();
 			
 			_layerFront.add(_hud);
 			
@@ -73,16 +70,19 @@
 			
 			_previousDistance = _player.x;
 			
-			FlxG.mouse.load(Assets.SpriteCrosshair, 5, 5);
-			FlxG.mouse.show();
+			_aiDirector = new AIDirector(this);
 			
+			// load cursor
+			FlxG.mouse.show(Assets.SpriteCrosshair, 5, 5);
+			
+			// stop music from the menu
 			FlxG.music.stop();
 		}
 		
 		private function initPlayer():void
 		{
 			_player = new CompositeActor(new PlayerController(_layerActionMiddle), _layerActionMiddle);
-			_player.x = -_player.width;
+			_player.x = -160;
 			_player.y = FlxG.height - 222;
 			_player.health = 100;
 			
@@ -143,7 +143,11 @@
 			if (FlxG.keys.justPressed("THREE"))	_layerMiddle.visible = !_layerMiddle.visible;
 			if (FlxG.keys.justPressed("FOUR")) 	_layerBack.visible = !_layerBack.visible;
 			
-			if (FlxG.keys.justPressed("ESCAPE")) Game.goToPreviousState();
+			if (FlxG.keys.justPressed("ESCAPE"))
+			{
+				FlxG.music.stop();
+				Game.goToPreviousState();
+			}
 			
 			if (!_levelStarted)
 			{
@@ -166,6 +170,8 @@
 				_robotVoices[_robotVoiceIndex].play();
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
+			
+			_aiDirector.update();
 			
 			updateLaserCombat();
 			

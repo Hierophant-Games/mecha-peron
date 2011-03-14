@@ -21,7 +21,7 @@ package states
 			
 			initMenuEntries();
 			
-			FlxG.mouse.load(Assets.SpriteCursor);
+			FlxG.mouse.show(Assets.SpriteCursor);
 		}
 		
 		override public function destroy():void 
