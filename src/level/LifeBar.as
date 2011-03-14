@@ -13,6 +13,9 @@ package level
 		
 		private var _life:Number;
 		
+		private const FADE_TIME:Number = 0.4;
+		private var _fadeTimer:Number = 0;
+		
 		public function LifeBar(width:Number, height:Number) 
 		{
 			_width = width;
@@ -20,15 +23,30 @@ package level
 			
 			solid = false;
 			createGraphic(width, height);
+			
+			visible = false; // start hidden
 		}
 		
 		public function updateLife(life:Number):void
 		{
 			if (life == _life) // life is the same
 			{
-				visible = false;
+				if (!dead)
+				{
+					_fadeTimer = FADE_TIME;
+					dead = true;
+				}
+				else
+				{
+					_fadeTimer -= FlxG.elapsed;
+					alpha = _fadeTimer / FADE_TIME;
+					if (_fadeTimer < 0)
+						visible = false;
+				}
 				return;
 			}
+			alpha = 1;
+			dead = false;
 			visible = true;
 			_life = life;
 			
