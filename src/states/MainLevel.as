@@ -251,9 +251,9 @@
 													laserRect.y + laserRect.height - plane.y);
 						playerController.setLaserClip(laserClip);
 						*/
-						var laserRect:Rectangle = playerController.laserRect;
-						var laserX:Number = laserRect.x
-						var laserY:Number = laserRect.y + (laserRect.height / 2);
+						var laserXY:FlxPoint = playerController.laserXY;
+						var laserX:Number = laserXY.x;
+						var laserY:Number = laserXY.y;
 						
 						(plane.controller as PlaneController).setSparksDirection(
 								laserX, 
