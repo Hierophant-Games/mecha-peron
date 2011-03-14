@@ -366,9 +366,7 @@ package actor
 		
 		private function shootLeftHand():void
 		{
-			_leftHand.exists = true;
-			_leftHand.x = _leftArmSprite.x + 56;
-			_leftHand.y = _leftArmSprite.y + 34;
+			_leftHand.reset(_leftArmSprite.x + 56, _leftArmSprite.y + 34);
 			_leftHand.velocity = new FlxPoint(Constants.FIST_SPEED_X, 0);
 			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY / 4);
 			_leftHand.play("launch");

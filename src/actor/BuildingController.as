@@ -70,6 +70,7 @@ package actor
 			var other:Actor = contact as Actor;
 			if (other && other.controller is LeftHandController)
 			{
+				other.kill();
 				collapse();
 			}
 		}

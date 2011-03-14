@@ -28,12 +28,24 @@ package actor
 		override public function update():void
 		{
 			if (!controlledActor.onScreen())
-				controlledActor.kill();
+			{
+				controlledActor.exists = false;
+			}
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
 		{
 			return false;
+		}
+		
+		override public function onKill():Boolean 
+		{
+			controlledActor.layer.add(new Actor(new ExplosionController(),
+				controlledActor.layer,
+				controlledActor.x + controlledActor.width,
+				controlledActor.y + controlledActor.height / 2));
+			
+			return true;
 		}
 		
 		private function animationCallback(name:String, frameNumber:uint, frameIndex:uint):void
