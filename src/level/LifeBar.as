@@ -11,6 +11,8 @@ package level
 		private var _width:Number;
 		private var _height:Number;
 		
+		private var _life:Number;
+		
 		public function LifeBar(width:Number, height:Number) 
 		{
 			_width = width;
@@ -22,6 +24,14 @@ package level
 		
 		public function updateLife(life:Number):void
 		{
+			if (life == _life) // life is the same
+			{
+				visible = false;
+				return;
+			}
+			visible = true;
+			_life = life;
+			
 			if (life <= 0)
 			{
 				fill(0);

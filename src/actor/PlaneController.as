@@ -104,7 +104,7 @@ package actor
 				//controlledActor.color = 0x00ffffff - ((1 - (controlledActor.health / 100)) * 0x0000ffff);
 			}
 			
-			_lifeBar.x = controlledActor.x;
+			_lifeBar.x = controlledActor.x + controlledActor.width / 2 - _lifeBar.width / 2;
 			_lifeBar.y = controlledActor.y - _lifeBar.height;
 			_lifeBar.updateLife(controlledActor.health);
 			
@@ -157,8 +157,9 @@ package actor
 				_smokeEmitter.start(false);
 				
 				// create explosion
-				var explosion:Actor = new Actor(new ExplosionController(), _layer, controlledActor.x, controlledActor.y);
-				_layer.add(explosion);
+				_layer.add(new Actor(new ExplosionController(), _layer,
+					controlledActor.x,
+					controlledActor.y + controlledActor.height / 2));
 			}
 			
 			return false;
