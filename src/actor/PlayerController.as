@@ -2,6 +2,7 @@ package actor
 {
 	import collision.RotatedRectangle;
 	import embed.Assets;
+	import flash.display.Sprite;
 	import flash.geom.*;
 	import game.*;
 	import level.HUD;
@@ -33,6 +34,7 @@ package actor
 		private var _headSprite:FlxSprite;
 		private var _bodySprite:FlxSprite;
 		private var _leftArmSprite:FlxSprite;
+		private var _rightArmSprite:FlxSprite;
 		
 		private var _leftHand:Actor;
 		private var _fistTimer:Number;
@@ -85,11 +87,15 @@ package actor
 			_leftArmSprite = new SpriteLoader().load(Assets.XMLSpriteLeftArm, Assets.SpriteLeftArm);
 			_leftArmSprite.addAnimationCallback(leftArmAnimationCallback);
 			
+			// load the right arm sprite...
+			_rightArmSprite = new SpriteLoader().load(Assets.XMLSpriteRightArm, Assets.SpriteRightArm);
+			
 			// add sprites to the composite actor!
 			var compositeActor:CompositeActor = controlledActor as CompositeActor;
 			compositeActor.addSprite(_leftArmSprite, new FlxPoint(75, 88));
 			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
 			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
+			compositeActor.addSprite(_rightArmSprite, new FlxPoint(11, 88));
 			compositeActor.width = _headSprite.width;
 			compositeActor.height = 222;
 			

@@ -36,6 +36,8 @@ package embed
 		public static var SpriteHead:Class;
 		[Embed(source = "../../data/sprites/leftArm.png")]
 		public static var SpriteLeftArm:Class;
+		[Embed(source = "../../data/sprites/rightArm.png")]
+		public static var SpriteRightArm:Class;
 		[Embed(source = "../../data/sprites/laser.png")]
 		public static var SpriteLaser:Class;
 		[Embed(source = "../../data/sprites/fist.png")]
@@ -72,6 +74,8 @@ package embed
 		public static var XMLSpriteHead:Class;
 		[Embed(source = "../../data/sprites/leftArm.xml", mimeType = "application/octet-stream")]
 		public static var XMLSpriteLeftArm:Class;
+		[Embed(source = "../../data/sprites/rightArm.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteRightArm:Class;
 		[Embed(source = "../../data/sprites/laser.xml", mimeType = "application/octet-stream")]
 		public static var XMLSpriteLaser:Class;
 		[Embed(source = "../../data/sprites/soldier.xml", mimeType = "application/octet-stream")]
