@@ -1,5 +1,6 @@
 package  
 {
+	import game.Configuration;
 	import org.flixel.*;
 	import states.Logo;
 	import strings.GameStrings;
@@ -18,6 +19,7 @@ package
 		{
 			super(320, 240, Logo, 2);
 			
+			Configuration.load();
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
 		}
 		
