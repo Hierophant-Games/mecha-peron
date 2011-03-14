@@ -41,14 +41,12 @@ package actor
 		override public function init():void
 		{			
 			_laserR = new SpriteLoader().load(Assets.XMLSpriteLaser, Assets.SpriteLaser);
-			_laserR.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
 			_laserR.origin = new FlxPoint(0, _laserR.height / 2);
 			_laserRBox = new RotatedRectangle(new Rectangle(), 0);
 			
 			(controlledActor as CompositeActor).addSprite(_laserR, new FlxPoint(0, 0));
 			
 			_laserL = new SpriteLoader().load(Assets.XMLSpriteLaser, Assets.SpriteLaser);
-			_laserL.loadGraphic(Assets.SpriteLaser, true, false, 320, 8);
 			_laserL.origin = new FlxPoint(0, _laserL.height / 2);
 			_laserLBox = new RotatedRectangle(new Rectangle(), 0);
 			
