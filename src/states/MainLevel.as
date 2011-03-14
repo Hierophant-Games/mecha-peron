@@ -70,7 +70,7 @@
 			
 			_previousDistance = _player.x;
 			
-			_aiDirector = new AIDirector(this);
+			_aiDirector = new AIDirector(this, spawnPlane, spawnBuilding);
 			
 			// load cursor
 			FlxG.mouse.show(Assets.SpriteCrosshair, 5, 5);
@@ -96,12 +96,12 @@
 		
 		private function initLevel():void
 		{
-			addActor(new PlaneController(_player, _layerActionMiddle), 400, 20, _layerActionMiddle);
-			addActor(new PlaneController(_player, _layerActionMiddle), 1000, 40, _layerActionMiddle);
-			addActor(new PlaneController(_player, _layerActionMiddle), 1500, 30, _layerActionMiddle);
+			//addActor(new PlaneController(_player, _layerActionMiddle), 400, 20, _layerActionMiddle);
+			//addActor(new PlaneController(_player, _layerActionMiddle), 1000, 40, _layerActionMiddle);
+			//addActor(new PlaneController(_player, _layerActionMiddle), 1500, 30, _layerActionMiddle);
 			
 			// random number of soldiers between 4 and 12
-			addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);
+			//addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);
 			
 			FlxG.playMusic(Assets.MusicTheme, Configuration.musicVolume);
 			
@@ -171,7 +171,8 @@
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
 			
-			_aiDirector.update();
+			if (_levelStarted)
+				_aiDirector.update();
 			
 			updateLaserCombat();
 			
@@ -195,6 +196,17 @@
 			// update beacon (?)
 			_followBeacon.x = _player.x + FOLLOW_OFFSET;
 			_followBeacon.y = _player.y;
+		}
+		
+		private function spawnBuilding():void
+		{
+			addActor(new BuildingController(_player, _layerActionMiddle), _player.x + FlxG.width, 40, _layerActionBack);
+		}
+		
+		private function spawnPlane():void // callback
+		{
+			var y:Number = 20 + FlxU.random() * 40;
+			addActor(new PlaneController(_player, _layerActionFront), _player.x + FlxG.width * 2, y, _layerActionFront);
 		}
 		
 		private function spawnCannons(x:Number):void // Callback
