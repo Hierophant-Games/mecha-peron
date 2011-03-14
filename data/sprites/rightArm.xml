@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
-	<graphic animated="true" reverse="false" width="88" height="69" />
+	<graphic animated="true" reverse="false" width="97" height="68" />
 	<animations>
 		<animation name="idle" frames="1" frameRate="1" loop="false" />
-		<animation name="walk" frames="0, 1, 2, 1" frameRate="5" loop="true" />
-		<animation name="attackLeftArm" frames="4, 5, 5" frameRate="2" loop="false" />
+		<animation name="walk" frames="2, 1, 0, 1" frameRate="5" loop="true" />
 		<animation name="damage" frames="3" frameRate="1" loop="false" />
 		<animation name="laser" frames="0" frameRate="1" loop="false" />
 		<animation name="laserOff" frames="1" frameRate="1" loop="false" />
