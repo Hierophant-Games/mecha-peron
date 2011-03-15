@@ -197,7 +197,7 @@
 			}*/
 			
 			if (_levelStarted)
-				_aiDirector.update();
+				_aiDirector.update(_player.x);
 			
 			updateLaserCombat();
 			
@@ -240,6 +240,7 @@
 			//48, 135
 			//146, 147
 			//236, 120
+			return; // disabling them until we have the proper attack to kill them
 			if(FlxU.random() * 100 > 70)
 				addActor(new CannonController(_player, _layerActionMiddle), x + 48, 135 - 15, _layerFront);
 			if(FlxU.random() * 100 > 70)

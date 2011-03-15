@@ -16,16 +16,16 @@ package level
 		private const DIFFICULTY_LEVEL_COUNT:uint = 4;
 		
 		// times to switch difficulty level
-		private var _timeThresholds:Array = new Array(15, 30, 60);
+		private var _timeThresholds:Array = new Array(30, 60, 90);
 		
 		// planes!
-		private var _timesBetweenPlanes:Array = new Array(4, 3, 2, 1);
+		private var _timesBetweenPlanes:Array = new Array(6, 5, 3, 1);
 		private var _lastPlaneTime:Number = 0;
 		private var _planeSpawnFunction:Function;
 		
 		// buildings!
-		private var _timesBetweenBuildings:Array = new Array(10, 8, 6, 4);
-		private var _lastBuildingTime:Number = 0;
+		private var _posBetweenBuildings:Array = new Array(500, 400, 300, 200);
+		private var _lastBuildingPos:Number = 0;
 		private var _buildingSpawnFunction:Function;
 		
 		public function AIDirector(level:FlxState, planeSpawnFunction:Function, buildingSpawnFunction:Function)
@@ -35,7 +35,7 @@ package level
 			_buildingSpawnFunction = buildingSpawnFunction;
 		}
 		
-		public function update():void
+		public function update(x:Number):void
 		{
 			_levelTime += FlxG.elapsed;
 			
@@ -52,15 +52,17 @@ package level
 				}
 			}
 			
+			// planes
 			if ((_levelTime - _lastPlaneTime) > _timesBetweenPlanes[_difficultyLevel])
 			{
 				_lastPlaneTime = _levelTime;
 				_planeSpawnFunction();
 			}
 			
-			if ((_levelTime - _lastBuildingTime) > _timesBetweenBuildings[_difficultyLevel])
+			// buildings
+			if ((x - _lastBuildingPos) > _posBetweenBuildings[_difficultyLevel])
 			{
-				_lastBuildingTime = _levelTime;
+				_lastBuildingPos = x;
 				_buildingSpawnFunction();
 			}
 		}
