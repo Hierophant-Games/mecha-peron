@@ -12,7 +12,6 @@ package level
 	 */
 	public class PlaneBomb extends FlxSprite
 	{
-		private var _sprExplosion:FlxSprite;
 		private var _layer:FlxGroup;
 		
 		public function PlaneBomb(layer:FlxGroup, X:Number, Y:Number) 

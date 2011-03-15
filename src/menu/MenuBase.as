@@ -73,7 +73,7 @@ package menu
 		 * Add a menu entry to the menu, ready to use!
 		 * @param	menuEntry
 		 */
-		protected function addMenuEntry(menuEntry:MenuEntry):void
+		public function addMenuEntry(menuEntry:MenuEntry):void
 		{
 			_menuEntries.push(menuEntry);
 			add(menuEntry);

@@ -123,6 +123,15 @@ package actor
 		
 		public override function update():void
 		{
+			if (controlledActor.dead)
+			{
+				if (controlledActor.y < FlxG.height * 0.75)
+					generateDeadExplosions();
+				else
+					FlxG.quake.stop();
+				
+				return;
+			}
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
@@ -242,6 +251,15 @@ package actor
 		
 		override public function onHurt(Damage:Number):Boolean
 		{
+			if ((controlledActor.health -= Damage) <= 0)
+			{
+				FlxG.quake.start(0.01, 100);
+				setVelocity(0, 6);
+				controlledActor.dead = true;
+				controlledActor.play("damage", true);
+				return false;
+			}
+			
 			var attacking:Boolean = _shootingLaser || _attackingLeftArm;
 			if (!attacking)
 			{
@@ -249,7 +267,7 @@ package actor
 				_beingDamaged = true;
 			}
 			
-			return true;
+			return false;
 		}
 		
 		private function setVelocity(x:Number, y:Number):void
@@ -376,6 +394,29 @@ package actor
 			_leftHand.velocity = new FlxPoint(Constants.FIST_SPEED_X, 0);
 			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY / 4);
 			_leftHand.play("launch");
+		}
+		
+		private const EXPLOSIONS_DELAY:Number = 0.8;
+		private var _explosionsTimer:Number = EXPLOSIONS_DELAY;
+		private function generateDeadExplosions():void
+		{
+			if ((_explosionsTimer -= FlxG.elapsed) <= 0)
+			{
+				_explosionsTimer = EXPLOSIONS_DELAY;
+				
+				var randomY:Number = controlledActor.y + (FlxU.random() * (controlledActor.height / 2));
+				var randomX:Number = controlledActor.x + (FlxU.random() * controlledActor.width);
+				
+				var explosion:Actor = new Actor(new ExplosionController(), _layer, randomX, randomY);
+				_layer.add(explosion);
+				
+				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
+			}
+		}
+		
+		override public function onKill():Boolean
+		{
+			return true;
 		}
 	}
 }

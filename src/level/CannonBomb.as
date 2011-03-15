@@ -12,7 +12,6 @@ package level
 	 */
 	public class CannonBomb extends FlxSprite
 	{
-		private var _sprExplosion:FlxSprite;
 		private var _layer:FlxGroup;
 		
 		public function CannonBomb(layer:FlxGroup, X:Number, Y:Number) 
@@ -37,14 +36,6 @@ package level
 				kill();
 				
 				other.hurt(Constants.CANNON_BOMB_DAMAGE);
-			}
-		}
-		
-		private function exploAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void
-		{
-			if (frameIndex == 12)
-			{
-				_sprExplosion.kill();
 			}
 		}
 	}

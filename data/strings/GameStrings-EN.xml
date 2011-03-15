@@ -31,4 +31,9 @@
 		<CrushArm>Crushing arm ready...........</CrushArm>
 		<ClickToContinue>Click to continue</ClickToContinue>
 	</Game>
+	<GameOver>
+		<ScoreLine>Your path of destruction ends at:</ScoreLine>
+		<TryAgain>Try again</TryAgain>
+		<MainMenu>Go to main menu</MainMenu>
+	</GameOver>
 </language>

@@ -56,6 +56,9 @@ package actor
 				_visibleTimer += FlxG.elapsed;
 			else
 				_visibleTimer = 0;
+				
+			if (_player.dead)
+				return;
 
 			var readyToShoot:Boolean = _visibleTimer > Constants.CANNON_ATTACK_DELAY - 1.0;
 			if(screenX > FlxG.width - (FlxG.width / 3))

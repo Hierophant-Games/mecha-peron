@@ -85,6 +85,9 @@ package actor
 		
 		private function shoot():void
 		{
+			if (_player.dead)
+				return;
+			
 			controlledActor.play("Shoot");
 			
 			var originScreenPos:Point = new Point(controlledActor.getScreenXY().x, controlledActor.getScreenXY().y);

@@ -167,7 +167,7 @@ package actor
 		
 		private function dropBombs():void
 		{
-			if (_bombDropped) return;
+			if (_bombDropped || _player.dead) return;
 			
 			var actorScreenPos:FlxPoint = controlledActor.getScreenXY();
 			var originPos:Point = new Point(actorScreenPos.x + controlledActor.width / 2, actorScreenPos.y + controlledActor.height / 2);

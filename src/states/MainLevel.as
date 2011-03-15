@@ -5,6 +5,7 @@
 	import game.Configuration;
 	import game.Constants;
 	import level.*;
+	import level.GameOverScreen;
 	import org.flixel.*;
 	
 	/**
@@ -39,8 +40,11 @@
 		
 		private var _levelStarted:Boolean = false;
 		private var _playingTutorial:Boolean = false;
+		private var _gameOver:Boolean = false;
 		
-		private var _aiDirector:AIDirector;
+		private var _gameOverScreen:GameOverScreen;		
+		
+		private var _aiDirector:AIDirector;		
 		
 		override public function create():void
 		{
@@ -60,6 +64,7 @@
 			initPlayer();
 			
 			_layerFront.add(_hud);
+			_hud.visible = false;
 			
 			add(_layerBack);
 			add(_layerMiddle);
@@ -68,15 +73,13 @@
 			add(_layerActionFront);
 			add(_layerFront);
 			
-			_previousDistance = _player.x;
-			
 			_aiDirector = new AIDirector(this, spawnPlane, spawnBuilding);
 			
 			// load cursor
 			FlxG.mouse.show(Assets.SpriteCrosshair, 5, 5);
 			
 			// stop music from the menu
-			FlxG.music.stop();
+			//FlxG.music.stop();
 		}
 		
 		private function initPlayer():void
@@ -84,7 +87,7 @@
 			_player = new CompositeActor(new PlayerController(_layerActionMiddle), _layerActionMiddle);
 			_player.x = -160;
 			_player.y = FlxG.height - 222;
-			_player.health = 100;
+			_player.health = 15;
 			
 			_followBeacon = new FlxObject(_player.x + FOLLOW_OFFSET, _player.y);
 			FlxG.followBounds(0, 0, 100000, FlxG.height);
@@ -103,10 +106,12 @@
 			// random number of soldiers between 4 and 12
 			//addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);
 			
-			FlxG.playMusic(Assets.MusicTheme, Configuration.musicVolume);
+			//FlxG.playMusic(Assets.MusicTheme, Configuration.musicVolume);
 			
 			_levelStarted = true;
 			(_player.controller as PlayerController).beforeLevelStart = false;
+			_hud.visible = true;
+			_previousDistance = _player.x; // Start traveled distance count here
 		}
 		
 		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):void
@@ -162,6 +167,26 @@
 				}
 			}
 			
+			if (_gameOver)
+			{
+				_gameOverScreen.update();
+				super.update();
+				
+				return;
+			}
+			
+			if (_player.dead)
+			{
+				var score:Number = _distanceTraveled / 70;
+				_gameOverScreen = new GameOverScreen(score.toFixed(1) + " km");				
+				_gameOver = true;
+				_gameOverScreen.start();
+				add(_gameOverScreen);
+				
+				FlxG.followLerp = 0; // Avoid involuntary camera movement
+				return;
+			}
+			
 			// Voice effect!
 			/*_robotVoiceTimer += FlxG.elapsed;
 			if (_robotVoiceTimer > 5)
@@ -183,7 +208,7 @@
 			// HUD
 			var playerController:PlayerController = (_player.controller as PlayerController);
 			playerController.updateHUD(_hud);
-			
+
 			_distanceTraveled += _player.x - _previousDistance;
 			_previousDistance = _player.x;
 			
