@@ -21,9 +21,10 @@ package actor
 		private var _laser:CompositeActor;
 		private var _laserCharge:Number;
 		private var _isLaserRecharging:Boolean;
-		private var _laserRechargeTimer:Number;
+		private var _laserRechargeTimer:Number = 0;
 		
 		private var _laserSfx:FlxSound;
+		private var _laserDepletedSfx:FlxSound;
 		
 		private var _beforeLevelStart:Boolean = false;
 		private var _shootingLaser:Boolean = false;
@@ -110,6 +111,10 @@ package actor
 			_laserSfx.loadEmbedded(Assets.SfxLaser);
 			_laserSfx.volume = Configuration.soundVolume;
 			
+			_laserDepletedSfx = new FlxSound();
+			_laserDepletedSfx.loadEmbedded(Assets.SfxDepletedLaser);
+			_laserDepletedSfx.volume = Configuration.soundVolume;
+			
 			_leftHand = new Actor(new LeftHandController(), _layer);
 			_leftHand.exists = false;
 			_fistTimer = 0;
@@ -132,6 +137,7 @@ package actor
 				
 				return;
 			}
+			
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
@@ -174,6 +180,8 @@ package actor
 				{
 					stopLaser();
 					FlxG.mouse.reset();
+					_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
+					_laserDepletedSfx.play();
 				}
 			}
 			else if (_laserRechargeTimer > 0)
@@ -181,7 +189,10 @@ package actor
 				_laserRechargeTimer -= FlxG.elapsed;
 				
 				if (_laserRechargeTimer <= 0)
+				{
+					_laserRechargeTimer = 0;
 					_isLaserRecharging = true;
+				}
 			}
 			else if (_isLaserRecharging)
 			{
@@ -196,6 +207,7 @@ package actor
 			else if(FlxG.mouse.justReleased())
 			{
 				stopLaser();
+				_isLaserRecharging = true;
 			}
 			
 			// LEFT ARM
@@ -244,7 +256,6 @@ package actor
 			laserOff();
 			_laser.visible = false;
 			_laser.active = false;
-			_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
 
 			_laserSfx.stop();
 		}

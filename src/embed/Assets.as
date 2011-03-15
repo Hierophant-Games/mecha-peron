@@ -98,6 +98,8 @@ package embed
 		public static var SfxTerceraPosicion:Class;
 		[Embed(source = "../../data/sfx/laser.mp3")]
 		public static var SfxLaser:Class;
+		[Embed(source = "../../data/sfx/depleted_laser.mp3")]
+		public static var SfxDepletedLaser:Class;
 		
 		[Embed(source = "../../data/sfx/explosion.mp3")]
 		public static var SfxExplosion:Class;
