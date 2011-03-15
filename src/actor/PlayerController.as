@@ -27,10 +27,14 @@ package actor
 		private var _laserDepletedSfx:FlxSound;
 		
 		private var _beforeLevelStart:Boolean = false;
-		private var _shootingLaser:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
-		private var _beingDamaged:Boolean = false;
-		private var _attackingLeftArm:Boolean = false;
+		
+		private const ACTION_WALKING:uint = 0;
+		private const ACTION_SHOOTING_LASER:uint = 1;
+		private const ACTION_ATTACKING_LEFT_ARM:uint = 2;
+		private const ACTION_ATTACKING_RIGHT_ARM:uint = 3;
+		private const ACTION_BEING_DAMAGED:uint = 4;
+		private var _currentAction:uint = ACTION_WALKING;
 		
 		private var _headSprite:FlxSprite;
 		private var _bodySprite:FlxSprite;
@@ -145,8 +149,7 @@ package actor
 				updateAttacks();
 			
 			// some animations block the movement
-			var blockMovement:Boolean = _blockedByBuilding || _shootingLaser || _beingDamaged || _attackingLeftArm;
-			if (blockMovement)
+			if (_blockedByBuilding || _currentAction != ACTION_WALKING)
 				stopMoving();
 			else
 			{
@@ -219,9 +222,8 @@ package actor
 			}
 			else if (FlxG.keys.justReleased("Z"))
 			{
-				_attackingLeftArm = true;
+				_currentAction = ACTION_ATTACKING_LEFT_ARM;
 				attackLeftArm();
-				_fistTimer = Constants.FIST_RELOAD_TIME;
 			}
 		}
 		
@@ -229,8 +231,7 @@ package actor
 		{
 			laser();
 			
-			_beingDamaged = false;
-			_shootingLaser = true;
+			_currentAction = ACTION_SHOOTING_LASER;
 			
 			_laserSfx.play();
 			
@@ -271,11 +272,10 @@ package actor
 				return false;
 			}
 			
-			var attacking:Boolean = _shootingLaser || _attackingLeftArm;
-			if (!attacking)
+			if (_currentAction == ACTION_WALKING)
 			{
 				damage();
-				_beingDamaged = true;
+				_currentAction = ACTION_BEING_DAMAGED;
 			}
 			
 			return false;
@@ -332,18 +332,10 @@ package actor
 				switch (name) // you can switch with strings in AS 3.0, so why wouldn't I do that?!
 				{
 					case "laserOff":
-					{
-						_shootingLaser = false;
-						break;
-					}
 					case "damage":
-					{
-						_beingDamaged = false;
-						break;
-					}
 					case "attackLeftArm":
 					{
-						_attackingLeftArm = false;
+						_currentAction = ACTION_WALKING;
 						break;
 					}
 				}
@@ -394,6 +386,8 @@ package actor
 		
 		private function shootLeftHand():void
 		{
+			_fistTimer = Constants.FIST_RELOAD_TIME;
+			
 			_leftHand.reset(_leftArmSprite.x + 56, _leftArmSprite.y);
 			_leftHand.velocity = new FlxPoint(Constants.FIST_SPEED_X, 0);
 			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY * 0.25);
