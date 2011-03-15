@@ -3,7 +3,7 @@
 	<Intro>Hierophant Games</Intro>
 	<GameName>The Rise and Fall of Mecha-Perón</GameName>
 	<Menu>
-		<Play>Viva Perón!</Play>
+		<Play>Viva Mecha-Perón!</Play>
 		<Options>Configure</Options>
 		<Help>What the f*** is this all about?</Help>
 		<Back>Go back</Back>
@@ -26,9 +26,9 @@
 		<MechaPeron>MECHA-PERON INITIALIZING</MechaPeron>
 		<LineBreak>-------------------------------</LineBreak>
 		<Preparing>Preparing weaponry...........</Preparing>
-		<AimReady>Aiming system ready.........</AimReady>
-		<FlyingArm>Flying arm missile ready....</FlyingArm>
-		<CrushArm>Crushing arm ready...........</CrushArm>
+		<AimReady>Laser eye aiming system ready.........USE MOUSE TO CONTROL</AimReady>
+		<FlyingArm>Flying arm missile ready......PRESS Z TO DEPLOY</FlyingArm>
+		<CrushArm>Crushing arm not ready yet...........EXPECT UPDATE</CrushArm>
 		<ClickToContinue>Click to continue</ClickToContinue>
 	</Game>
 	<GameOver>
