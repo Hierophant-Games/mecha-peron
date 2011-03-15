@@ -22,11 +22,13 @@ package level
 		private var _timesBetweenPlanes:Array = new Array(6, 5, 4, 3);
 		private var _lastPlaneTime:Number = 0;
 		private var _planeSpawnFunction:Function;
+		private const PLANE_RANDOM_TWEAK:Number = 0.5; // seconds of randomness
 		
 		// buildings!
 		private var _posBetweenBuildings:Array = new Array(500, 400, 300, 200);
 		private var _lastBuildingPos:Number = 0;
 		private var _buildingSpawnFunction:Function;
+		private const BUILDING_RANDOM_TWEAK:Number = 50; // px of randomness
 		
 		public function AIDirector(level:FlxState, planeSpawnFunction:Function, buildingSpawnFunction:Function)
 		{
@@ -55,14 +57,14 @@ package level
 			// planes
 			if ((_levelTime - _lastPlaneTime) > _timesBetweenPlanes[_difficultyLevel])
 			{
-				_lastPlaneTime = _levelTime;
+				_lastPlaneTime = _levelTime + (FlxU.random() * PLANE_RANDOM_TWEAK);
 				_planeSpawnFunction();
 			}
 			
 			// buildings
 			if ((x - _lastBuildingPos) > _posBetweenBuildings[_difficultyLevel])
 			{
-				_lastBuildingPos = x;
+				_lastBuildingPos = x + (FlxU.random() * BUILDING_RANDOM_TWEAK);
 				_buildingSpawnFunction();
 			}
 		}
