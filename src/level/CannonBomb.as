@@ -18,7 +18,7 @@ package level
 		{
 			super(X, Y);
 			_layer = layer;
-			createGraphic(5, 5, 0xffffff00);
+			loadGraphic(Assets.SpriteCannonBomb, false, false, 5, 5, false);
 			fixed = true;
 		}		
 		

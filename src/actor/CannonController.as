@@ -99,6 +99,7 @@ package actor
 				
 				bomb.velocity.x = speed.x * Constants.CANNON_BOMB_SPEED;
 				bomb.velocity.y = speed.y * Constants.CANNON_BOMB_SPEED;
+				bomb.angularVelocity = Constants.CANNON_BOMB_SPEED;
 				
 				_layer.add(bomb, true);
 			}
