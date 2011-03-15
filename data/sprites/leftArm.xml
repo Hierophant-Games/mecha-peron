@@ -4,7 +4,7 @@
 	<animations>
 		<animation name="idle" frames="1" frameRate="1" loop="false" />
 		<animation name="walk" frames="0, 1, 2, 1" frameRate="5" loop="true" />
-		<animation name="attackLeftArm" frames="4, 5, 5" frameRate="2" loop="false" />
+		<animation name="attackLeftArm" frames="3, 4, 5, 5, 6, 6" frameRate="4" loop="false" />
 		<animation name="damage" frames="3" frameRate="1" loop="false" />
 		<animation name="laser" frames="0" frameRate="1" loop="false" />
 		<animation name="laserOff" frames="1" frameRate="1" loop="false" />

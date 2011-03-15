@@ -268,13 +268,6 @@ package actor
 		
 		private function stopMoving():void 
 		{
-		/*
-		 * At the moment going back to idle animation when no input 
-		 * is made is disabled, as it is required to check wether or
-		 * not the previous animation has finished before doing so.
-		 */
-			//trace("Started Playing Idle Animation");
-			// controlledActor.play("idle");
 			controlledActor.velocity.x = 0;
 			controlledActor.velocity.y = 0;
 		}
@@ -334,7 +327,7 @@ package actor
 			{
 				case "attackLeftArm":
 				{
-					if (frameNumber == 1)
+					if (frameNumber == 4)
 					{
 						shootLeftHand();
 					}
@@ -372,9 +365,9 @@ package actor
 		
 		private function shootLeftHand():void
 		{
-			_leftHand.reset(_leftArmSprite.x + 56, _leftArmSprite.y + 34);
+			_leftHand.reset(_leftArmSprite.x + 56, _leftArmSprite.y);
 			_leftHand.velocity = new FlxPoint(Constants.FIST_SPEED_X, 0);
-			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY / 4);
+			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY * 0.25);
 			_leftHand.play("launch");
 		}
 	}
