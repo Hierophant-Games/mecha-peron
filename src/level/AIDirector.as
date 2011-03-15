@@ -19,7 +19,7 @@ package level
 		private var _timeThresholds:Array = new Array(30, 60, 90);
 		
 		// planes!
-		private var _timesBetweenPlanes:Array = new Array(6, 5, 3, 1);
+		private var _timesBetweenPlanes:Array = new Array(6, 5, 4, 3);
 		private var _lastPlaneTime:Number = 0;
 		private var _planeSpawnFunction:Function;
 		
