@@ -19,6 +19,8 @@ package states
 			gameNameText.setFormat(null, 16);
 			add(gameNameText);
 			
+			add(new FlxText(2, FlxG.height - 20, 100, Game.VERSION));
+			
 			initMenuEntries();
 		}
 		
