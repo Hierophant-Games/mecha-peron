@@ -26,14 +26,14 @@
 		<MechaPeron>INICIALIZANDO A MECHA-PERON</MechaPeron>
 		<LineBreak>-------------------------------</LineBreak>
 		<Preparing>Preparando el armamento...........</Preparing>
-		<AimReady>Sistema de puntería del laser listo.........USE EL MOUSE PARA CONTROLAR</AimReady>
+		<AimReady>Sistema ocular de puntería láser listo......USE EL MOUSE PARA CONTROLAR</AimReady>
 		<FlyingArm>Misil brazo volador listo......PRESIONE Z PARA DESPLEGAR</FlyingArm>
-		<CrushArm>Brazo aniquilador todavía no listo...........AGUARDE UNA ACTUALIZACIÓN</CrushArm>
+		<CrushArm>Brazo aniquilador no listo aún.....AGUARDE UNA ACTUALIZACIÓN</CrushArm>
 		<ClickToContinue>Clic para continuar</ClickToContinue>
 	</Game>
 	<GameOver>
 		<ScoreLine>Tu camino de destrucción termina a los:</ScoreLine>
-		<TryAgain>Intentar de nuevo</TryAgain>
+		<TryAgain>Intentarlo de nuevo</TryAgain>
 		<MainMenu>Volver al menú principal</MainMenu>
 	</GameOver>
 </language>

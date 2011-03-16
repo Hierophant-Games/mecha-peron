@@ -25,6 +25,8 @@ package level
 		
 		private var _cursorToggle:Boolean = false;
 		
+		private var _skip:Boolean = false;
+		
 		public function get tutorialComplete():Boolean
 		{
 			return _tutorialComplete;
@@ -54,7 +56,9 @@ package level
 				
 			if (FlxG.mouse.justReleased())
 			{
-				_tutorialComplete = true;
+				_skip = true;
+				if (_tutorialStep >= LAST_TUTORIAL_STEP)
+					_tutorialComplete = true;
 			}
 			
 			super.update();
@@ -65,9 +69,16 @@ package level
 			if (_currentString.length > 0)
 			{
 				FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
-				
-				_text.text += _currentString.charAt();
-				_currentString = _currentString.slice(1);
+				if (_skip)
+				{
+					_text.text += _currentString;
+					_currentString = "";
+				}
+				else
+				{
+					_text.text += _currentString.charAt();
+					_currentString = _currentString.slice(1);
+				}
 			}
 			else if (_tutorialStep < LAST_TUTORIAL_STEP)
 				advanceStep();
