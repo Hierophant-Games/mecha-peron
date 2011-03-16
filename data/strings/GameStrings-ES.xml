@@ -6,6 +6,7 @@
 		<Play>Viva Mecha-Perón!</Play>
 		<Options>Configurar</Options>
 		<Help>¿Qué carajo es todo esto?</Help>
+		<Credits>Créditos</Credits>
 		<Back>Atrás</Back>
 	</Menu>
 	<Options>
@@ -17,6 +18,16 @@
 		<Help2>Lamentablemente, la IA implantada en el Mecha se descontroló y empezó a destruir en la capital japonesa.</Help2>
 		<Help3>Comandás el camino de destrucción de Mecha-Perón. Divertite.</Help3>
 	</Help>
+	<Credits>
+		<SMV>Santiago Martín Vilar: código, música, sonidos, diseño</SMV>
+		<NVP>Nicolás Viegas Palermo: pixel art, diseño, código</NVP>
+		<FMH>Fernando Martínez Herrera: código, música, diseño</FMH>
+		<Marcha8Bit>"Los muchachos peronistas" (8-bit remix) por Santiago Martín Vilar</Marcha8Bit>
+		<MarchaMetal>"Los muchachos peronistas" (metal remix) por Fernando Martínez Herrera</MarchaMetal>
+		<Thanks>Gracias a todos los que mandaron feedback, amigos, amigas, enemigos, desconocidos, etc.</Thanks>
+		<ThanksAdam>THANK YOU ADAM ATOMIC</ThanksAdam>
+		<WeLoveJapan>WE &lt;3 JAPAN, no estamos burlándonos de los últimos sucesos acontecidos.</WeLoveJapan>
+	</Credits>
 	<Disclaimer>
 		<Title>Aviso:</Title>
 		<Description>Los eventos y personajes que aparecen en este videojuego son completamente ficticios. Cualquier semejanza con personas reales, vivas o muertas, es coincidencia pura.</Description>
