@@ -20,8 +20,6 @@ package states
 			add(gameNameText);
 			
 			initMenuEntries();
-			
-			FlxG.mouse.show(Assets.SpriteCursor);
 		}
 		
 		override public function destroy():void 
@@ -44,7 +42,7 @@ package states
 		private function onPlay():void
 		{
 			Game.setState(new MainLevel());
-			FlxG.play(Assets.SfxConsoleBlip, Configuration.soundVolume);
+			FlxG.music.stop();
 		}
 		
 		private function onOptions():void

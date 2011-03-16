@@ -35,8 +35,8 @@ package states
 			gameNameText.setFormat(null, 16);
 			add(gameNameText);
 			
-			add(new FlxText(10, MUSIC_POS_Y - 20, 100, Game.Strings.languageXML.Options.MusicVolume));
-			add(new FlxText(10, SOUND_POS_Y - 20, 100, Game.Strings.languageXML.Options.SoundVolume));
+			add(new FlxText(10, MUSIC_POS_Y - 20, 200, Game.Strings.languageXML.Options.MusicVolume));
+			add(new FlxText(10, SOUND_POS_Y - 20, 200, Game.Strings.languageXML.Options.SoundVolume));
 			
 			_musicBar = new FlxSprite(10, MUSIC_POS_Y);
 			_musicBar.createGraphic(BAR_WIDTH, BAR_HEIGHT, BAR_COLOR);

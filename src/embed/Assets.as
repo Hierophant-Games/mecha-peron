@@ -10,8 +10,15 @@ package embed
 		
 		[Embed(source = "../../data/strings/GameStrings-EN.xml", mimeType = "application/octet-stream")]
 		public static var EnglishXML:Class;
+		[Embed(source = "../../data/strings/GameStrings-ES.xml", mimeType = "application/octet-stream")]
+		public static var SpanishXML:Class;
 		
 		// embedded sprites
+		
+		[Embed(source = "../../data/sprites/en.png")]
+		public static var SpriteEN:Class;
+		[Embed(source = "../../data/sprites/es.png")]
+		public static var SpriteES:Class;
 		
 		[Embed(source = "../../data/sprites/cityScape.png")]
 		public static var SpriteBack:Class;

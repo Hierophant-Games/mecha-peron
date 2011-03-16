@@ -11,7 +11,7 @@ package strings
 		
 		public function GameStrings()
 		{
-			setLanguage("EN");
+			setLanguage("ES");
 		}
 		
 		public function setLanguage(language:String):void
@@ -22,8 +22,13 @@ package strings
 				case "EN":
 				{
 					obj = new Assets.EnglishXML();
+					break;
 				}
-				break;
+				case "ES":
+				{
+					obj = new Assets.SpanishXML();
+					break;
+				}
 				default:
 				{
 					throw new Error("language " + language + " not supported");

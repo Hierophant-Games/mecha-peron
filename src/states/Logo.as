@@ -24,7 +24,7 @@ package states
 			
 			if (_timer > LOGO_TIME || FlxG.mouse.pressed())
 			{
-				Game.setState(new Intro());
+				Game.setState(new SelectLanguage());
 			}
 			
 			super.update();

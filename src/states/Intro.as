@@ -33,8 +33,6 @@ package states
 			_notText = new FlxText(0, 0, FlxG.width, Game.Strings.languageXML.Disclaimer.Not);
 			_notText.setFormat(null, 16, 0xffffff, "center");
 			_notText.y = FlxG.height - _notText.height - 10;
-			
-			FlxG.playMusic(Assets.LosMuchachos8Bit, Configuration.musicVolume);
 		}
 		
 		override public function update():void
