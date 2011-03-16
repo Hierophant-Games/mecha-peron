@@ -151,7 +151,7 @@
 			if (FlxG.keys.justPressed("ESCAPE"))
 			{
 				FlxG.music.stop();
-				Game.goToPreviousState();
+				Game.setState(new MainMenu());
 			}
 			
 			if (!_levelStarted)
