@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<graphic animated="true" reverse="false" width="98" height="120" />
+	<animations>
+		<animation name="idle" frames="0" frameRate="1" loop="false" />
+		<animation name="damage" frames="0, 1, 2" frameRate="3" loop="false" />
+	</animations>
+</data>
