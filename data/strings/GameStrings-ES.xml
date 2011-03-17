@@ -41,6 +41,8 @@
 		<FlyingArm>Misil brazo volador listo......PRESIONE Z PARA DESPLEGAR</FlyingArm>
 		<CrushArm>Brazo aniquilador no listo aún.....AGUARDE UNA ACTUALIZACIÓN</CrushArm>
 		<ClickToContinue>Clic para continuar</ClickToContinue>
+		<Warning>CUIDADO -></Warning>
+		<Overheat>SOBRECARGA</Overheat>
 	</Game>
 	<GameOver>
 		<ScoreLine>Tu camino de destrucción termina a los:</ScoreLine>

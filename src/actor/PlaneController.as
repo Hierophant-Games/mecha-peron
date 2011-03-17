@@ -3,8 +3,7 @@ package actor
 	import embed.Assets;
 	import flash.geom.Point;
 	import game.Constants;
-	import level.LifeBar;
-	import level.PlaneBomb;
+	import level.*;
 	import org.flixel.*;
 	import sprites.SpriteLoader;
 	
@@ -25,7 +24,7 @@ package actor
 		
 		private var _player:Actor;
 		private var _layer:FlxGroup;
-		private var _smokeEmitter:FlxEmitter;
+		private var _smokeEmitter:SmokeEmitter;
 		private var _sparkEmitter:FlxEmitter;
 		
 		private var _emitSparks:Boolean = false;
@@ -52,7 +51,7 @@ package actor
 			controlledActor.play("default");
 			
 			controlledActor.fixed = true;
-			controlledActor.velocity.x = Constants.PLANE_SPEED_X;
+			controlledActor.velocity.x = Constants.PLANE_SPEED_X;			
 		}
 		
 		override public function preFirstUpdate():void
@@ -66,7 +65,7 @@ package actor
 			initSmokeEmitter();
 			initSparkEmitter();
 			
-			_warningSign = new FlxText(0, 0, FlxG.width, "WARNING ->");
+			_warningSign = new FlxText(0, 0, FlxG.width, Game.Strings.languageXML.Game.Warning);
 			_warningSign.setFormat(null, 8, 0xffff00, "right", 0xff0000);
 			controlledActor.layer.add(_warningSign, false);
 			
@@ -88,8 +87,8 @@ package actor
 			
 			if (_falling)
 			{
-				_smokeEmitter.x = controlledActor.x;			
-				_smokeEmitter.y = controlledActor.y;
+				_smokeEmitter.x = controlledActor.x + (controlledActor.width / 2);			
+				_smokeEmitter.y = controlledActor.y + 5;
 			}
 			else
 			{
@@ -196,34 +195,11 @@ package actor
 		
 		private function initSmokeEmitter():void
 		{
-			_smokeEmitter = new FlxEmitter(controlledActor.x, controlledActor.y);
+			_smokeEmitter = new SmokeEmitter();
+			_smokeEmitter.init();
 			_smokeEmitter.setSize(6, 2);
-			_smokeEmitter.setRotation(0, 0);
-			_smokeEmitter.setXSpeed(-10, 10);
-			_smokeEmitter.setYSpeed(-20, -30);
-			_smokeEmitter.gravity = 0;
-			for (var i:uint = 0; i <10; ++i)
-			{
-				var smoke:FlxSprite = new FlxSprite();
-				if (i % 2)
-				{
-					smoke.loadGraphic(Assets.SpriteSmoke, true, false, 14, 12);					
-				}
-				else
-				{
-					smoke.loadGraphic(Assets.SpriteSmokeBig, true, false, 28, 24);
-				}
-				
-				var randomGrey:Number = FlxU.random() * 3;	
-				randomGrey = Number(randomGrey.toFixed()) * 0x333333;
-				smoke.color = randomGrey;
-				
-				smoke.exists = false;
-				smoke.solid = false;
-				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
-				smoke.play("smoke");
-				_smokeEmitter.add(smoke, true);
-			}
+			_smokeEmitter.setXSpeed(0, 0);
+			_smokeEmitter.setYSpeed(0, 0);
 			
 			_layer.add(_smokeEmitter, true);
 		}

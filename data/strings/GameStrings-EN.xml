@@ -41,6 +41,8 @@
 		<FlyingArm>Flying arm missile ready......PRESS Z TO DEPLOY</FlyingArm>
 		<CrushArm>Crushing arm not ready yet...........EXPECT UPDATE</CrushArm>
 		<ClickToContinue>Click to continue</ClickToContinue>
+		<Warning>WARNING -></Warning>
+		<Overheat>OVERHEAT</Overheat>
 	</Game>
 	<GameOver>
 		<ScoreLine>Your path of destruction ends at:</ScoreLine>

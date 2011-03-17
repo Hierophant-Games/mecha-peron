@@ -15,6 +15,7 @@
 	public class MainLevel extends FlxState
 	{
 		private const RANDOM_VOICEFX_COUNT:uint = 2;
+		private const DISTANCE_SCALE_FACTOR:Number = 300;
 		
 		// Layers
 		private var _layerBack:ParallaxLayer;
@@ -177,7 +178,7 @@
 			
 			if (_player.dead)
 			{
-				var score:Number = _distanceTraveled / 70;
+				var score:Number = _distanceTraveled / DISTANCE_SCALE_FACTOR;
 				_gameOverScreen = new GameOverScreen(score.toFixed(1) + " km");				
 				_gameOver = true;
 				_gameOverScreen.start();
@@ -212,8 +213,13 @@
 			_distanceTraveled += _player.x - _previousDistance;
 			_previousDistance = _player.x;
 			
-			var scaledDistance:Number = _distanceTraveled / 70;
+			var scaledDistance:Number = _distanceTraveled / DISTANCE_SCALE_FACTOR;
 			_hud.setDistance(scaledDistance.toFixed(1));
+			
+			if ((_player.controller as PlayerController).laserCharge <= 0)
+				_hud.showOverheat(true);
+			else
+				_hud.showOverheat(false);
 			
 			collide();
 			super.update();

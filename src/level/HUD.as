@@ -4,7 +4,9 @@ package level
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.geom.ColorTransform;
 	import org.flixel.*;
+	import game.Constants;
 	/**
 	 * ...
 	 * @author Fernando
@@ -20,6 +22,7 @@ package level
 		private const LIFE_COLOR:Number = 0xff00ff00;
 		
 		private var _laserBar:FlxSprite;
+		private var _overheat:FlxText;
 		
 		private const LASER_BAR_W:Number = 80; // from image
 		private const LASER_BAR_H:Number = 10; // from image
@@ -38,6 +41,7 @@ package level
 		
 		private var _fist:FlxSprite;
 		private var _fistPixels:BitmapData;
+		private var _fistScaleDirection:Number = -1;
 		
 		public function HUD()
 		{
@@ -68,6 +72,12 @@ package level
 			_laserBar.solid = false;
 			add(_laserBar, true);
 			setLaserBarW(1);
+			
+			// Overheat text
+			_overheat = new FlxText(_laserBar.x, laserBarBack.y - 2, LASER_FILL_W, Game.Strings.languageXML.Game.Overheat);
+			_overheat.setFormat(null, 8, 0xff0000, "center", 0xffffff00);
+			add(_overheat, true);
+			_overheat.visible = false;
 			
 			// Distance text
 			_distanceText = new FlxText(FlxG.width - 110, 10, 100);
@@ -108,6 +118,19 @@ package level
 			_laserBar.flicker(seconds);
 		}
 		
+		public function showOverheat(enable:Boolean):void
+		{
+			if (enable)
+			{
+				_overheat.visible = true;
+				//_overheat.flicker(0.1);
+			}
+			else
+			{
+				_overheat.visible = false;
+			}
+		}
+		
 		public function setDistance(distance:String):void
 		{
 			//trace("Distance " + distance);
@@ -116,12 +139,36 @@ package level
 		
 		public function setFistW(widthProp:Number):void
 		{
-			_fist.framePixels.copyPixels(_fistPixels, new Rectangle(0, 0, _fist.width, _fist.height), new Point(0, 0));
+			// Restore fist pixels
+			_fist.framePixels.copyPixels(_fistPixels, new Rectangle(0, 0, _fist.width, _fist.height), new Point());
 			
-			var alphaPixels:BitmapData = new BitmapData(_fist.width, _fist.height, true, 0x00000000);
-			var srcRect:Rectangle = new Rectangle(0, 0, alphaPixels.width, alphaPixels.height);
-			var destPoint:Point = new Point(_fist.width * widthProp, 0);
-			_fist.framePixels.copyPixels(alphaPixels, srcRect, destPoint, null, null, false);
+			if (widthProp >= 1)
+			{
+				// Animate when full
+				_fist.scale.x += _fistScaleDirection * 0.05; 
+				_fist.scale.y = _fist.scale.x;
+				
+				if (_fist.scale.x <= 0.7)
+					_fistScaleDirection = 1;
+				else if (_fist.scale.x >= 1.0)
+					_fistScaleDirection = -1;
+			}
+			else
+			{
+				_fist.scale = new FlxPoint(1, 1);	
+				
+				var backPixels:BitmapData = new BitmapData(_fist.width, _fist.height);
+				backPixels.copyPixels(_fistPixels, new Rectangle(0, 0, _fist.width, _fist.height), new Point());
+				var ct:ColorTransform = new ColorTransform(0, 0, 0, 0.5);
+				backPixels.colorTransform(new Rectangle(0, 0, backPixels.width, backPixels.height), ct);
+				
+				var startX:Number = backPixels.width * widthProp;
+				startX = new Number(startX.toFixed());
+				var srcRect:Rectangle = new Rectangle(startX, 0, backPixels.width - startX, backPixels.height);
+				var destPoint:Point = new Point(startX, 0);
+				
+				_fist.framePixels.copyPixels(backPixels, srcRect, destPoint);
+			}
 		}
 	}
 }

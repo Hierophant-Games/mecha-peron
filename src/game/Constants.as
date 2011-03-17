@@ -12,14 +12,14 @@ package game
 		public static const PERON_SPEED_X:Number = 30;
 		public static const LASER_PLANE_DAMAGE:Number = 2;
 		public static const LASER_SOLDIER_DAMAGE:Number = 5;
-		public static const LASER_MAX_CHARGE:Number = 800;
+		public static const LASER_MAX_CHARGE:Number = 1000;
 		public static const LASER_CHARGE_STEP:Number = 10; // how much charge the laser consumes and reloads each frame
-		public static const LASER_RECHARGE_DELAY:Number = 1.5; // seconds
+		public static const LASER_RECHARGE_DELAY:Number = 2.0; // seconds
 		public static const FIST_SPEED_X:Number = 200;
 		public static const FIST_RELOAD_TIME:Number = 15.0; // seconds
 		
 		// Plane
-		public static const PLANE_SPEED_X:Number = -150;
+		public static const PLANE_SPEED_X:Number = -120;
 		public static const PLANE_BOMB_DAMAGE:Number = 5;
 		public static const PLANE_WARNING_X_THRESHOLD:Number = 200; // distance from the right edge of the screen onwards in which the warning signs will appear
 		

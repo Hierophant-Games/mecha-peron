@@ -6,6 +6,7 @@ package actor
 	import flash.geom.*;
 	import game.*;
 	import level.HUD;
+	import level.SmokeEmitter;
 	import org.flixel.*;
 	import sprites.SpriteLoader;
 	
@@ -47,6 +48,9 @@ package actor
 		private var _quakeTimer:Number = 0;
 		private const QUAKE_TIME:Number = 1.5;
 		
+		private var _smokeEmitterL:SmokeEmitter; // left eye
+		private var _smokeEmitterR:SmokeEmitter; // right eye
+		
 		public function set beforeLevelStart(beforeLevelStart:Boolean):void
 		{
 			_beforeLevelStart = beforeLevelStart;
@@ -70,6 +74,11 @@ package actor
 		public function set laserClip(clip:Rectangle):void
 		{
 			_laser.clip = clip;
+		}
+		
+		public function get laserCharge():Number
+		{
+			return _laserCharge;
 		}
 		
 		public function PlayerController(layer:FlxGroup)
@@ -128,6 +137,22 @@ package actor
 		{
 			_layer.add(_laser);
 			_layer.add(_leftHand);
+			
+			_smokeEmitterL = new SmokeEmitter();
+			_smokeEmitterL.init();
+			_smokeEmitterL.setSize(1, 1);
+			_smokeEmitterL.setXSpeed(0, 0);
+			_smokeEmitterL.setYSpeed(-30, -50);
+			
+			_layer.add(_smokeEmitterL);
+			
+			_smokeEmitterR = new SmokeEmitter();
+			_smokeEmitterR.init();
+			_smokeEmitterR.setSize(1, 1);
+			_smokeEmitterR.setXSpeed(0, 0);
+			_smokeEmitterR.setYSpeed(-30, -50);
+			
+			_layer.add(_smokeEmitterR);
 		}
 		
 		public override function update():void
@@ -147,6 +172,8 @@ package actor
 			
 			if (!_beforeLevelStart)
 				updateAttacks();
+				
+			updateSmokeEmitters();
 			
 			// some animations block the movement
 			if (_blockedByBuilding || _currentAction != ACTION_WALKING)
@@ -181,10 +208,14 @@ package actor
 				
 				if (_laserCharge <= 0)
 				{
+					_laserCharge = 0;
 					stopLaser();
 					FlxG.mouse.reset();
 					_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
+					
 					_laserDepletedSfx.play();
+					_smokeEmitterL.start(false);
+					_smokeEmitterR.start(false);
 				}
 			}
 			else if (_laserRechargeTimer > 0)
@@ -195,6 +226,8 @@ package actor
 				{
 					_laserRechargeTimer = 0;
 					_isLaserRecharging = true;
+					_smokeEmitterL.stop(0);
+					_smokeEmitterR.stop(0);
 				}
 			}
 			else if (_isLaserRecharging)
@@ -393,6 +426,14 @@ package actor
 			_leftHand.velocity = new FlxPoint(Constants.FIST_SPEED_X, 0);
 			_leftHand.acceleration = new FlxPoint(0, Constants.GRAVITY * 0.25);
 			_leftHand.play("launch");
+		}
+		
+		private function updateSmokeEmitters():void
+		{
+			_smokeEmitterL.x = controlledActor.x + 50;
+			_smokeEmitterL.y = controlledActor.y + 40;
+			_smokeEmitterR.x = controlledActor.x + 80;
+			_smokeEmitterR.y = controlledActor.y + 40;
 		}
 		
 		private const EXPLOSIONS_DELAY:Number = 0.8;
