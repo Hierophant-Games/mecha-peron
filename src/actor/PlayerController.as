@@ -56,6 +56,11 @@ package actor
 			_beforeLevelStart = beforeLevelStart;
 		}
 		
+		public function set blockedByBuilding(blockedByBuilding:Boolean):void
+		{
+			_blockedByBuilding = blockedByBuilding;
+		}
+		
 		public function get isLaserActive():Boolean
 		{
 			return _laser.active;
@@ -397,12 +402,12 @@ package actor
 		}
 		
 		override public function onCollide(collideType:uint, contact:FlxObject):void
-		{
+		{/*not here anymore, check MainLevel update
 			var other:Actor = contact as Actor;
 			if (other && other.controller is BuildingController)
 			{
 				_blockedByBuilding = !other.dead;
-			}
+			}*/
 		}
 		
 		public function updateHUD(hud:HUD):void
