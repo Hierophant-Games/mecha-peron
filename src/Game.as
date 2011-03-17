@@ -1,5 +1,6 @@
 package  
 {
+	import flash.events.KeyboardEvent;
 	import game.Configuration;
 	import org.flixel.*;
 	import states.Logo;
@@ -13,7 +14,7 @@ package
 	[Frame(factoryClass="Preloader")]
 	public class Game extends FlxGame
 	{
-		public static const VERSION:String = "v0.2";
+		public static const VERSION:String = "v0.3";
 		
 		public static var Strings:GameStrings = new GameStrings();
 		
@@ -38,6 +39,16 @@ package
 			var currentState:FlxState = FlxG.state;
 			FlxG.state = _previousState;
 			_previousState = currentState;
+		}
+		
+		override protected function onKeyUp(event:KeyboardEvent):void 
+		{
+			// disable console in release
+			if (!FlxG.debug && ((event.keyCode == 192) || (event.keyCode == 220))) //FOR ZE GERMANZ
+			{
+				return;
+			}
+			super.onKeyUp(event);
 		}
 	}
 }

@@ -99,11 +99,13 @@ package level
 		
 		private function onTryAgain():void
 		{
+			FlxG.music.stop();
 			Game.setState(new MainLevel());
 		}
 		
 		private function onMainMenu():void
 		{
+			FlxG.music.stop();
 			Game.setState(new MainMenu());
 		}
 	}
