@@ -26,7 +26,7 @@
 		private var _layerFront:ParallaxLayer;
 		
 		// Actors
-		private var _player:Actor;		
+		private var _player:CompositeActor;	
 		private var _planes:Vector.<Actor> = new Vector.<Actor>();		
 		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
 		private var _soldierBuildings:Vector.<Actor> = new Vector.<Actor>();
@@ -45,7 +45,10 @@
 		
 		private var _gameOverScreen:GameOverScreen;		
 		
-		private var _aiDirector:AIDirector;		
+		private var _aiDirector:AIDirector;
+		
+		// to access without casting every time
+		private var _playerController:PlayerController;
 		
 		override public function create():void
 		{
@@ -85,7 +88,8 @@
 		
 		private function initPlayer():void
 		{
-			_player = new CompositeActor(new PlayerController(_layerActionMiddle), _layerActionMiddle);
+			_playerController = new PlayerController(_layerActionMiddle);
+			_player = new CompositeActor(_playerController, _layerActionMiddle);
 			_player.x = -160;
 			_player.y = FlxG.height - 222;
 			_player.health = 100;
@@ -95,22 +99,15 @@
 			FlxG.follow(_followBeacon, 3);
 			
 			_layerActionMiddle.add(_player);
-			(_player.controller as PlayerController).beforeLevelStart = true;
+			_playerController.beforeLevelStart = true;
 		}
 		
 		private function initLevel():void
 		{
-			//addActor(new PlaneController(_player, _layerActionMiddle), 400, 20, _layerActionMiddle);
-			//addActor(new PlaneController(_player, _layerActionMiddle), 1000, 40, _layerActionMiddle);
-			//addActor(new PlaneController(_player, _layerActionMiddle), 1500, 30, _layerActionMiddle);
-			
-			// random number of soldiers between 4 and 12
-			//addActor(new BuildingController(_player, _layerActionMiddle), 600, 40, _layerActionBack);
-			
 			FlxG.playMusic(Assets.MusicTheme, Configuration.musicVolume);
 			
 			_levelStarted = true;
-			(_player.controller as PlayerController).beforeLevelStart = false;
+			_playerController.beforeLevelStart = false;
 			_hud.visible = true;
 			_previousDistance = _player.x; // Start traveled distance count here
 		}
@@ -197,6 +194,16 @@
 				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
 			}*/
 			
+			// check building collision
+			for each (var building:Actor in _soldierBuildings)
+			{
+				_playerController.blockedByBuilding = false;
+				if (_player.x + _player.composedWidth > building.x && !building.dead)
+				{
+					_playerController.blockedByBuilding = true;
+				}
+			}
+			
 			if (_levelStarted)
 				_aiDirector.update(_player.x);
 			
@@ -207,8 +214,7 @@
 			removeDeadActors();
 			
 			// HUD
-			var playerController:PlayerController = (_player.controller as PlayerController);
-			playerController.updateHUD(_hud);
+			_playerController.updateHUD(_hud);
 
 			_distanceTraveled += _player.x - _previousDistance;
 			_previousDistance = _player.x;
@@ -216,7 +222,7 @@
 			var scaledDistance:Number = _distanceTraveled / DISTANCE_SCALE_FACTOR;
 			_hud.setDistance(scaledDistance.toFixed(1));
 			
-			if ((_player.controller as PlayerController).laserCharge <= 0)
+			if (_playerController.laserCharge <= 0)
 				_hud.showOverheat(true);
 			else
 				_hud.showOverheat(false);
@@ -257,8 +263,7 @@
 		
 		private function updateLaserCombat():void
 		{
-			var playerController:PlayerController = (_player.controller as PlayerController);
-			if (playerController.isLaserActive)
+			if (_playerController.isLaserActive)
 			{
 				var i:uint;
 				// soldier buildings
@@ -274,7 +279,7 @@
 						if (soldiers[j].dead || !soldiers[j].onScreen())
 							continue;
 						
-						if (playerController.checkLaserHit(soldiers[j]))
+						if (_playerController.checkLaserHit(soldiers[j]))
 						{
 							soldiers[j].hurt(Constants.LASER_SOLDIER_DAMAGE);
 						}
@@ -290,7 +295,7 @@
 					
 					var plane:Actor = _planes[i];
 					
-					if (playerController.checkLaserHit(plane))
+					if (_playerController.checkLaserHit(plane))
 					{
 						/*
 						var laserRect:Rectangle = playerController.getLaserRect();
@@ -301,7 +306,7 @@
 													laserRect.y + laserRect.height - plane.y);
 						playerController.setLaserClip(laserClip);
 						*/
-						var laserXY:FlxPoint = playerController.laserXY;
+						var laserXY:FlxPoint = _playerController.laserXY;
 						var laserX:Number = laserXY.x;
 						var laserY:Number = laserXY.y;
 						

@@ -11,6 +11,13 @@ package actor
 		private var _sprites:Vector.<FlxSprite> = new Vector.<FlxSprite>();
 		private var _offsets:Vector.<FlxPoint> = new Vector.<FlxPoint>();
 		
+		private var _composedWidth:Number = 0;
+		
+		public function get composedWidth():Number
+		{
+			return _composedWidth;
+		}
+		
 		public function CompositeActor(actorController:ActorController, layer:FlxGroup, X:Number = 0, Y:Number = 0) 
 		{
 			super(actorController, layer, X, Y);
@@ -21,16 +28,9 @@ package actor
 			_sprites.push(sprite);
 			_offsets.push(offset);
 			
-			// update width and height accordingly (?)
-			/*
-			 * disabled to avoid having the arms collide with enemy bullets,
-			 * as the body is the only area that takes damage.
-			 * (properly set on PlayerController.as)
-			 */
-			/*if (sprite.frameWidth + offset.x > width)
-				width = sprite.frameWidth + offset.x;
-			if (sprite.frameHeight + offset.y > height)
-				height = sprite.frameHeight + offset.y;*/
+			// store maxWidth in a handy variable
+			if (sprite.frameWidth + offset.x > _composedWidth)
+				_composedWidth = sprite.frameWidth + offset.x;
 		}
 		
 		override public function update():void
