@@ -27,7 +27,7 @@ package level
 				var randomGrey:Number = FlxU.random() * 3;	
 				randomGrey = Number(randomGrey.toFixed()) * 0x333333;
 				smoke.color = randomGrey;
-				smoke.alpha = 0.5;
+				//smoke.alpha = 0.5;
 				
 				smoke.exists = false;
 				smoke.solid = false;

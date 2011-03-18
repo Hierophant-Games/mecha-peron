@@ -10,14 +10,11 @@ package level
 	 * ...
 	 * @author Santiago Vilar
 	 */
-	public class PlaneBomb extends FlxSprite
-	{
-		private var _layer:FlxGroup;
-		
+	public class PlaneBomb extends Bomb
+	{		
 		public function PlaneBomb(layer:FlxGroup, X:Number, Y:Number) 
 		{
-			super(X, Y);
-			_layer = layer;
+			super(layer, X, Y);
 			loadGraphic(Assets.SpriteBomb, false, false, 10, 5, false);
 			fixed = true;
 		}

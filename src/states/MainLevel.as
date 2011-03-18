@@ -30,6 +30,7 @@
 		private var _planes:Vector.<Actor> = new Vector.<Actor>();		
 		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
 		private var _soldierBuildings:Vector.<Actor> = new Vector.<Actor>();
+		private var _bombs:Vector.<Bomb> = new Vector.<Bomb>();
 		
 		private var _hud:HUD = new HUD();
 		
@@ -95,7 +96,7 @@
 			_player.health = 100;
 			
 			_followBeacon = new FlxObject(_player.x + FOLLOW_OFFSET, _player.y);
-			FlxG.followBounds(0, 0, 100000, FlxG.height);
+			FlxG.followBounds(0, 0, 1000000, FlxG.height);
 			FlxG.follow(_followBeacon, 3);
 			
 			_layerActionMiddle.add(_player);
@@ -237,7 +238,7 @@
 		
 		private function spawnBuilding():void
 		{
-			addActor(new BuildingController(_player, _layerActionMiddle), _player.x + FlxG.width, 40, _layerActionBack);
+			addActor(new BuildingController(_player, _layerActionMiddle, spawnBomb), _player.x + FlxG.width, 40, _layerActionBack);
 		}
 		
 		private function spawnPlane():void // callback
@@ -252,13 +253,18 @@
 			//48, 135
 			//146, 147
 			//236, 120
-			return; // disabling them until we have the proper attack to kill them
+			//return; // disabling them until we have the proper attack to kill them
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle), x + 48, 135 - 15, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 48, 135 - 15, _layerFront);
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle), x + 146, 147 - 15, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 146, 147 - 15, _layerFront);
 			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle), x + 236, 120 - 15, _layerFront);
+				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 236, 120 - 15, _layerFront);
+		}
+		
+		private function spawnBomb(bomb:Bomb):void
+		{
+			_bombs.push(bomb);
 		}
 		
 		private function updateLaserCombat():void
@@ -315,6 +321,31 @@
 								laserY);
 						
 						plane.hurt(Constants.LASER_PLANE_DAMAGE);
+					}
+				}
+				
+				//Bombs
+				for (i = 0; i < _bombs.length; ++i)
+				{
+					var bomb:Bomb = _bombs[i];
+					
+					if (bomb.dead)
+						continue;
+					
+					if (_playerController.checkLaserHit(bomb))
+					{
+						if (bomb as Bullet)
+						{
+							bomb.hurt(Constants.LASER_SOLDIER_BOMB_DAMAGE);
+						}						
+						else if (bomb as CannonBomb)
+						{
+							bomb.hurt(Constants.LASER_CANNON_BOMB_DAMAGE);
+						}
+						/*else if (bomb as PlaneBomb) // Can´t hurt plane bombs for now
+						{
+							bomb.hurt(Constants.LASER_PLANE_BOMB_DAMAGE);
+						}*/
 					}
 				}
 			}
@@ -375,6 +406,17 @@
 					cannon.layer.remove(cannon);
 					--actorIdx;
 					FlxG.log("Removed actor with controller: " + cannon.controller);
+				}
+			}
+			for (actorIdx = 0; actorIdx < _bombs.length; ++actorIdx)
+			{
+				var bomb:Bomb = _bombs[actorIdx];
+				if (!bomb.exists)
+				{
+					_bombs.splice(actorIdx, 1);
+					bomb.layer.remove(cannon);
+					--actorIdx;
+					FlxG.log("Removed bomb");
 				}
 			}
 		}

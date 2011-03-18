@@ -10,14 +10,11 @@ package level
 	 * ...
 	 * @author
 	 */
-	public class CannonBomb extends FlxSprite
+	public class CannonBomb extends Bomb
 	{
-		private var _layer:FlxGroup;
-		
 		public function CannonBomb(layer:FlxGroup, X:Number, Y:Number) 
 		{
-			super(X, Y);
-			_layer = layer;
+			super(layer, X, Y);
 			loadGraphic(Assets.SpriteCannonBomb, false, false, 5, 5, false);
 			fixed = true;
 		}		

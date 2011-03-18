@@ -9,14 +9,11 @@ package level
 	 * ...
 	 * @author Santiago Vilar
 	 */
-	public class Bullet extends FlxSprite 
-	{
-		private var _layer:FlxGroup;
-		
+	public class Bullet extends Bomb 
+	{		
 		public function Bullet(layer:FlxGroup, X:Number, Y:Number) 
 		{
-			super(X, Y);
-			_layer = layer;
+			super(layer, X, Y);
 			loadGraphic(Assets.SpriteRocket, true, false, 9, 9, false);
 			addAnimation("Thrust", new Array(0, 1), 6, true);
 			addAnimation("Burst", new Array(2, 3, 4, 5, 6, 7, 8), 12, true);

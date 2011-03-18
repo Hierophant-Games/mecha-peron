@@ -18,17 +18,18 @@ package actor
 		private var _soldierPositions:Vector.<FlxPoint> = new Vector.<FlxPoint>();
 		private var _soldiers:Vector.<Actor> = new Vector.<Actor>();
 		
-		private var _lifeBar:LifeBar;
+		private var _spawnBombCallback:Function;
 		
 		public function get soldiers():Vector.<Actor>
 		{
 			return _soldiers;
 		}
 		
-		public function BuildingController(player:Actor, layer:FlxGroup) 
+		public function BuildingController(player:Actor, layer:FlxGroup, spawnBombCB:Function) 
 		{
 			_player = player;
 			_layer = layer;
+			_spawnBombCallback = spawnBombCB;
 		}
 		
 		override public function init():void 
@@ -42,9 +43,6 @@ package actor
 		override public function preFirstUpdate():void
 		{
 			initSoldiers();
-			
-			_lifeBar = new LifeBar(40, 5);
-			controlledActor.layer.add(_lifeBar, true);
 		}
 		
 		override public function update():void
@@ -57,10 +55,6 @@ package actor
 					FlxG.quake.stop();
 				}
 			}
-			
-			_lifeBar.x = controlledActor.x;
-			_lifeBar.y = controlledActor.y - _lifeBar.height;
-			_lifeBar.updateLife(controlledActor.health);
 		}
 		
 		override public function onCollide(collideType:uint, contact:FlxObject):void
@@ -81,7 +75,7 @@ package actor
 			{
 				var randomPos:FlxPoint = randomSoldierPosition();
 				
-				var soldier:Actor = new Actor(new SoldierController(_player, _layer), 
+				var soldier:Actor = new Actor(new SoldierController(_player, _layer, _spawnBombCallback), 
 					controlledActor.layer, randomPos.x, randomPos.y);
 				soldier.health = 100;
 				
@@ -176,8 +170,6 @@ package actor
 			{
 				controlledActor.layer.remove(soldier);
 			}
-			
-			controlledActor.layer.remove(_lifeBar);
 			
 			return true;
 		}

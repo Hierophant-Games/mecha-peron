@@ -20,10 +20,13 @@ package actor
 		
 		private var _lifeBar:LifeBar;
 		
-		public function CannonController(player:Actor, layer:FlxGroup) 
+		private var _spawnBombCallback:Function;
+		
+		public function CannonController(player:Actor, layer:FlxGroup, spawnBombCB:Function) 
 		{
 			_player = player;
 			_layer = layer;
+			_spawnBombCallback = spawnBombCB;
 		}
 		
 		override public function init():void
@@ -102,6 +105,9 @@ package actor
 				bomb.angularVelocity = Constants.CANNON_BOMB_SPEED;
 				
 				_layer.add(bomb, true);
+				
+				if (_spawnBombCallback != null)
+					_spawnBombCallback(bomb);
 			}
 			
 			_lifeBar.x = controlledActor.x;

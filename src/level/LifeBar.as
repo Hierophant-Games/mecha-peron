@@ -25,6 +25,8 @@ package level
 			createGraphic(width, height);
 			
 			visible = false; // start hidden
+			dead = true;
+			_life = 100;
 		}
 		
 		public function updateLife(life:Number):void
@@ -55,6 +57,7 @@ package level
 				fill(0);
 				return;
 			}
+			
 			var ratio:Number = life / 100;
 			
 			var first:Number = (1 - ratio) * 0xff;

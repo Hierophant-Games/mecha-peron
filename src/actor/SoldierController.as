@@ -19,10 +19,13 @@ package actor
 		
 		private var _lifeBar:LifeBar;
 		
-		public function SoldierController(player:Actor, layer:FlxGroup) 
+		private var _spawnBombCallback:Function;
+		
+		public function SoldierController(player:Actor, layer:FlxGroup, spawnBombCB:Function) 
 		{
 			_player = player;
 			_layer = layer;
+			_spawnBombCallback = spawnBombCB;
 		}
 		
 		override public function init():void 
@@ -99,6 +102,9 @@ package actor
 				
 			bullet.velocity = new FlxPoint(velocity.x, velocity.y);
 			_layer.add(bullet, true);
+			
+			if (_spawnBombCallback != null)
+				_spawnBombCallback(bullet);
 		}
 		
 		private function reload():void 
