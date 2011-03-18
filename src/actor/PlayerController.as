@@ -25,7 +25,6 @@ package actor
 		private var _laserRechargeTimer:Number = 0;
 		
 		private var _laserSfx:FlxSound;
-		private var _laserDepletedSfx:FlxSound;
 		
 		private var _beforeLevelStart:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
@@ -125,14 +124,6 @@ package actor
 			_isLaserRecharging = false;
 			_laserRechargeTimer = 0;
 			
-			_laserSfx = new FlxSound();
-			_laserSfx.loadEmbedded(Assets.SfxLaser);
-			_laserSfx.volume = Configuration.soundVolume;
-			
-			_laserDepletedSfx = new FlxSound();
-			_laserDepletedSfx.loadEmbedded(Assets.SfxDepletedLaser);
-			_laserDepletedSfx.volume = Configuration.soundVolume;
-			
 			_leftHand = new Actor(new LeftHandController(), _layer);
 			_leftHand.exists = false;
 			_fistTimer = 0;
@@ -218,7 +209,8 @@ package actor
 					FlxG.mouse.reset();
 					_laserRechargeTimer = Constants.LASER_RECHARGE_DELAY;
 					
-					_laserDepletedSfx.play();
+					FlxG.play(Assets.SfxDepletedLaser, Configuration.soundVolume);
+					
 					_smokeEmitterL.start(false);
 					_smokeEmitterR.start(false);
 				}
@@ -271,7 +263,8 @@ package actor
 			
 			_currentAction = ACTION_SHOOTING_LASER;
 			
-			_laserSfx.play();
+			if (!_laserSfx || !_laserSfx.playing)
+				_laserSfx = FlxG.play(Assets.SfxLaser, Configuration.soundVolume);
 			
 			_laser.x = controlledActor.x + controlledActor.width + 7;
 			_laser.y = controlledActor.y + 37;
@@ -296,7 +289,8 @@ package actor
 			_laser.visible = false;
 			_laser.active = false;
 
-			_laserSfx.stop();
+			if (_laserSfx)
+				_laserSfx.stop();
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
