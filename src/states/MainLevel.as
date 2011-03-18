@@ -183,6 +183,7 @@
 				add(_gameOverScreen);
 				
 				FlxG.followLerp = 0; // Avoid involuntary camera movement
+				_playerController.updateHUD(_hud);
 				return;
 			}
 			

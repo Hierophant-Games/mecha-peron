@@ -35,7 +35,7 @@ package level
 			y = -FlxG.height;
 			
 			_background = new FlxSprite();
-			_background.createGraphic(150, FlxG.height, 0xff000000);
+			_background.createGraphic(WIDTH, FlxG.height, 0xff000000);
 			_background.x = FlxG.width - FlxG.scroll.x - WIDTH + 1; // +1 because fuck you
 			add(_background);
 			
