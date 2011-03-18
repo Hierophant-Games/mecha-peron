@@ -139,13 +139,22 @@
 		
 		override public function update():void
 		{
-			// Debug keys!
-			if (FlxG.keys.justPressed("ONE")) 	_layerFront.visible = !_layerFront.visible;
-			if (FlxG.keys.justPressed("TWO")) 	{ 	_layerActionBack.visible = !_layerActionBack.visible;
-													_layerActionMiddle.visible = !_layerActionMiddle.visible;
-													_layerActionFront.visible = !_layerActionFront.visible; }
-			if (FlxG.keys.justPressed("THREE"))	_layerMiddle.visible = !_layerMiddle.visible;
-			if (FlxG.keys.justPressed("FOUR")) 	_layerBack.visible = !_layerBack.visible;
+			if (FlxG.debug)
+			{
+				// Debug keys!
+				if (FlxG.keys.justPressed("ONE"))
+					_layerFront.visible = !_layerFront.visible;
+				if (FlxG.keys.justPressed("TWO"))
+				{
+					_layerActionBack.visible = !_layerActionBack.visible;
+					_layerActionMiddle.visible = !_layerActionMiddle.visible;
+					_layerActionFront.visible = !_layerActionFront.visible;
+				}
+				if (FlxG.keys.justPressed("THREE"))
+					_layerMiddle.visible = !_layerMiddle.visible;
+				if (FlxG.keys.justPressed("FOUR"))
+					_layerBack.visible = !_layerBack.visible;
+			}
 			
 			if (FlxG.keys.justPressed("ESCAPE"))
 			{
@@ -163,6 +172,21 @@
 				else if (_player.x > 0)
 				{
 					_playingTutorial = true;
+					FlxG.timeScale = 1;
+				}
+				else if (_player.x > -10)
+				{
+					// stop it a little bit before the text
+					FlxG.timeScale = 1;
+				}
+				else
+				{
+					// if the player is impatient she can speed up
+					// the mecha entrance in the intro
+					if (FlxG.mouse.justReleased())
+					{
+						FlxG.timeScale = 4;
+					}
 				}
 			}
 			
