@@ -18,6 +18,7 @@ package actor
 	public class PlayerController extends ActorController
 	{
 		private var _layer:FlxGroup;
+		private var _foregroundLayer:FlxGroup;
 		
 		private var _laser:CompositeActor;
 		private var _laserCharge:Number;
@@ -85,9 +86,15 @@ package actor
 			return _laserCharge;
 		}
 		
-		public function PlayerController(layer:FlxGroup)
+		public function get usingRightArm():Boolean
+		{
+			return _currentAction == ACTION_ATTACKING_RIGHT_ARM;
+		}
+		
+		public function PlayerController(layer:FlxGroup, foregroundLayer:FlxGroup)
 		{
 			_layer = layer;
+			_foregroundLayer = foregroundLayer;
 		}
 		
 		public override function init():void
@@ -262,6 +269,8 @@ package actor
 			{
 				_currentAction = ACTION_ATTACKING_RIGHT_ARM;
 				attackRightArm();
+				_layer.remove(_rightArmSprite);
+				_foregroundLayer.add(_rightArmSprite);
 			}
 		}
 		
@@ -281,7 +290,7 @@ package actor
 			angle *= 180 / Math.PI;
 			
 			if (angle > 40) angle = 40;
-			else if (angle < -10) angle = -10;
+			else if (angle < -20) angle = -20;
 			
 			if(FlxG.mouse.justPressed())
 				_laser.play("default", true);
@@ -414,7 +423,11 @@ package actor
 				case "attackRightArm":
 				{
 					if (_rightArmSprite.finished)
+					{
 						_currentAction = ACTION_WALKING;
+						_foregroundLayer.remove(_rightArmSprite);
+						_layer.add(_rightArmSprite);
+					}
 					break;
 				}
 			}

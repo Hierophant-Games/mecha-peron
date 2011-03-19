@@ -99,7 +99,7 @@
 		
 		private function initPlayer():void
 		{
-			_playerController = new PlayerController(_layerActionMiddle);
+			_playerController = new PlayerController(_layerActionMiddle, _layerFront);
 			_player = new CompositeActor(_playerController, _layerActionMiddle);
 			_player.x = -160;
 			_player.y = FlxG.height - 222;
@@ -243,12 +243,12 @@
 			else
 				_hud.showOverheat(false);
 			
-			collide();
-			super.update();
-			
 			// update beacon (?)
 			_followBeacon.x = _player.x + FOLLOW_OFFSET;
 			_followBeacon.y = _player.y;
+			
+			collide();
+			super.update();
 		}
 		
 		private function spawnBuilding():void
@@ -271,7 +271,7 @@
 		
 		private function spawnPlane():void // callback
 		{
-			var y:Number = 20 + FlxU.random() * 40;
+			var y:Number = 10 + FlxU.random() * 50;
 			addActor(new PlaneController(_player, _layerActionFront), _player.x + FlxG.width * 2, y, _layerActionFront);
 		}
 		
@@ -428,7 +428,7 @@
 			maxXOfBuilding += randomOffset;
 			if (maxXOfBuilding < kScreenRight)
 			{
-				var newBuilding:Actor = new Actor(new FrontBuildingController(), _layerFront, maxXOfBuilding);
+				var newBuilding:Actor = new Actor(new FrontBuildingController(_playerController), _layerFront, maxXOfBuilding);
 				_layerFront.add(newBuilding, true);
 				_frontBuildings.push(newBuilding);
 			}

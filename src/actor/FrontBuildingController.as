@@ -16,6 +16,13 @@ package actor
 		
 		private static var _lastRandom:uint;
 		
+		private var _playerController:PlayerController;
+		
+		public function FrontBuildingController(playerController:PlayerController):void
+		{
+			_playerController = playerController;
+		}
+		
 		override public function init():void 
 		{
 			var random:uint;
@@ -37,7 +44,17 @@ package actor
 		
 		override public function update():void 
 		{
-			
+			if (_playerController.usingRightArm)
+			{
+				var player:Actor = _playerController.controlledActor;
+				var playerX:Number = player.getScreenXY().x;
+				var thisX:Number = controlledActor.getScreenXY().x;
+				if (playerX + player.width > thisX)
+				{
+					trace("this building dies!");
+					controlledActor.play("damage");
+				}
+			}
 		}
 	}
 }
