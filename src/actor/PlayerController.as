@@ -107,6 +107,7 @@ package actor
 			
 			// load the right arm sprite...
 			_rightArmSprite = new SpriteLoader().load(Assets.XMLSpriteRightArm, Assets.SpriteRightArm);
+			_rightArmSprite.addAnimationCallback(rightArmAnimationCallback);
 			
 			// add sprites to the composite actor!
 			var compositeActor:CompositeActor = controlledActor as CompositeActor;
@@ -255,6 +256,13 @@ package actor
 				_currentAction = ACTION_ATTACKING_LEFT_ARM;
 				attackLeftArm();
 			}
+			
+			// RIGHT ARM
+			if (FlxG.keys.justReleased("X"))
+			{
+				_currentAction = ACTION_ATTACKING_RIGHT_ARM;
+				attackRightArm();
+			}
 		}
 		
 		private function startLaser():void
@@ -340,6 +348,12 @@ package actor
 			controlledActor.play("attackLeftArm");
 		}
 		
+		private function attackRightArm():void
+		{
+			//trace("Started Playing attack Animation");
+			controlledActor.play("attackRightArm");
+		}
+		
 		private function laser():void
 		{
 			//trace("Started Playing laser Animation");
@@ -366,7 +380,6 @@ package actor
 				{
 					case "laserOff":
 					case "damage":
-					case "attackLeftArm":
 					{
 						_currentAction = ACTION_WALKING;
 						break;
@@ -382,9 +395,22 @@ package actor
 				case "attackLeftArm":
 				{
 					if (frameNumber == 4)
-					{
 						shootLeftHand();
-					}
+					else if (_leftArmSprite.finished)
+						_currentAction = ACTION_WALKING;
+					break;
+				}
+			}
+		}
+		
+		private function rightArmAnimationCallback(name:String, frameNumber:uint, frameIndex:uint):void
+		{
+			switch (name)
+			{
+				case "attackRightArm":
+				{
+					if (_rightArmSprite.finished)
+						_currentAction = ACTION_WALKING;
 					break;
 				}
 			}
