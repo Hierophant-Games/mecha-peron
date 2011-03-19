@@ -8,9 +8,30 @@ package actor
 	 */
 	public class ExplosionController extends ActorController
 	{
+		public static const TYPE_NORMAL:uint = 0;
+		public static const TYPE_MINI:uint = 1;
+		private var _type:uint;
+		
+		public function ExplosionController(type:uint = TYPE_NORMAL)
+		{
+			_type = type;
+		}
+		
 		override public function init():void
 		{
-			new SpriteLoader().loadIntoSprite(controlledActor, Assets.XMLSpriteExplosion, Assets.SpriteExplosion);
+			switch (_type)
+			{
+				case TYPE_NORMAL:
+				{
+					new SpriteLoader().loadIntoSprite(controlledActor, Assets.XMLSpriteExplosion, Assets.SpriteExplosion);
+					break;
+				}
+				case TYPE_MINI:
+				{
+					new SpriteLoader().loadIntoSprite(controlledActor, Assets.XMLSpriteMiniExplosion, Assets.SpriteMiniExplosion);
+					break;
+				}
+			}
 			controlledActor.addAnimationCallback(animationCallback);
 			controlledActor.solid = false;
 			controlledActor.play("explode");
@@ -34,6 +55,11 @@ package actor
 			{
 				controlledActor.kill();
 			}
+		}
+		
+		override public function onKill():Boolean 
+		{
+			return true;
 		}
 	}
 }

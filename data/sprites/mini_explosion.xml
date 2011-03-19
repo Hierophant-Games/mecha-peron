@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<graphic animated="true" reverse="false" width="9" height="9" />
+	<animations>
+		<animation name="explode" frames="0, 1, 2, 3, 4, 5, 6" frameRate="12" loop="false" />
+	</animations>
+</data>

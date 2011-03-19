@@ -4,7 +4,7 @@ package embed
 	 * Embedded assets
 	 * @author Santiago Vilar
 	 */
-	public class Assets 
+	public class Assets
 	{
 		// embedded strings
 		
@@ -56,21 +56,22 @@ package embed
 		[Embed(source = "../../data/sprites/hudGauge.png")]
 		public static var SpriteHUDGauge:Class;
 		
-		
 		[Embed(source = "../../data/sprites/rocket.png")]
-		public static var SpriteRocket:Class;		
+		public static var SpriteRocket:Class;
 		[Embed(source = "../../data/sprites/enemyBuilding.png")]
-		public static var SpriteEnemyBuilding:Class;		
+		public static var SpriteEnemyBuilding:Class;
 		[Embed(source = "../../data/sprites/soldier.png")]
 		public static var SpriteSoldier:Class;
 		
 		[Embed(source = "../../data/sprites/bomb.png")]
-		public static var SpriteBomb:Class;		
+		public static var SpriteBomb:Class;
 		[Embed(source = "../../data/sprites/plane.png")]
 		public static var SpritePlane:Class;
 		
 		[Embed(source = "../../data/sprites/explosion.png")]
 		public static var SpriteExplosion:Class;
+		[Embed(source = "../../data/sprites/mini_explosion.png")]
+		public static var SpriteMiniExplosion:Class;
 		
 		[Embed(source = "../../data/sprites/crosshair.png")]
 		public static var SpriteCrosshair:Class;
@@ -93,6 +94,10 @@ package embed
 		public static var XMLSpriteCannon:Class;
 		[Embed(source = "../../data/sprites/explosion.xml", mimeType = "application/octet-stream")]
 		public static var XMLSpriteExplosion:Class;
+		[Embed(source = "../../data/sprites/mini_explosion.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteMiniExplosion:Class;
+		[Embed(source = "../../data/sprites/rocket.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteRocket:Class;
 		
 		// embedded sounds and music
 		

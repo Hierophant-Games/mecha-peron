@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<graphic animated="true" reverse="false" width="9" height="9" />
+	<animations>
+		<animation name="thrust" frames="0, 1" frameRate="6" loop="true" />
+		<animation name="burst" frames="2, 3, 4, 5, 6, 7, 8" frameRate="12" loop="false" />
+	</animations>
+</data>

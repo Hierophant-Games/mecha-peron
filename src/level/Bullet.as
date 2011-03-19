@@ -4,6 +4,7 @@ package level
 	import embed.Assets;
 	import game.Constants;
 	import org.flixel.*;
+	import sprites.SpriteLoader;
 	
 	/**
 	 * ...
@@ -14,13 +15,11 @@ package level
 		public function Bullet(layer:FlxGroup, X:Number, Y:Number) 
 		{
 			super(layer, X, Y);
-			loadGraphic(Assets.SpriteRocket, true, false, 9, 9, false);
-			addAnimation("Thrust", new Array(0, 1), 6, true);
-			addAnimation("Burst", new Array(2, 3, 4, 5, 6, 7, 8), 12, true);
+			new SpriteLoader().loadIntoSprite(this, Assets.XMLSpriteRocket, Assets.SpriteRocket);
 			addAnimationCallback(bulletAnimCallback);
 			fixed = true;
 			
-			play("Thrust");
+			play("thrust");
 		}
 		
 		public override function hitLeft(Contact:FlxObject, Velocity:Number):void
@@ -28,7 +27,7 @@ package level
 			var other:Actor = Contact as Actor;
 			if (other && other.controller is PlayerController)
 			{
-				play("Burst");
+				play("burst");
 				other.hurt(Constants.SOLDIER_BULLET_DAMAGE);
 				velocity.x = velocity.y = 0;
 			}
@@ -36,7 +35,7 @@ package level
 		
 		private function bulletAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void 
 		{
-			if (name == "Burst" && finished) 
+			if (name == "burst" && finished) 
 			{
 				kill();
 			}

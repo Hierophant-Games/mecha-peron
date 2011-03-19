@@ -56,9 +56,13 @@ package actor
 		
 		override public function onHurt(Damage:Number):Boolean
 		{
-			if((controlledActor.health -= Damage) <= 0)
+			if (!controlledActor.dead && (controlledActor.health -= Damage) <= 0)
 			{
 				// explosion
+				var explo:Actor = new Actor(new ExplosionController(ExplosionController.TYPE_MINI),
+					_layer, controlledActor.x + controlledActor.width / 2, controlledActor.y + controlledActor.height / 2);
+				_layer.add(explo, true);
+				
 				controlledActor.play("Die");
 				controlledActor.dead = true;
 			}
