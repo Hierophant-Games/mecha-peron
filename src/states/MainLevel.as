@@ -41,6 +41,8 @@
 		private var _followBeacon:FlxObject;
 		private const FOLLOW_OFFSET:int = 160;
 		
+		private var _tutorialText:TutorialText;
+		
 		private var _levelStarted:Boolean = false;
 		private var _playingTutorial:Boolean = false;
 		private var _fistTutorial:Boolean = true;
@@ -144,9 +146,6 @@
 			layer.add(theActor, true);
 		}
 		
-		private var _robotVoiceTimer:Number = 0;
-		private var _robotVoiceIndex:uint = 0;
-		
 		override public function update():void
 		{
 			if (FlxG.debug)
@@ -198,15 +197,6 @@
 				_playerController.updateHUD(_hud);
 				return;
 			}
-			
-			// Voice effect!
-			/*_robotVoiceTimer += FlxG.elapsed;
-			if (_robotVoiceTimer > 5)
-			{
-				_robotVoiceTimer -= 5;
-				_robotVoices[_robotVoiceIndex].play();
-				_robotVoiceIndex = (_robotVoiceIndex + 1) % RANDOM_VOICEFX_COUNT;
-			}*/
 			
 			// check building collision
 			for each (var building:Actor in _soldierBuildings)
@@ -525,8 +515,6 @@
 		{
 			emitter.start(false, 0.2);
 		}
-		
-		private var _tutorialText:TutorialText = null;
 		
 		private function updateTutorial():Boolean
 		{

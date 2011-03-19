@@ -17,6 +17,9 @@ package actor
 	 */
 	public class PlayerController extends ActorController
 	{
+		private const SfxPeronFrases:Array = new Array(Assets.SfxPeronFrase1, Assets.SfxPeronFrase2, Assets.SfxPeronFrase3);
+		private const SfxPeronHits:Array = new Array(Assets.SfxPeronHit1, Assets.SfxPeronHit2, Assets.SfxPeronHit3);
+		
 		private var _layer:FlxGroup;
 		private var _foregroundLayer:FlxGroup;
 		
@@ -26,6 +29,7 @@ package actor
 		private var _laserRechargeTimer:Number = 0;
 		
 		private var _laserSfx:FlxSound;
+		private var _laserShoutSfx:FlxSound;
 		
 		private var _beforeLevelStart:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
@@ -195,6 +199,9 @@ package actor
 					if (!FlxG.quake.running)
 						FlxG.quake.start(0.01, 0.2);
 					FlxG.play(Assets.SfxFootstep, Configuration.soundVolume);
+					
+					// y que diga algo de paso xD
+					//FlxG.play(SfxPeronFrases[uint(FlxU.random() * SfxPeronFrases.length)], Configuration.soundVolume);
 				}
 			}
 		}
@@ -282,6 +289,8 @@ package actor
 			
 			if (!_laserSfx || !_laserSfx.playing)
 				_laserSfx = FlxG.play(Assets.SfxLaser, Configuration.soundVolume);
+			if (!_laserShoutSfx || !_laserShoutSfx.playing)
+				_laserShoutSfx = FlxG.play(Assets.SfxPeronLaserShout, Configuration.soundVolume);
 			
 			_laser.x = controlledActor.x + controlledActor.width + 7;
 			_laser.y = controlledActor.y + 37;
@@ -308,6 +317,8 @@ package actor
 
 			if (_laserSfx)
 				_laserSfx.stop();
+			if (_laserShoutSfx)
+				_laserShoutSfx.stop();
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
@@ -326,6 +337,7 @@ package actor
 				return false;
 			}
 			
+			FlxG.play(SfxPeronHits[uint(FlxU.random() * SfxPeronHits.length)], Configuration.soundVolume);
 			if (_currentAction == ACTION_WALKING)
 			{
 				damage();
@@ -333,6 +345,11 @@ package actor
 			}
 			
 			return false;
+		}
+		
+		override public function onKill():Boolean
+		{
+			return true;
 		}
 		
 		private function setVelocity(x:Number, y:Number):void
@@ -494,11 +511,6 @@ package actor
 				
 				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 			}
-		}
-		
-		override public function onKill():Boolean
-		{
-			return true;
 		}
 	}
 }

@@ -128,6 +128,21 @@ package embed
 		[Embed(source = "../../data/sfx/explosion.mp3")]
 		public static var SfxExplosion:Class;
 		
+		[Embed(source = "../../data/sfx/Peron_Hit1.mp3")]
+		public static var SfxPeronHit1:Class;
+		[Embed(source = "../../data/sfx/Peron_Hit2.mp3")]
+		public static var SfxPeronHit2:Class;
+		[Embed(source = "../../data/sfx/Peron_Hit3.mp3")]
+		public static var SfxPeronHit3:Class;
+		[Embed(source = "../../data/sfx/Peron_Frase1.mp3")]
+		public static var SfxPeronFrase1:Class;
+		[Embed(source = "../../data/sfx/Peron_Frase2.mp3")]
+		public static var SfxPeronFrase2:Class;
+		[Embed(source = "../../data/sfx/Peron_Frase3.mp3")]
+		public static var SfxPeronFrase3:Class;
+		[Embed(source = "../../data/sfx/Peron_LaserShout.mp3")]
+		public static var SfxPeronLaserShout:Class;
+		
 		[Embed(source = "../../data/sfx/theme.mp3")]
 		public static var MusicTheme:Class;
 		[Embed(source = "../../data/sfx/losmuchachos_8bit.mp3")]
