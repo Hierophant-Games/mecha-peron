@@ -12,7 +12,7 @@ package level
 		{
 			setRotation(0, 0);
 			gravity = 0;
-			for (var i:uint = 0; i <10; ++i)
+			for (var i:uint = 0; i <15; ++i)
 			{
 				var smoke:FlxSprite = new FlxSprite();
 				if (i % 2)

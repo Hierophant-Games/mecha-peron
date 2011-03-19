@@ -199,7 +199,7 @@ package actor
 			_smokeEmitter.init();
 			_smokeEmitter.setSize(6, 2);
 			_smokeEmitter.setXSpeed(0, 0);
-			_smokeEmitter.setYSpeed(0, 0);
+			_smokeEmitter.setYSpeed(-20, -30);
 			
 			_layer.add(_smokeEmitter, true);
 		}

@@ -139,7 +139,7 @@ package actor
 			_smokeEmitterL.init();
 			_smokeEmitterL.setSize(1, 1);
 			_smokeEmitterL.setXSpeed(0, 0);
-			_smokeEmitterL.setYSpeed(-30, -50);
+			_smokeEmitterL.setYSpeed(-40, -60);
 			
 			_layer.add(_smokeEmitterL);
 			
@@ -147,7 +147,7 @@ package actor
 			_smokeEmitterR.init();
 			_smokeEmitterR.setSize(1, 1);
 			_smokeEmitterR.setXSpeed(0, 0);
-			_smokeEmitterR.setYSpeed(-30, -50);
+			_smokeEmitterR.setYSpeed(-40, -60);
 			
 			_layer.add(_smokeEmitterR);
 		}
