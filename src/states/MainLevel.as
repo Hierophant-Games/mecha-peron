@@ -31,6 +31,7 @@
 		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
 		private var _soldierBuildings:Vector.<Actor> = new Vector.<Actor>();
 		private var _bombs:Vector.<Actor> = new Vector.<Actor>();
+		private var _frontBuildings:Vector.<Actor> = new Vector.<Actor>();
 		
 		private var _hud:HUD = new HUD();
 		
@@ -62,7 +63,7 @@
 			_layerActionBack = new ParallaxLayer(null,				1.0);
 			_layerActionMiddle = new ParallaxLayer(null,			1.0);
 			_layerActionFront = new ParallaxLayer(null,				1.0);
-			_layerFront = new ParallaxLayer(Assets.SpriteFront,		1.5);
+			_layerFront = new ParallaxLayer(null,					1.5);
 			
 			_layerFront.OnSpriteOffset = spawnCannons;
 			
@@ -71,15 +72,15 @@
 			
 			initPlayer();
 			
-			_layerFront.add(_hud);
-			_hud.visible = false;
-			
 			add(_layerBack);
 			add(_layerMiddle);
 			add(_layerActionBack);
 			add(_layerActionMiddle);
 			add(_layerActionFront);
 			add(_layerFront);
+			// after everything, add the HUD
+			add(_hud);
+			_hud.visible = false;
 			
 			_aiDirector = new AIDirector(this, spawnPlane, spawnBuilding);
 			
@@ -88,6 +89,12 @@
 			
 			// stop music from the menu
 			//FlxG.music.stop();
+			
+			// do some updates for the front buildings
+			updateFrontBuildings();
+			updateFrontBuildings();
+			updateFrontBuildings();
+			// VIVA LA CABEZEADA!
 		}
 		
 		private function initPlayer():void
@@ -167,30 +174,8 @@
 			
 			if (!_levelStarted)
 			{
-				if (_playingTutorial)
-				{
-					playTutorial();
+				if (updateTutorial())
 					return;
-				}
-				else if (_player.x > 0)
-				{
-					_playingTutorial = true;
-					FlxG.timeScale = 1;
-				}
-				else if (_player.x > -10)
-				{
-					// stop it a little bit before the text
-					FlxG.timeScale = 1;
-				}
-				else
-				{
-					// if the player is impatient she can speed up
-					// the mecha entrance in the intro
-					if (FlxG.mouse.justReleased())
-					{
-						FlxG.timeScale = 4;
-					}
-				}
 			}
 			
 			if (_gameOver)
@@ -233,9 +218,11 @@
 				}
 			}
 			
+			updateFrontBuildings();
+			
 			if (_levelStarted)
 				_aiDirector.update(_player.x);
-			
+				
 			updateLaserCombat();
 			
 			updateCrushingArm();
@@ -415,6 +402,50 @@
 			}
 		}
 		
+		private function updateFrontBuildings():void
+		{
+			const kScreenLeft:Number = -FlxG.scroll.x * _layerFront.scrollFactor.x;
+			const kScreenRight:Number = kScreenLeft + FlxG.width * _layerFront.scrollFactor.x;
+			//trace("kScreenRight", kScreenRight);
+			
+			var maxXOfBuilding:Number = kScreenLeft;
+			
+			for each (var building:Actor in _frontBuildings)
+			{
+				var maxX:Number = building.x + building.width;
+				if (maxX < kScreenLeft)
+				{
+					trace("Removing front building...");
+					building.kill();
+				}
+				else if (maxX > maxXOfBuilding)
+				{
+					maxXOfBuilding = maxX;
+				}
+			}
+			//trace("maxXOfBuilding", maxXOfBuilding);
+			var randomOffset:Number = 20 + (FlxU.random() * 10) * 2;
+			maxXOfBuilding += randomOffset;
+			if (maxXOfBuilding < kScreenRight)
+			{
+				var newBuilding:Actor = new Actor(new FrontBuildingController(), _layerFront, maxXOfBuilding);
+				_layerFront.add(newBuilding, true);
+				_frontBuildings.push(newBuilding);
+			}
+			
+			// clean vector
+			for (var i:int = 0; i < _frontBuildings.length; i++) 
+			{
+				var item:Actor = _frontBuildings[i];
+				if (!item.exists)
+				{
+					_frontBuildings.splice(i, 1);
+					_layerFront.remove(item);
+					--i;
+				}
+			}
+		}
+		
 		private function removeDeadActors():void
 		{
 			var actorIdx:int;
@@ -496,6 +527,35 @@
 		}
 		
 		private var _tutorialText:TutorialText = null;
+		
+		private function updateTutorial():Boolean
+		{
+			if (_playingTutorial)
+			{
+				playTutorial();
+				return true;
+			}
+			else if (_player.x > 0)
+			{
+				_playingTutorial = true;
+				FlxG.timeScale = 1;
+			}
+			else if (_player.x > -10)
+			{
+				// stop it a little bit before the text
+				FlxG.timeScale = 1;
+			}
+			else
+			{
+				// if the player is impatient she can speed up
+				// the mecha entrance in the intro
+				if (FlxG.mouse.justReleased())
+				{
+					FlxG.timeScale = 4;
+				}
+			}
+			return false;
+		}
 		
 		private function playTutorial():void
 		{

@@ -24,8 +24,12 @@ package embed
 		public static var SpriteBack:Class;
 		[Embed(source = "../../data/sprites/background.png")]
 		public static var SpriteMiddle:Class;
-		[Embed(source = "../../data/sprites/foreground.png")]
-		public static var SpriteFront:Class;
+		[Embed(source = "../../data/sprites/foreground_building_a.png")]
+		public static var SpriteForegroundA:Class;
+		[Embed(source = "../../data/sprites/foreground_building_b.png")]
+		public static var SpriteForegroundB:Class;
+		[Embed(source = "../../data/sprites/foreground_building_c.png")]
+		public static var SpriteForegroundC:Class;
 		[Embed(source = "../../data/sprites/smoke.png")]
 		public static var SpriteSmoke:Class;
 		[Embed(source = "../../data/sprites/smokeBig.png")]
@@ -98,6 +102,12 @@ package embed
 		public static var XMLSpriteMiniExplosion:Class;
 		[Embed(source = "../../data/sprites/rocket.xml", mimeType = "application/octet-stream")]
 		public static var XMLSpriteRocket:Class;
+		[Embed(source = "../../data/sprites/foreground_building_a.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteForegroundA:Class;
+		[Embed(source = "../../data/sprites/foreground_building_b.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteForegroundB:Class;
+		[Embed(source = "../../data/sprites/foreground_building_c.xml", mimeType = "application/octet-stream")]
+		public static var XMLSpriteForegroundC:Class;
 		
 		// embedded sounds and music
 		
