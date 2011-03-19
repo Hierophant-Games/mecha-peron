@@ -306,7 +306,11 @@ package actor
 			if ((controlledActor.health -= Damage) <= 0)
 			{
 				stopLaser();
+				_smokeEmitterL.stop();
+				_smokeEmitterR.stop();
+				
 				FlxG.quake.start(0.01, 100);
+				
 				setVelocity(0, 6);
 				controlledActor.dead = true;
 				controlledActor.play("damage");
