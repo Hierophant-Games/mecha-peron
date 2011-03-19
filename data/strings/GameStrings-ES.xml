@@ -38,9 +38,10 @@
 		<LineBreak>-------------------------------</LineBreak>
 		<Preparing>Preparando el armamento...........</Preparing>
 		<AimReady>Sistema ocular de puntería láser listo......USE EL MOUSE PARA CONTROLAR</AimReady>
-		<FlyingArm>Misil brazo volador listo......PRESIONE Z PARA DESPLEGAR</FlyingArm>
+		<FlyingArm>Puño misil volador listo......PRESIONE Z PARA DESPLEGAR</FlyingArm>
 		<CrushArm>Brazo aniquilador no listo aún.....AGUARDE UNA ACTUALIZACIÓN</CrushArm>
 		<ClickToContinue>Clic para continuar</ClickToContinue>
+		<FistTutorial>Presiona Z para disparar el puño volador</FistTutorial>
 		<Warning>CUIDADO -></Warning>
 		<Overheat>SOBRECARGA</Overheat>
 	</Game>

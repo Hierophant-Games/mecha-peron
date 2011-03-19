@@ -42,7 +42,10 @@
 		
 		private var _levelStarted:Boolean = false;
 		private var _playingTutorial:Boolean = false;
+		private var _fistTutorial:Boolean = true;
 		private var _gameOver:Boolean = false;
+		
+		private var _fistTutorialText:FlxText;
 		
 		private var _gameOverScreen:GameOverScreen;		
 		
@@ -263,7 +266,20 @@
 		
 		private function spawnBuilding():void
 		{
-			addActor(new BuildingController(_player, _layerActionMiddle, spawnBomb), _player.x + FlxG.width, 40, _layerActionBack);
+			var buildingX:Number = _player.x + FlxG.width;
+			addActor(new BuildingController(_player, _layerActionMiddle, spawnBomb), buildingX, 40, _layerActionBack);
+			
+			// Prepare fist tutorial
+			if (_fistTutorialText == null)
+			{
+				var textScrollFactor:Number = 1.9; // A ojo
+				var fistTutorialX:Number =  (buildingX + FlxG.scroll.x) - (FlxG.scroll.x * textScrollFactor);
+				
+				_fistTutorialText = new FlxText(fistTutorialX, 8, FlxG.width - 100, Game.Strings.languageXML.Game.FistTutorial);
+				_fistTutorialText.setFormat(null, 12, 0xffffff, "center", 0xcccccc);
+				_layerActionFront.add(_fistTutorialText);
+				_fistTutorialText.scrollFactor.x = textScrollFactor;	
+			}
 		}
 		
 		private function spawnPlane():void // callback

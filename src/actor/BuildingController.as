@@ -25,7 +25,7 @@ package actor
 			return _soldiers;
 		}
 		
-		public function BuildingController(player:Actor, layer:FlxGroup, spawnBombCB:Function) 
+		public function BuildingController(player:Actor, layer:FlxGroup, spawnBombCB:Function = null) 
 		{
 			_player = player;
 			_layer = layer;
