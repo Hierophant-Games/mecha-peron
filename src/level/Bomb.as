@@ -2,47 +2,30 @@ package level
 {
 	import org.flixel.*;
 	import level.*;
+	import actor.Actor;
 	/**
 	 * ...
 	 * @author Fernando
 	 */
-	public class Bomb extends FlxSprite
-	{
-		protected var _layer:FlxGroup;
+	public class Bomb
+	{		
+		protected var _actor:Actor;
 		
-		private var _lifeBar:LifeBar;
-		
-		public function get layer():FlxGroup
+		public function Bomb(actor:Actor) 
 		{
-			return _layer;
+			_actor = actor;
 		}
 		
-		public function Bomb(layer:FlxGroup, X:Number, Y:Number) 
+		virtual public function init():void
 		{
-			super(X, Y);
-			
-			_layer = layer;
-			
-			health = 100;
-			
-			_lifeBar = new LifeBar(10, 1);
-			_layer.add(_lifeBar, true);
 		}
 		
-		override public function update():void
+		virtual public function collide(contact:FlxObject):void
 		{
-			_lifeBar.x = x + width / 2 - _lifeBar.width / 2;
-			_lifeBar.y = y - _lifeBar.height;
-			_lifeBar.updateLife(health);
-			
-			super.update();
 		}
 		
-		override public function kill():void
+		virtual public function explode():void // Trigger explosion animation
 		{
-			_layer.remove(_lifeBar);
-			
-			super.kill();
 		}
 	}
 

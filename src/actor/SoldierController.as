@@ -101,7 +101,7 @@ package actor
 			
 			var velocity:Point = new Point(Constants.SOLDIER_BULLET_SPEED_X, ((FlxU.random()*10) - 5));
 				
-			var bullet:Bullet = new Bullet(_layer, originScreenPos.x, originScreenPos.y);
+			var bullet:Actor = new Actor(new BombController(Bullet, _layer), _layer, originScreenPos.x, originScreenPos.y);
 			bullet.x -= FlxG.scroll.x * _layer.scrollFactor.x;
 				
 			bullet.velocity = new FlxPoint(velocity.x, velocity.y);

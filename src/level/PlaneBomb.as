@@ -12,28 +12,36 @@ package level
 	 */
 	public class PlaneBomb extends Bomb
 	{		
-		public function PlaneBomb(layer:FlxGroup, X:Number, Y:Number) 
+		public function PlaneBomb(actor:Actor) 
 		{
-			super(layer, X, Y);
-			loadGraphic(Assets.SpriteBomb, false, false, 10, 5, false);
-			fixed = true;
+			super(actor);
 		}
 		
-		public override function hitBottom(Contact:FlxObject, Velocity:Number):void
+		override public function init():void
 		{
-			var other:Actor = Contact as Actor;
+			_actor.loadGraphic(Assets.SpriteBomb, false, false, 10, 5, false);
+			_actor.fixed = true;
+		}
+		
+		override public function collide(contact:FlxObject):void
+		{
+			var other:Actor = contact as Actor;
 			if (other && other.controller is PlayerController)
 			{
-				// create explosion
-				var explosion:Actor = new Actor(new ExplosionController(), _layer, x, y);
-				_layer.add(explosion);
-				
-				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
-				
-				kill();
+				explode();
+				_actor.kill();
 				
 				other.hurt(Constants.PLANE_BOMB_DAMAGE);
 			}
+		}
+		
+		override public function explode():void
+		{
+			// create explosion
+			var explosion:Actor = new Actor(new ExplosionController(), _actor.layer, _actor.x, _actor.y);
+			_actor.layer.add(explosion);
+			
+			FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 		}
 	}
 }

@@ -30,7 +30,7 @@
 		private var _planes:Vector.<Actor> = new Vector.<Actor>();		
 		private var _cannons:Vector.<Actor> = new Vector.<Actor>();
 		private var _soldierBuildings:Vector.<Actor> = new Vector.<Actor>();
-		private var _bombs:Vector.<Bomb> = new Vector.<Bomb>();
+		private var _bombs:Vector.<Actor> = new Vector.<Actor>();
 		
 		private var _hud:HUD = new HUD();
 		
@@ -287,8 +287,9 @@
 				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 236, 120 - 15, _layerFront);
 		}
 		
-		private function spawnBomb(bomb:Bomb):void
+		private function spawnBomb(bomb:Actor):void
 		{
+			bomb.health = 100;
 			_bombs.push(bomb);
 		}
 		
@@ -352,22 +353,23 @@
 				//Bombs
 				for (i = 0; i < _bombs.length; ++i)
 				{
-					var bomb:Bomb = _bombs[i];
+					var bomb:Actor = _bombs[i];
 					
 					if (bomb.dead)
 						continue;
 					
 					if (_playerController.checkLaserHit(bomb))
 					{
-						if (bomb as Bullet)
+						var bombController:BombController = bomb.controller as BombController;
+						if (bombController.type == BombController.SOLDIER_BULLET)
 						{
 							bomb.hurt(Constants.LASER_SOLDIER_BOMB_DAMAGE);
 						}						
-						else if (bomb as CannonBomb)
+						else if (bombController.type == BombController.CANNON_BOMB)
 						{
 							bomb.hurt(Constants.LASER_CANNON_BOMB_DAMAGE);
 						}
-						/*else if (bomb as PlaneBomb) // Can´t hurt plane bombs for now
+						/*else if (bombController.type == BombController.PLANE_BOMB) // Can´t hurt plane bombs for now
 						{
 							bomb.hurt(Constants.LASER_PLANE_BOMB_DAMAGE);
 						}*/
@@ -435,13 +437,13 @@
 			}
 			for (actorIdx = 0; actorIdx < _bombs.length; ++actorIdx)
 			{
-				var bomb:Bomb = _bombs[actorIdx];
+				var bomb:Actor = _bombs[actorIdx];
 				if (!bomb.exists)
 				{
 					_bombs.splice(actorIdx, 1);
-					bomb.layer.remove(cannon);
+					bomb.layer.remove(bomb);
 					--actorIdx;
-					FlxG.log("Removed bomb");
+					FlxG.log("Removed actor with controller: " + bomb.controller);
 				}
 			}
 		}

@@ -31,6 +31,12 @@ package level
 		
 		public function updateLife(life:Number):void
 		{
+			if (life <= 0)
+			{
+				fill(0);
+				return;
+			}
+			
 			if (life == _life) // life is the same
 			{
 				if (!dead)
@@ -51,12 +57,6 @@ package level
 			dead = false;
 			visible = true;
 			_life = life;
-			
-			if (life <= 0)
-			{
-				fill(0);
-				return;
-			}
 			
 			var ratio:Number = life / 100;
 			

@@ -230,7 +230,7 @@ package actor
 			}
 			else if (_isLaserRecharging)
 			{
-				_laserCharge += Constants.LASER_CHARGE_STEP;
+				_laserCharge += Constants.LASER_RECHARGE_STEP;
 				
 				if (_laserCharge >= Constants.LASER_MAX_CHARGE)
 				{
@@ -280,7 +280,7 @@ package actor
 			var angle:Number = Math.atan2(FlxG.mouse.y - (_laser.y + _laser.height), FlxG.mouse.x - _laser.x);
 			angle *= 180 / Math.PI;
 			
-			if (angle > 30) angle = 30;
+			if (angle > 40) angle = 40;
 			else if (angle < -10) angle = -10;
 			
 			if(FlxG.mouse.justPressed())

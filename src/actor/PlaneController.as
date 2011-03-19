@@ -183,7 +183,7 @@ package actor
 			{
 				_bombDropped = true;
 				
-				var bomb:PlaneBomb = new PlaneBomb(_layer, originPos.x, originPos.y);
+				var bomb:Actor = new Actor(new BombController(PlaneBomb, _layer), _layer, originPos.x, originPos.y);
 				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
 				
 				bomb.acceleration.y = Constants.GRAVITY;

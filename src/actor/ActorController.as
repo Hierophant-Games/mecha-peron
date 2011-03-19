@@ -52,7 +52,7 @@ package actor
 		public function onHurt(Damage:Number):Boolean
 		{
 			trace("implement me!!!");
-			return false;
+			return true;
 		}
 		
 		/**
@@ -61,7 +61,7 @@ package actor
 		 */
 		public function onKill():Boolean
 		{
-			return false;
+			return true;
 		}
 		
 		/**

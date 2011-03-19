@@ -94,7 +94,7 @@ package actor
 				var randomY:Number = 0;//FlxU.random() * (_player.height / 4);
 				var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
 
-				var bomb:CannonBomb = new CannonBomb(_layer, screenX, screenY);
+				var bomb:Actor = new Actor(new BombController(CannonBomb, _layer), _layer, screenX, screenY);
 				bomb.x -= FlxG.scroll.x * _layer.scrollFactor.x;
 				
 				var speed:Point = new Point(targetPos.x - screenX, targetPos.y - screenY);
