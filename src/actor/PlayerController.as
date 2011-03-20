@@ -30,7 +30,6 @@ package actor
 		
 		private var _laserSfx:FlxSound;
 		private var _laserShoutSfx:FlxSound;
-		private var _leftArmSfx:FlxSound;
 		
 		private var _beforeLevelStart:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
@@ -109,17 +108,21 @@ package actor
 			// load the head!
 			_headSprite = new SpriteLoader().load(Assets.XMLSpriteHead, Assets.SpriteHead);
 			_headSprite.addAnimationCallback(headAnimationCallback);
+			_headSprite.fixed = true;
 			
 			// load the body sprite... no animations
 			_bodySprite = new FlxSprite(0, 0, Assets.SpriteBody);
+			_bodySprite.fixed = true;
 			
 			// load the left arm sprite...
 			_leftArmSprite = new SpriteLoader().load(Assets.XMLSpriteLeftArm, Assets.SpriteLeftArm);
 			_leftArmSprite.addAnimationCallback(leftArmAnimationCallback);
+			_leftArmSprite.fixed = true;
 			
 			// load the right arm sprite...
 			_rightArmSprite = new SpriteLoader().load(Assets.XMLSpriteRightArm, Assets.SpriteRightArm);
 			_rightArmSprite.addAnimationCallback(rightArmAnimationCallback);
+			_rightArmSprite.fixed = true;
 			
 			// add sprites to the composite actor!
 			var compositeActor:CompositeActor = controlledActor as CompositeActor;
@@ -209,8 +212,9 @@ package actor
 		
 		private function updateAttacks():void
 		{
+			var canUseLaser:Boolean = (_currentAction != ACTION_ATTACKING_LEFT_ARM) && (_currentAction != ACTION_ATTACKING_RIGHT_ARM);
 			// LASER
-			if (FlxG.mouse.pressed())
+			if (canUseLaser && FlxG.mouse.pressed())
 			{
 				startLaser();
 				
@@ -253,7 +257,7 @@ package actor
 					_isLaserRecharging = false;
 				}
 			}
-			else if(FlxG.mouse.justReleased())
+			else if (_currentAction == ACTION_SHOOTING_LASER && FlxG.mouse.justReleased())
 			{
 				stopLaser();
 				_isLaserRecharging = true;
@@ -266,20 +270,21 @@ package actor
 				if (_fistTimer < 0)
 					_fistTimer = 0;
 			}
-			else if (FlxG.keys.justReleased("Z"))
+			else if (canAttack() && FlxG.keys.justReleased("X"))
 			{
-				_currentAction = ACTION_ATTACKING_LEFT_ARM;
 				attackLeftArm();
 			}
 			
 			// RIGHT ARM
-			if (FlxG.keys.justReleased("X"))
+			if (canAttack() && FlxG.keys.justReleased("Z"))
 			{
-				_currentAction = ACTION_ATTACKING_RIGHT_ARM;
 				attackRightArm();
-				_layer.remove(_rightArmSprite);
-				_foregroundLayer.add(_rightArmSprite);
 			}
+		}
+		
+		private function canAttack():Boolean
+		{
+			return _currentAction == ACTION_BEING_DAMAGED || _currentAction == ACTION_WALKING;
 		}
 		
 		private function startLaser():void
@@ -376,15 +381,17 @@ package actor
 		private function attackLeftArm():void
 		{
 			//trace("Started Playing attack Animation");
+			_currentAction = ACTION_ATTACKING_LEFT_ARM;
 			controlledActor.play("attackLeftArm");
-			if (!_leftArmSfx || !_leftArmSfx.playing)
-				_leftArmSfx = FlxG.play(Assets.SfxPeronFrase1, Configuration.soundVolume);
+			FlxG.play(Assets.SfxPeronFrase2, Configuration.soundVolume);
 		}
 		
 		private function attackRightArm():void
 		{
 			//trace("Started Playing attack Animation");
+			_currentAction = ACTION_ATTACKING_RIGHT_ARM;
 			controlledActor.play("attackRightArm");
+			FlxG.play(Assets.SfxPeronFrase1, Configuration.soundVolume);
 		}
 		
 		private function laser():void
@@ -447,6 +454,11 @@ package actor
 						_currentAction = ACTION_WALKING;
 						_foregroundLayer.remove(_rightArmSprite);
 						_layer.add(_rightArmSprite);
+					}
+					else if (frameNumber == 7)
+					{						
+						_layer.remove(_rightArmSprite);
+						_foregroundLayer.add(_rightArmSprite);
 					}
 					break;
 				}
