@@ -15,18 +15,22 @@
 	</Options>
 	<Help>
 		<Help1>After losing WWII, mad Japanese scientists built a giant automaton. It was created after Argentinean rising leader, Juan D. Perón.</Help1>
-		<Help2>Sadly, the AI implanted in the Mecha went rogue and started to wreck havoc on the Japanese capital city.</Help2>
+		<Help2>Sadly, the AI implanted in the Mecha went rogue and started to wreak havoc on the Japanese capital city.</Help2>
 		<Help3>You command the path of destruction of Mecha-Perón. Have fun.</Help3>
 	</Help>
 	<Credits>
+		<Hierophant>HIEROPHANT GAMES</Hierophant>
 		<SMV>Santiago Martín Vilar: code, music, sfx, design</SMV>
 		<NVP>Nicolás Viegas Palermo: pixel art, design, code</NVP>
 		<FMH>Fernando Martínez Herrera: code, music, sfx, design</FMH>
+		<Voices>VOICE TALENT: Maximiliano Carrión</Voices>
 		<Marcha8Bit>"Los muchachos peronistas" (8-bit remix) by Santiago Martín Vilar</Marcha8Bit>
 		<MarchaMetal>"Los muchachos peronistas" (metal remix) by Fernando Martínez Herrera</MarchaMetal>
 		<Thanks>Thanks to all of you who sent feedback, friends, girlfriends, enemies, unknown people, etc.</Thanks>
-		<ThanksAdam>THANK YOU ADAM ATOMIC</ThanksAdam>
+		<ThanksAdam>THANK YOU ADAM ATOMIC FOR THIS AWESOME FLIXEL</ThanksAdam>
 		<WeLoveJapan>WE &lt;3 JAPAN, we're not making any joke with the latest events.</WeLoveJapan>
+		<CODEAR>This game was made for the ADVA's CODEAR "Perón" compo. ADVA is the Argentine Association of Videogame Developers. Thanks for playing!</CODEAR>
+		<FirstProject>It was our first completed project as a team and we're very happy with the outcome. Viva Perón!</FirstProject>
 	</Credits>
 	<Disclaimer>
 		<Title>Disclaimer:</Title>

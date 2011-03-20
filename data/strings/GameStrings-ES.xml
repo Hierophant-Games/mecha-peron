@@ -19,14 +19,18 @@
 		<Help3>Comandás el camino de destrucción de Mecha-Perón. Divertite.</Help3>
 	</Help>
 	<Credits>
+		<Hierophant>HIEROPHANT GAMES</Hierophant>
 		<SMV>Santiago Martín Vilar: código, música, sonidos, diseño</SMV>
 		<NVP>Nicolás Viegas Palermo: pixel art, diseño, código</NVP>
 		<FMH>Fernando Martínez Herrera: código, música, sonidos, diseño</FMH>
+		<Voices>LA VOZ DEL PUEBLO: Maximiliano Carrión</Voices>
 		<Marcha8Bit>"Los muchachos peronistas" (8-bit remix) por Santiago Martín Vilar</Marcha8Bit>
 		<MarchaMetal>"Los muchachos peronistas" (metal remix) por Fernando Martínez Herrera</MarchaMetal>
 		<Thanks>Gracias a todos los que mandaron feedback, amigos, amigas, enemigos, desconocidos, etc.</Thanks>
-		<ThanksAdam>THANK YOU ADAM ATOMIC</ThanksAdam>
+		<ThanksAdam>GRACIAS ADAM ATOMIC POR FLIXEL</ThanksAdam>
 		<WeLoveJapan>WE &lt;3 JAPAN, no estamos burlándonos de los últimos sucesos acontecidos.</WeLoveJapan>
+		<CODEAR>Este juego fue hecho para el concurso CODEAR "Perón" de la Asociación de Desarolladores de Videojuegos Argentinos (ADVA). Gracias por jugarlo!</CODEAR>
+		<FirstProject>Fue nuestro primer proyecto como equipo y estamos muy contentos con el resultado. Viva Perón!</FirstProject>
 	</Credits>
 	<Disclaimer>
 		<Title>Aviso:</Title>

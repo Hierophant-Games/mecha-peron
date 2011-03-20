@@ -17,12 +17,16 @@ package states
 		override public function create():void 
 		{
 			var creditsStr:String = "";
-			creditsStr += getDevTeamInRandomSoNoneIsMoreImportantThanTheOther();
-			creditsStr += "\n\n" + Game.Strings.languageXML.Credits.Marcha8Bit;
+			creditsStr += Game.Strings.languageXML.Credits.Hierophant;
+			creditsStr += "\n\n" + getDevTeamInRandomSoNoneIsMoreImportantThanTheOther();
+			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Voices;
+			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Marcha8Bit;
 			creditsStr += "\n\n" + Game.Strings.languageXML.Credits.MarchaMetal;
-			creditsStr += "\n\n" + Game.Strings.languageXML.Credits.Thanks;
+			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Thanks;
 			creditsStr += "\n\n" + Game.Strings.languageXML.Credits.ThanksAdam;
 			creditsStr += "\n\n" + Game.Strings.languageXML.Credits.WeLoveJapan;
+			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.CODEAR;
+			creditsStr += "\n\n" + Game.Strings.languageXML.Credits.FirstProject;
 			
 			text = new FlxText(4, FlxG.height, FlxG.width - 60, creditsStr);
 			add(text);
@@ -34,10 +38,7 @@ package states
 		{
 			super.update();
 			
-			if (text.y > 10)
-				text.y -= FlxG.elapsed * TEXT_SPEED;
-			else
-				text.y = 10;
+			text.y -= FlxG.elapsed * TEXT_SPEED;
 		}
 		
 		private function onBack():void
