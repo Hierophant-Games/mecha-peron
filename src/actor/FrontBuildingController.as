@@ -18,6 +18,13 @@ package actor
 		
 		private var _playerController:PlayerController;
 		
+		private var _cannon:Actor;
+		
+		public function set cannon(cannon:Actor):void
+		{
+			_cannon = cannon;
+		}
+		
 		public function FrontBuildingController(playerController:PlayerController):void
 		{
 			_playerController = playerController;
@@ -51,8 +58,9 @@ package actor
 				var thisX:Number = controlledActor.getScreenXY().x;
 				if (playerX + player.width > thisX)
 				{
-					trace("this building dies!");
 					controlledActor.play("damage");
+					if (_cannon && _cannon.exists)
+						_cannon.kill();
 				}
 			}
 		}

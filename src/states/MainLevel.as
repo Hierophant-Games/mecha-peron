@@ -67,8 +67,6 @@
 			_layerActionFront = new ParallaxLayer(null,				1.0);
 			_layerFront = new ParallaxLayer(null,					1.5);
 			
-			_layerFront.OnSpriteOffset = spawnCannons;
-			
 			_layerMiddle.addEmitter(130, 80, setupSmoke, startSmoke);
 			_layerMiddle.addEmitter(390, 126, setupSmoke, startSmoke);
 			
@@ -84,7 +82,7 @@
 			add(_hud);
 			_hud.visible = false;
 			
-			_aiDirector = new AIDirector(this, spawnPlane, spawnBuilding);
+			_aiDirector = new AIDirector(this, spawnPlane, spawnBuilding, spawnCannon);
 			
 			// load cursor
 			FlxG.mouse.show(Assets.SpriteCrosshair, 5, 5);
@@ -125,7 +123,7 @@
 			_previousDistance = _player.x; // Start traveled distance count here
 		}
 		
-		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):void
+		private function addActor(actorController:ActorController, x:Number, y:Number, layer:FlxGroup):Actor
 		{
 			var theActor:Actor = new Actor(actorController, layer, x, y);
 			theActor.health = 100;
@@ -144,6 +142,7 @@
 			}
 			
 			layer.add(theActor, true);
+			return theActor;
 		}
 		
 		override public function update():void
@@ -215,8 +214,6 @@
 				
 			updateLaserCombat();
 			
-			updateCrushingArm();
-			
 			removeDeadActors();
 			
 			// HUD
@@ -265,19 +262,17 @@
 			addActor(new PlaneController(_player, _layerActionFront), _player.x + FlxG.width * 2, y, _layerActionFront);
 		}
 		
-		private function spawnCannons(x:Number):void // Callback
+		private function spawnCannon():void
 		{
-			//Front buildings cannon positions
-			//48, 135
-			//146, 147
-			//236, 120
-			//return; // disabling them until we have the proper attack to kill them
-			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 48, 135 - 15, _layerFront);
-			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 146, 147 - 15, _layerFront);
-			if(FlxU.random() * 100 > 70)
-				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 236, 120 - 15, _layerFront);
+			// get last building
+			var building:Actor = _frontBuildings[_frontBuildings.length - 1];
+			var x:Number = building.x + building.width / 2;
+			var y:Number = building.y - 15;
+			var cannon:Actor = addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x, y, _layerFront);
+			(building.controller as FrontBuildingController).cannon = cannon;
+			var random:Number = (FlxU.random() * cannon.width * 2) - cannon.width;
+			cannon.x -= cannon.width / 2; // centered
+			cannon.x += random;
 		}
 		
 		private function spawnBomb(bomb:Actor):void
@@ -366,27 +361,6 @@
 						{
 							bomb.hurt(Constants.LASER_PLANE_BOMB_DAMAGE);
 						}*/
-					}
-				}
-			}
-		}
-		
-		private function updateCrushingArm():void
-		{
-			if (FlxG.keys.justPressed("SPACE"))
-			{
-				for (var i:uint = 0; i < _cannons.length; ++i)
-				{
-					if (_cannons[i].getScreenXY().x > FlxG.width)
-						continue;
-					
-					var cannon:Actor = _cannons[i];
-					
-					var rightArmX1:Number = _player.getScreenXY().x + _player.width / 2;
-					var rightArmX2:Number = rightArmX1 + _player.width;
-					if (cannon.getScreenXY().x < rightArmX2 && cannon.getScreenXY().x + cannon.width > rightArmX1)
-					{
-						cannon.hurt(cannon.health);
 					}
 				}
 			}

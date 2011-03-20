@@ -55,6 +55,8 @@ package actor
 		private var _smokeEmitterL:SmokeEmitter; // left eye
 		private var _smokeEmitterR:SmokeEmitter; // right eye
 		
+		private var _usingRightArm:Boolean = false;
+		
 		public function set beforeLevelStart(beforeLevelStart:Boolean):void
 		{
 			_beforeLevelStart = beforeLevelStart;
@@ -92,7 +94,7 @@ package actor
 		
 		public function get usingRightArm():Boolean
 		{
-			return _currentAction == ACTION_ATTACKING_RIGHT_ARM;
+			return _usingRightArm;
 		}
 		
 		public function PlayerController(layer:FlxGroup, foregroundLayer:FlxGroup)
@@ -454,11 +456,13 @@ package actor
 						_currentAction = ACTION_WALKING;
 						_foregroundLayer.remove(_rightArmSprite);
 						_layer.add(_rightArmSprite);
+						_usingRightArm = false;
 					}
 					else if (frameNumber == 7)
 					{						
 						_layer.remove(_rightArmSprite);
 						_foregroundLayer.add(_rightArmSprite);
+						_usingRightArm = true;
 					}
 					break;
 				}

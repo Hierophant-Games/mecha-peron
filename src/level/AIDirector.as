@@ -30,11 +30,19 @@ package level
 		private var _buildingSpawnFunction:Function;
 		private const BUILDING_RANDOM_TWEAK:Number = 50; // px of randomness
 		
-		public function AIDirector(level:FlxState, planeSpawnFunction:Function, buildingSpawnFunction:Function)
+		// cannons!
+		private var _posBetweenCannons:Array = new Array(800, 600, 400, 200);
+		private var _lastCannonPos:Number = 0;
+		private var _cannonSpawnFunction:Function;
+		private const CANNON_RANDOM_TWEAK:Number = 100; // px of randomness
+		
+		public function AIDirector(level:FlxState,
+			planeSpawnFunction:Function, buildingSpawnFunction:Function, cannonSpawnFunction:Function)
 		{
 			_level = level;
 			_planeSpawnFunction = planeSpawnFunction;
 			_buildingSpawnFunction = buildingSpawnFunction;
+			_cannonSpawnFunction = cannonSpawnFunction;
 		}
 		
 		public function update(x:Number):void
@@ -66,6 +74,13 @@ package level
 			{
 				_lastBuildingPos = x + (FlxU.random() * BUILDING_RANDOM_TWEAK);
 				_buildingSpawnFunction();
+			}
+			
+			// cannons
+			if ((x - _lastCannonPos) > _posBetweenCannons[_difficultyLevel])
+			{
+				_lastCannonPos = x + (FlxU.random() * CANNON_RANDOM_TWEAK);
+				_cannonSpawnFunction();
 			}
 		}
 	}

@@ -1,11 +1,11 @@
 package actor 
 {
-	import level.CannonBomb;
-	import level.LifeBar;
-	import org.flixel.*;
 	import embed.Assets;
 	import flash.geom.Point;
 	import game.Constants;
+	import level.CannonBomb;
+	import level.LifeBar;
+	import org.flixel.*;
 	import sprites.SpriteLoader;
 	/**
 	 * ...
@@ -122,6 +122,10 @@ package actor
 		
 		override public function onKill():Boolean
 		{
+			// create explosion
+			controlledActor.layer.add(new Actor(new ExplosionController(), controlledActor.layer,
+				controlledActor.x + controlledActor.width / 2,
+				controlledActor.y + controlledActor.height / 2), true);
 			controlledActor.layer.remove(_lifeBar);
 			return true;
 		}
