@@ -30,6 +30,7 @@ package actor
 		
 		private var _laserSfx:FlxSound;
 		private var _laserShoutSfx:FlxSound;
+		private var _leftArmSfx:FlxSound;
 		
 		private var _beforeLevelStart:Boolean = false;
 		private var _blockedByBuilding:Boolean = false;
@@ -376,6 +377,8 @@ package actor
 		{
 			//trace("Started Playing attack Animation");
 			controlledActor.play("attackLeftArm");
+			if (!_leftArmSfx || !_leftArmSfx.playing)
+				_leftArmSfx = FlxG.play(Assets.SfxPeronFrase1, Configuration.soundVolume);
 		}
 		
 		private function attackRightArm():void
