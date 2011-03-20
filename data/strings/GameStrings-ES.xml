@@ -39,14 +39,14 @@
 	</Disclaimer>
 	<Game>
 		<MechaPeron>INICIALIZANDO A MECHA-PERON</MechaPeron>
-		<LineBreak>-------------------------------</LineBreak>
+		<LineBreak>---------------------------------</LineBreak>
 		<Preparing>Preparando el armamento...........</Preparing>
 		<AimReady>Sistema ocular de puntería láser listo......USE EL MOUSE PARA CONTROLAR</AimReady>
-		<FlyingArm>Puño misil volador listo......PRESIONE Z PARA DESPLEGAR</FlyingArm>
-		<CrushArm>Brazo aniquilador no listo aún.....AGUARDE UNA ACTUALIZACIÓN</CrushArm>
+		<FlyingArm>Puño misil volador listo......PRESIONE X PARA DESPLEGAR</FlyingArm>
+		<CrushArm>Brazo aniquilador listo.....PRESIONE Z PARA ACCIONAR</CrushArm>
 		<ClickToContinue>Clic para continuar</ClickToContinue>
-		<FistTutorial>Presiona Z para disparar el puño volador</FistTutorial>
-		<Warning>CUIDADO -></Warning>
+		<FistTutorial>Presiona X para disparar el puño volador</FistTutorial>
+		<Warning>CUIDADO! -></Warning>
 		<Overheat>SOBRECARGA</Overheat>
 	</Game>
 	<GameOver>
