@@ -22,7 +22,7 @@ package game
 		public static const LASER_RECHARGE_STEP:Number = 13;
 		public static const LASER_RECHARGE_DELAY:Number = 2.0; // seconds
 		public static const FIST_SPEED_X:Number = 200;
-		public static const FIST_RELOAD_TIME:Number = 15.0; // seconds
+		public static const FIST_RELOAD_TIME:Number = 10.0; // seconds
 		
 		// Plane
 		public static const PLANE_SPEED_X:Number = -120;
