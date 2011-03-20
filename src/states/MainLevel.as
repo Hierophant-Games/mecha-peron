@@ -226,7 +226,7 @@
 			_previousDistance = _player.x;
 			
 			var scaledDistance:Number = _distanceTraveled / DISTANCE_SCALE_FACTOR;
-			_hud.setDistance(scaledDistance.toFixed(1));
+			_hud.setDistance(scaledDistance.toFixed(2));
 			
 			if (_playerController.laserCharge <= 0)
 				_hud.showOverheat(true);
@@ -271,7 +271,7 @@
 			//48, 135
 			//146, 147
 			//236, 120
-			return; // disabling them until we have the proper attack to kill them
+			//return; // disabling them until we have the proper attack to kill them
 			if(FlxU.random() * 100 > 70)
 				addActor(new CannonController(_player, _layerActionMiddle, spawnBomb), x + 48, 135 - 15, _layerFront);
 			if(FlxU.random() * 100 > 70)

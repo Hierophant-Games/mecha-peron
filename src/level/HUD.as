@@ -145,10 +145,10 @@ package level
 			if (widthProp >= 1)
 			{
 				// Animate when full
-				_fist.scale.x += _fistScaleDirection * 0.05; 
+				_fist.scale.x += _fistScaleDirection * FlxG.elapsed; 
 				_fist.scale.y = _fist.scale.x;
 				
-				if (_fist.scale.x <= 0.7)
+				if (_fist.scale.x <= 0.8)
 					_fistScaleDirection = 1;
 				else if (_fist.scale.x >= 1.0)
 					_fistScaleDirection = -1;
