@@ -28,6 +28,8 @@ package level
 		
 		override public function collide(contact:FlxObject):void
 		{
+			if (_actor.health == 0) return;
+			
 			var other:Actor = contact as Actor;
 			if (other && other.controller is PlayerController)
 			{

@@ -16,15 +16,15 @@ package level
 			_actor = actor;
 		}
 		
-		virtual public function init():void
+		public function init():void
 		{
 		}
 		
-		virtual public function collide(contact:FlxObject):void
+		public function collide(contact:FlxObject):void
 		{
 		}
 		
-		virtual public function explode():void // Trigger explosion animation
+		public function explode():void // Trigger explosion animation
 		{
 		}
 	}
