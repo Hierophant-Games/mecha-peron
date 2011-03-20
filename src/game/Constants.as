@@ -14,8 +14,8 @@ package game
 		public static const LASER_PLANE_DAMAGE:Number = 2;
 		public static const LASER_SOLDIER_DAMAGE:Number = 3;
 		public static const LASER_PLANE_BOMB_DAMAGE:Number = 5; // Not used for now
-		public static const LASER_SOLDIER_BOMB_DAMAGE:Number = 4;
-		public static const LASER_CANNON_BOMB_DAMAGE:Number = 2;
+		public static const LASER_SOLDIER_BOMB_DAMAGE:Number = 6;
+		public static const LASER_CANNON_BOMB_DAMAGE:Number = 4;
 		
 		public static const LASER_MAX_CHARGE:Number = 1200;
 		public static const LASER_CHARGE_STEP:Number = 10; // how much charge the laser consumes and reloads each frame
