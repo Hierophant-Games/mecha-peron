@@ -325,8 +325,8 @@ package actor
 
 			if (_laserSfx)
 				_laserSfx.stop();
-			if (_laserShoutSfx)
-				_laserShoutSfx.stop();
+			/*if (_laserShoutSfx)
+				_laserShoutSfx.stop();*/
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
