@@ -46,7 +46,8 @@
 		<CrushArm>Brazo aniquilador listo.....PRESIONE Z PARA ACCIONAR</CrushArm>
 		<ClickToContinue>Clic para continuar</ClickToContinue>
 		<FistTutorial>Presiona X para disparar el puño volador</FistTutorial>
-		<Warning>CUIDADO! -></Warning>
+		<ArmTutorial>Presiona X para usar el brazo aniquilador</ArmTutorial>
+		<Warning>CUIDADO! -></Warning>		
 		<Overheat>SOBRECARGA</Overheat>
 	</Game>
 	<GameOver>

@@ -22,6 +22,8 @@ package states
 			add(new FlxText(2, FlxG.height - 20, 100, Game.VERSION));
 			
 			initMenuEntries();
+			
+			FlxG.mouse.show(Assets.SpriteCursor);
 		}
 		
 		override public function destroy():void 

@@ -46,7 +46,8 @@
 		<CrushArm>Crushing arm ready............PRESS Z TO ACTIVATE</CrushArm>
 		<ClickToContinue>Click to continue</ClickToContinue>
 		<FistTutorial>Press X to shoot flying fist</FistTutorial>
-		<Warning>WARNING! -></Warning>
+		<ArmTutorial>Press Z to use crushing arm</ArmTutorial>
+		<Warning>WARNING! -></Warning>		
 		<Overheat>OVERHEAT</Overheat>
 	</Game>
 	<GameOver>
