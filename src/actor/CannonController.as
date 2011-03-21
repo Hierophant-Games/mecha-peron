@@ -122,7 +122,7 @@ package actor
 		
 		override public function onKill():Boolean
 		{
-			FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
+			//on building FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 			
 			// create explosion
 			controlledActor.layer.add(new Actor(new ExplosionController(), controlledActor.layer,
