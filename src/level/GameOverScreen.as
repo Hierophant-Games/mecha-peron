@@ -51,10 +51,12 @@ package level
 			
 			var tryAgainText:FlxText = new FlxText(0, 0, WIDTH, Game.Strings.languageXML.GameOver.TryAgain);
 			tryAgainText.setFormat(null, 20, 0xffffff, "center");
+			tryAgainText.height = 20; // Peron would´ve hardcoded this too
 			_menu.addMenuEntry(new MenuEntry(_background.x, 180, onTryAgain, tryAgainText));
 			
 			var mainMenuText:FlxText = new FlxText(0, 0, WIDTH, Game.Strings.languageXML.GameOver.MainMenu);
 			mainMenuText.setFormat(null, 18, 0xffffff, "center");
+			mainMenuText.height = 20; // Peron would´ve hardcoded this too
 			_menu.addMenuEntry(new MenuEntry(_background.x, 210, onMainMenu, mainMenuText));
 			
 			_menu.visible = false;

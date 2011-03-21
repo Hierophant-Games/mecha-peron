@@ -52,7 +52,7 @@
 	</Game>
 	<GameOver>
 		<ScoreLine>Tu camino de destrucción termina a los:</ScoreLine>
-		<TryAgain>Intentarlo de nuevo</TryAgain>
-		<MainMenu>Volver al menú principal</MainMenu>
+		<TryAgain>Intentar de nuevo</TryAgain>
+		<MainMenu>Menú principal</MainMenu>
 	</GameOver>
 </language>
