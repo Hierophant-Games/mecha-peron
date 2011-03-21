@@ -24,10 +24,15 @@ package states
 			
 			if (_timer > LOGO_TIME || FlxG.mouse.pressed())
 			{
-				Game.setState(new SelectLanguage());
+				FlxG.fade.start(0xff000000, 0.5, onFadeComplete);
 			}
 			
 			super.update();
+		}
+		
+		private function onFadeComplete():void
+		{
+			Game.setState(new SelectLanguage());
 		}
 	}
 }
