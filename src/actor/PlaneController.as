@@ -174,8 +174,8 @@ package actor
 			var originPos:Point = new Point(actorScreenPos.x + controlledActor.width / 2, actorScreenPos.y + controlledActor.height / 2);
 			
 			// Randomize target y
-			var randomY:Number = FlxU.random() * (_player.height / 4) + (_player.height / 4);
-			var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + randomY);
+			//var randomY:Number = FlxU.random() * (_player.height / 4) + (_player.height / 4);
+			var targetPos:Point = new Point(_player.getScreenXY().x + _player.width / 2, _player.getScreenXY().y + _player.height * 0.6);
 			
 			// dy = 1/2*g*t^2
 			// t = v(dy/(1/2*g))
