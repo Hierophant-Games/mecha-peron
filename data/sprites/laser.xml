@@ -2,6 +2,7 @@
 <data>
 	<graphic animated="true" reverse="false" width="320" height="8" />
 	<animations>
-		<animation name="default" frames="0, 1, 2, 3, 4" frameRate="30" loop="false" />
+		<animation name="laserOn" frames="0, 1, 2, 3, 4" frameRate="30" loop="false" />
+		<animation name="laserOff" frames="4, 3, 2, 1, 0" frameRate="30" loop="false" />
 	</animations>
 </data>

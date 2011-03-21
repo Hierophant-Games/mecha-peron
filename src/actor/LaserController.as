@@ -44,16 +44,36 @@ package actor
 			_laserR.origin = new FlxPoint(0, _laserR.height / 2);
 			_laserRBox = new RotatedRectangle(new Rectangle(), 0);
 			
+			_laserR.addAnimationCallback(laserRAnimCallback);
 			(controlledActor as CompositeActor).addSprite(_laserR, new FlxPoint(0, 0));
 			
 			_laserL = new SpriteLoader().load(Assets.XMLSpriteLaser, Assets.SpriteLaser);
 			_laserL.origin = new FlxPoint(0, _laserL.height / 2);
 			_laserLBox = new RotatedRectangle(new Rectangle(), 0);
 			
+			_laserL.addAnimationCallback(laserLAnimCallback);
 			(controlledActor as CompositeActor).addSprite(_laserL, new FlxPoint(-22, 0));
 			
 			(controlledActor as CompositeActor).height = _laserR.height;
 			(controlledActor as CompositeActor).width = _laserR.width;
+		}
+		
+		private function laserRAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void
+		{
+			if (name == "laserOff" && _laserR.finished)
+			{
+				controlledActor.visible = false;
+				controlledActor.active = false;
+			}
+		}
+		
+		private function laserLAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void
+		{
+			if (name == "laserOff" && _laserL.finished)
+			{
+				controlledActor.visible = false;
+				controlledActor.active = false;
+			}
 		}
 		
 		override public function update():void

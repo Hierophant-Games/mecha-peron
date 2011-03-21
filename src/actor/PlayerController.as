@@ -184,6 +184,9 @@ package actor
 			// should be used to make the character go up and down in each step
 			var yVelocity:Number = 0;
 			
+			_laser.x = controlledActor.x + controlledActor.width + 7;
+			_laser.y = controlledActor.y + 37;
+			
 			if (!_beforeLevelStart)
 				updateAttacks();
 				
@@ -299,10 +302,10 @@ package actor
 				_laserSfx = FlxG.play(Assets.SfxLaser, Configuration.soundVolume);
 			if (!_laserShoutSfx || !_laserShoutSfx.playing)
 				_laserShoutSfx = FlxG.play(Assets.SfxPeronLaserShout, Configuration.soundVolume);
-			
+			/*
 			_laser.x = controlledActor.x + controlledActor.width + 7;
 			_laser.y = controlledActor.y + 37;
-			
+			*/
 			var angle:Number = Math.atan2(FlxG.mouse.y - (_laser.y + _laser.height), FlxG.mouse.x - _laser.x);
 			angle *= 180 / Math.PI;
 			
@@ -310,7 +313,7 @@ package actor
 			else if (angle < -20) angle = -20;
 			
 			if(FlxG.mouse.justPressed())
-				_laser.play("default", true);
+				_laser.play("laserOn", true);
 			
 			_laser.visible = true;
 			_laser.active = true;
@@ -320,8 +323,8 @@ package actor
 		private function stopLaser():void
 		{
 			laserOff();
-			_laser.visible = false;
-			_laser.active = false;
+			
+			_laser.play("laserOff", true);
 
 			if (_laserSfx)
 				_laserSfx.stop();
