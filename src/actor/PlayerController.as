@@ -169,6 +169,9 @@ package actor
 			_layer.add(_smokeEmitterR);
 		}
 		
+		private var _timerRandomQuote:Number = 8;
+		private const TIME_RANDOM_QUOTE:Number = 10; // seconds
+		
 		public override function update():void
 		{
 			if (controlledActor.dead)
@@ -208,9 +211,14 @@ package actor
 					if (!FlxG.quake.running)
 						FlxG.quake.start(0.01, 0.2);
 					FlxG.play(Assets.SfxFootstep, Configuration.soundVolume);
-					
-					// y que diga algo de paso xD
-					//FlxG.play(SfxPeronFrases[uint(FlxU.random() * SfxPeronFrases.length)], Configuration.soundVolume);
+				}
+				
+				// Random quote!
+				_timerRandomQuote += FlxG.elapsed;
+				if (_timerRandomQuote > TIME_RANDOM_QUOTE)
+				{
+					_timerRandomQuote -= TIME_RANDOM_QUOTE;
+					FlxG.play(Assets.SfxPeronFrase3, Configuration.soundVolume);
 				}
 			}
 		}

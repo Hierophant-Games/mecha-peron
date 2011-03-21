@@ -1,6 +1,7 @@
 package actor 
 {
 	import embed.Assets;
+	import game.Configuration;
 	import org.flixel.*;
 	import sprites.SpriteLoader;
 	
@@ -51,14 +52,17 @@ package actor
 		
 		override public function update():void 
 		{
-			if (_playerController.usingRightArm)
+			if (!controlledActor.dead && _playerController.usingRightArm)
 			{
 				var player:Actor = _playerController.controlledActor;
 				var playerX:Number = player.getScreenXY().x;
 				var thisX:Number = controlledActor.getScreenXY().x;
 				if (playerX + player.width > thisX)
 				{
+					controlledActor.dead = true;
 					controlledActor.play("damage");
+					FlxG.quake.start(0.01);
+					FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 					if (_cannon && _cannon.exists)
 						_cannon.kill();
 				}
