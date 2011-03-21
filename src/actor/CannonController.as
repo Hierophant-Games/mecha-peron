@@ -2,7 +2,7 @@ package actor
 {
 	import embed.Assets;
 	import flash.geom.Point;
-	import game.Constants;
+	import game.*;
 	import level.CannonBomb;
 	import level.LifeBar;
 	import org.flixel.*;
@@ -122,6 +122,8 @@ package actor
 		
 		override public function onKill():Boolean
 		{
+			FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
+			
 			// create explosion
 			controlledActor.layer.add(new Actor(new ExplosionController(), controlledActor.layer,
 				controlledActor.x + controlledActor.width / 2,

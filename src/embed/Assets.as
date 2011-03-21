@@ -127,6 +127,8 @@ package embed
 		
 		[Embed(source = "../../data/sfx/explosion.mp3")]
 		public static var SfxExplosion:Class;
+		[Embed(source = "../../data/sfx/big_explosion.mp3")]
+		public static var SfxBigExplosion:Class;
 		
 		[Embed(source = "../../data/sfx/Peron_Hit1.mp3")]
 		public static var SfxPeronHit1:Class;

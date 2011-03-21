@@ -1,6 +1,7 @@
 package actor 
 {
 	import embed.Assets;
+	import game.Configuration;
 	import org.flixel.*;
 	/**
 	 * ...
@@ -40,6 +41,8 @@ package actor
 		
 		override public function onKill():Boolean 
 		{
+			FlxG.play(Assets.SfxBigExplosion, Configuration.soundVolume);
+			
 			controlledActor.layer.add(new Actor(new ExplosionController(),
 				controlledActor.layer,
 				controlledActor.x + controlledActor.width,

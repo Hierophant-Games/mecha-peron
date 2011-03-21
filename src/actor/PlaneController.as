@@ -2,7 +2,7 @@ package actor
 {
 	import embed.Assets;
 	import flash.geom.Point;
-	import game.Constants;
+	import game.*;
 	import level.*;
 	import org.flixel.*;
 	import sprites.SpriteLoader;
@@ -159,6 +159,8 @@ package actor
 				_layer.add(new Actor(new ExplosionController(), _layer,
 					controlledActor.x,
 					controlledActor.y + controlledActor.height / 2));
+					
+				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 			}
 			
 			return false;
