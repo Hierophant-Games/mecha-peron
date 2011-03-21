@@ -49,6 +49,7 @@
 		private var _gameOver:Boolean = false;
 		
 		private var _fistTutorialText:FlxText;
+		private var _armTutorialText:FlxText;
 		
 		private var _gameOverScreen:GameOverScreen;		
 		
@@ -249,8 +250,8 @@
 				var textScrollFactor:Number = 1.9; // A ojo
 				var fistTutorialX:Number =  (buildingX + FlxG.scroll.x) - (FlxG.scroll.x * textScrollFactor);
 				
-				_fistTutorialText = new FlxText(fistTutorialX, 8, FlxG.width - 100, Game.Strings.languageXML.Game.FistTutorial);
-				_fistTutorialText.setFormat(null, 12, 0xffffff, "center", 0xcccccc);
+				_fistTutorialText = new FlxText(fistTutorialX, 25, FlxG.width - 100, Game.Strings.languageXML.Game.FistTutorial);
+				_fistTutorialText.setFormat(null, 12, 0xffffff, "center", 1);
 				_layerActionFront.add(_fistTutorialText);
 				_fistTutorialText.scrollFactor.x = textScrollFactor;	
 			}
@@ -273,6 +274,15 @@
 			var random:Number = (FlxU.random() * cannon.width * 2) - cannon.width;
 			cannon.x -= cannon.width / 2; // centered
 			cannon.x += random;
+			
+			// Prepare arm tutorial
+			if (_armTutorialText == null)
+			{
+				var width:Number = FlxG.width - 100;
+				_armTutorialText = new FlxText(x - (width / 4), 40, width, Game.Strings.languageXML.Game.ArmTutorial);
+				_armTutorialText.setFormat(null, 12, 0xffffff, "center", 1);
+				_layerFront.add(_armTutorialText, true);
+			}
 		}
 		
 		private function spawnBomb(bomb:Actor):void
