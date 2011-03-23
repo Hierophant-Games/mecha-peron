@@ -14,7 +14,7 @@ package
 	[Frame(factoryClass="Preloader")]
 	public class Game extends FlxGame
 	{
-		public static const VERSION:String = "v0.3";
+		public static const VERSION:String = "v0.4";
 		
 		public static var Strings:GameStrings = new GameStrings();
 		
