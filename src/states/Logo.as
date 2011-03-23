@@ -1,6 +1,7 @@
 package states 
 {
 	import org.flixel.*;
+	import org.flixel.data.FlxKong;
 	
 	/**
 	 * Displays Logo
@@ -20,6 +21,10 @@ package states
 		
 		override public function update():void
 		{
+			// Initialize Kong API
+			if (!FlxG.kong)
+				(FlxG.kong = (parent.addChild(new FlxKong()) as FlxKong)).init();
+			
 			_timer += FlxG.elapsed;
 			
 			if (_timer > LOGO_TIME || FlxG.mouse.pressed())
