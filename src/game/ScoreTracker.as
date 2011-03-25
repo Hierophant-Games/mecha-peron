@@ -14,7 +14,7 @@ package game
 		private static const TRACK_COUNT:uint 	= 4; // max
 		
 		private static const _names:Array = ["planesKilled", "buildingsKilled", "soldiersKilled", "cannonsKilled"];
-		private static const _points:Array = [50, 100, 5, 150];
+		private static const _points:Array = [10, 20, 1, 20];
 		private static var _killedCount:Array = [0, 0, 0, 0];
 		
 		public static function reset():void
@@ -23,6 +23,7 @@ package game
 			{
 				_killedCount[i] = 0;
 			}
+			FlxG.score = 0;
 		}
 		
 		/**

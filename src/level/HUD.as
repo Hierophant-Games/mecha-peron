@@ -38,6 +38,7 @@ package level
 		private const LASER_FILL_H:Number = LASER_BAR_H - BAR_FILL_YOFF * 2;
 		
 		private var _distanceText:FlxText;
+		private var _pointsText:FlxText;
 		
 		private var _fist:FlxSprite;
 		private var _fistPixels:BitmapData;
@@ -80,9 +81,14 @@ package level
 			_overheat.visible = false;
 			
 			// Distance text
-			_distanceText = new FlxText(FlxG.width - 110, 10, 100);
+			_distanceText = new FlxText(FlxG.width - 110, 18, 100);
 			_distanceText.setFormat(null, 8, 0xffffff, "right", 0xff000000);
 			add(_distanceText, true);
+			
+			// Points text
+			_pointsText = new FlxText(FlxG.width - 110, 8, 100);
+			_pointsText.setFormat(null, 8, 0xffffff, "right", 0xff000000);
+			add(_pointsText, true);
 			
 			// Flying fist
 			_fist = new FlxSprite();
@@ -135,6 +141,15 @@ package level
 		{
 			//trace("Distance " + distance);
 			_distanceText.text = distance + " km";
+		}
+		
+		private var _curPoints:Number = 0;
+		
+		public function setPoints(points:int):void
+		{
+			if (_curPoints < points)
+				_curPoints += FlxG.elapsed * 10;
+			_pointsText.text = Game.Strings.languageXML.Game.Destruction + ": " + uint(_curPoints);
 		}
 		
 		public function setFistW(widthProp:Number):void

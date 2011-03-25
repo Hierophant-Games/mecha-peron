@@ -49,6 +49,7 @@
 		<ArmTutorial>Presiona Z para usar el brazo aniquilador</ArmTutorial>
 		<Warning>CUIDADO! -></Warning>		
 		<Overheat>SOBRECARGA</Overheat>
+		<Destruction>Destrucción</Destruction>
 	</Game>
 	<GameOver>
 		<ScoreLine>Tu camino de destrucción termina a los:</ScoreLine>

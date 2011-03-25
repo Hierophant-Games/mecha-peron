@@ -1,7 +1,7 @@
 package actor 
 {
 	import embed.Assets;
-	import game.Configuration;
+	import game.*;
 	import org.flixel.*;
 	import sprites.SpriteLoader;
 	
@@ -65,6 +65,9 @@ package actor
 					FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 					if (_cannon && _cannon.exists)
 						_cannon.kill();
+						
+					// track it!
+					ScoreTracker.killed(ScoreTracker.BUILDING);
 				}
 			}
 		}

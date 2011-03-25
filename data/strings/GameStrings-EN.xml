@@ -49,6 +49,7 @@
 		<ArmTutorial>Press Z to use crushing arm</ArmTutorial>
 		<Warning>WARNING! -></Warning>		
 		<Overheat>OVERHEAT</Overheat>
+		<Destruction>Destruction</Destruction>
 	</Game>
 	<GameOver>
 		<ScoreLine>Your path of destruction ends at:</ScoreLine>

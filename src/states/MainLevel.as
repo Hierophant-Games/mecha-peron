@@ -241,6 +241,8 @@
 				_hud.showOverheat(true);
 			else
 				_hud.showOverheat(false);
+				
+			_hud.setPoints(FlxG.score);
 			
 			// update beacon (?)
 			_followBeacon.x = _player.x + FOLLOW_OFFSET;
