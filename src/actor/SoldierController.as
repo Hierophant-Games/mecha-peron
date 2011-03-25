@@ -2,6 +2,7 @@ package actor
 {
 	import flash.geom.Point;
 	import game.Constants;
+	import game.ScoreTracker;
 	import level.Bullet;
 	import level.LifeBar;
 	import org.flixel.*;
@@ -65,6 +66,9 @@ package actor
 				
 				controlledActor.play("Die");
 				controlledActor.dead = true;
+				
+				// track it!
+				ScoreTracker.killed(ScoreTracker.SOLDIER);
 			}
 			
 			return false;

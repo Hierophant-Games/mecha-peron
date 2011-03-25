@@ -123,6 +123,9 @@ package actor
 		override public function onKill():Boolean
 		{
 			//on building FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
+				
+			// track it!
+			ScoreTracker.killed(ScoreTracker.CANNON);
 			
 			// create explosion
 			controlledActor.layer.add(new Actor(new ExplosionController(), controlledActor.layer,

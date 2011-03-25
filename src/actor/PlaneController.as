@@ -161,6 +161,9 @@ package actor
 					controlledActor.y + controlledActor.height / 2));
 					
 				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
+				
+				// track it!
+				ScoreTracker.killed(ScoreTracker.PLANE);
 			}
 			
 			return false;

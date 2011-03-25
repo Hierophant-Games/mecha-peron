@@ -1,5 +1,6 @@
 package actor 
 {
+	import game.ScoreTracker;
 	import org.flixel.*;
 	import embed.Assets;
 	import org.flixel.data.FlxAnim;
@@ -130,6 +131,9 @@ package actor
 				}
 				startSmokeEmitter(0, controlledActor.width / 2);
 				startSmokeEmitter(controlledActor.width / 2, controlledActor.width / 2);
+				
+				// track it!
+				ScoreTracker.killed(ScoreTracker.BUILDING);
 			}
 		}
 		

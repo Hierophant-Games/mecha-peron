@@ -10,28 +10,28 @@ package level
 	public class AIDirector 
 	{
 		private var _level:FlxState;
-		private var _levelTime:Number = 0;
+		private var _levelTime:Number = 0; // unused now
 		private var _difficultyLevel:int = 0;
 		
 		private const DIFFICULTY_LEVEL_COUNT:uint = 4;
 		
-		// times to switch difficulty level
-		private var _timeThresholds:Array = new Array(30, 60, 90);
+		// position to switch difficulty level
+		private const POS_THRESHOLDS:Array = [1000, 2000, 3000];
 		
 		// planes!
-		private var _timesBetweenPlanes:Array = new Array(6, 5, 4, 3);
-		private var _lastPlaneTime:Number = 0;
+		private const POS_BETWEEN_PLANES:Array = [200, 150, 100, 50];
+		private var _lastPlanePos:Number = -150;
 		private var _planeSpawnFunction:Function;
-		private const PLANE_RANDOM_TWEAK:Number = 0.5; // seconds of randomness
+		private const PLANE_RANDOM_TWEAK:Number = 50; // px of randomness
 		
 		// buildings!
-		private var _posBetweenBuildings:Array = new Array(500, 400, 300, 200);
+		private const POS_BETWEEN_BUILDINGS:Array = [400, 300, 250, 150];
 		private var _lastBuildingPos:Number = 0;
 		private var _buildingSpawnFunction:Function;
 		private const BUILDING_RANDOM_TWEAK:Number = 50; // px of randomness
 		
 		// cannons!
-		private var _posBetweenCannons:Array = new Array(800, 600, 400, 200);
+		private const POS_BETWEEN_CANNONS:Array = [500, 300, 200, 100];
 		private var _lastCannonPos:Number = 0;
 		private var _cannonSpawnFunction:Function;
 		private const CANNON_RANDOM_TWEAK:Number = 100; // px of randomness
@@ -49,35 +49,35 @@ package level
 		{
 			_levelTime += FlxG.elapsed;
 			
-			for (var i:int = _timeThresholds.length - 1; i >= 0; --i)
+			for (var i:int = POS_THRESHOLDS.length - 1; i >= 0; --i)
 			{
-				if (_levelTime > _timeThresholds[i])
+				if (x > POS_THRESHOLDS[i])
 				{
 					if ((i + 1) != _difficultyLevel)
 					{
 						_difficultyLevel = i + 1;
-						trace("New difficulty level: ", _difficultyLevel, _levelTime);
+						trace("New difficulty level: ", _difficultyLevel);
 					}
 					break;
 				}
 			}
 			
 			// planes
-			if ((_levelTime - _lastPlaneTime) > _timesBetweenPlanes[_difficultyLevel])
+			if ((x - _lastPlanePos) > POS_BETWEEN_PLANES[_difficultyLevel])
 			{
-				_lastPlaneTime = _levelTime + (FlxU.random() * PLANE_RANDOM_TWEAK);
+				_lastPlanePos = x + (FlxU.random() * PLANE_RANDOM_TWEAK);
 				_planeSpawnFunction();
 			}
 			
 			// buildings
-			if ((x - _lastBuildingPos) > _posBetweenBuildings[_difficultyLevel])
+			if ((x - _lastBuildingPos) > POS_BETWEEN_BUILDINGS[_difficultyLevel])
 			{
 				_lastBuildingPos = x + (FlxU.random() * BUILDING_RANDOM_TWEAK);
 				_buildingSpawnFunction();
 			}
 			
 			// cannons
-			if ((x - _lastCannonPos) > _posBetweenCannons[_difficultyLevel])
+			if ((x - _lastCannonPos) > POS_BETWEEN_CANNONS[_difficultyLevel])
 			{
 				_lastCannonPos = x + (FlxU.random() * CANNON_RANDOM_TWEAK);
 				_cannonSpawnFunction();
