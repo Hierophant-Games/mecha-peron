@@ -2,10 +2,8 @@
 {
 	import actor.*;
 	import embed.Assets;
-	import game.Configuration;
-	import game.Constants;
+	import game.*;
 	import level.*;
-	import level.GameOverScreen;
 	import org.flixel.*;
 	
 	/**
@@ -96,6 +94,8 @@
 			updateFrontBuildings();
 			updateFrontBuildings();
 			// VIVA LA CABEZEADA!
+			
+			ScoreTracker.reset();
 		}
 		
 		private function initPlayer():void
