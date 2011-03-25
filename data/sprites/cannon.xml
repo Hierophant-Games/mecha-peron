@@ -3,10 +3,10 @@
 	<graphic animated="true" reverse="false" width="19" height="23" />
 	<animations>
 		<animation name="leftIdle" frames="0" />
-		<animation name="leftShoot" frames="1" />
+		<animation name="leftShoot" frames="0, 1" frameRate="30" loop="true" />
 		<animation name="topLeftIdle" frames="2" />
-		<animation name="topLeftShoot" frames="3" />
+		<animation name="topLeftShoot" frames="2, 3" frameRate="30" loop="true" />
 		<animation name="topIdle" frames="4" />
-		<animation name="topShoot" frames="5" />
+		<animation name="topShoot" frames="4, 5" frameRate="30" loop="true" />
 	</animations>
 </data>
