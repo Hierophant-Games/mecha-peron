@@ -55,6 +55,7 @@ package actor
 		private var _smokeEmitterL:SmokeEmitter; // left eye
 		private var _smokeEmitterR:SmokeEmitter; // right eye
 		
+		// to tell the front building that it can be destroyed
 		private var _usingRightArm:Boolean = false;
 		
 		public function set beforeLevelStart(beforeLevelStart:Boolean):void
@@ -189,9 +190,6 @@ package actor
 			
 			_laser.x = controlledActor.x + controlledActor.width + 7;
 			_laser.y = controlledActor.y + 37;
-			
-			if (!_beforeLevelStart)
-				updateAttacks();
 				
 			updateSmokeEmitters();
 			
@@ -221,6 +219,9 @@ package actor
 					FlxG.play(Assets.SfxPeronFrase3, Configuration.soundVolume);
 				}
 			}
+			
+			if (!_beforeLevelStart)
+				updateAttacks();
 		}
 		
 		private function updateAttacks():void
@@ -320,7 +321,7 @@ package actor
 			if (angle > 40) angle = 40;
 			else if (angle < -20) angle = -20;
 			
-			if(FlxG.mouse.justPressed())
+			if (!_laser.visible)
 				_laser.play("laserOn", true);
 			
 			_laser.visible = true;
