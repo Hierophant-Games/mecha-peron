@@ -36,6 +36,6 @@ package game
 		
 		// Soldier
 		public static const SOLDIER_BULLET_SPEED_X:Number = -50;
-		public static const SOLDIER_BULLET_DAMAGE:Number = 1;
+		public static const SOLDIER_BULLET_DAMAGE:Number = 2;
 	}
 }

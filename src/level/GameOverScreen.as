@@ -17,6 +17,8 @@ package level
 		private var _score:FlxText;
 		private var _scoreLine:FlxText;
 		
+		private var _destruction:FlxText;
+		
 		private var _tryAgain:FlxButton;
 		private var _gotoMainMenu:FlxButton;
 		
@@ -46,6 +48,11 @@ package level
 			_score = new FlxText(_background.x, 100, WIDTH, score);
 			_score.setFormat(null, 24, 0xffffff, "center");
 			add(_score);
+			
+			_destruction = new FlxText(_background.x, 140, WIDTH, Game.Strings.languageXML.GameOver.Destruction);
+			_destruction.text += " " + FlxG.score;
+			_destruction.setFormat(null, 8, 0xffffff, "center");
+			add(_destruction);
 			
 			_menu = new MenuBase();
 			

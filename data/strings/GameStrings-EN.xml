@@ -45,14 +45,15 @@
 		<FlyingArm>Flying fist missile ready......PRESS X TO DEPLOY</FlyingArm>
 		<CrushArm>Crushing arm ready............PRESS Z TO ACTIVATE</CrushArm>
 		<ClickToContinue>Click to continue</ClickToContinue>
-		<FistTutorial>Press X to shoot flying fist</FistTutorial>
-		<ArmTutorial>Press Z to use crushing arm</ArmTutorial>
+		<FistTutorial>Press X to shoot the flying fist</FistTutorial>
+		<ArmTutorial>Press Z to use the crushing arm</ArmTutorial>
 		<Warning>WARNING! -></Warning>		
 		<Overheat>OVERHEAT</Overheat>
 		<Destruction>Destruction</Destruction>
 	</Game>
 	<GameOver>
 		<ScoreLine>Your path of destruction ends at:</ScoreLine>
+		<Destruction>Total Destruction: </Destruction>
 		<TryAgain>Try again</TryAgain>
 		<MainMenu>Go to main menu</MainMenu>
 	</GameOver>

@@ -188,7 +188,7 @@
 			if (_player.dead)
 			{
 				var score:Number = _distanceTraveled / DISTANCE_SCALE_FACTOR;
-				_gameOverScreen = new GameOverScreen(score.toFixed(2) + " km");				
+				_gameOverScreen = new GameOverScreen(score.toFixed(2) + " km");
 				_gameOver = true;
 				_gameOverScreen.start();
 				add(_gameOverScreen);
