@@ -205,6 +205,7 @@
 					var kongScore:uint = uint(score * 100);
 					FlxG.kong.API.stats.submit("score", kongScore);
 				}
+				ScoreTracker.publish();
 				
 				return;
 			}
