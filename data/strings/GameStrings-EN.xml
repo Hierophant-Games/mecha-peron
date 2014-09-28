@@ -43,11 +43,11 @@
 		<LineBreak>-------------------------------</LineBreak>
 		<Preparing>Preparing weaponry...........</Preparing>
 		<AimReady>Laser eye aiming system ready.........USE MOUSE TO CONTROL</AimReady>
-		<FlyingArm>Flying fist missile ready......PRESS X TO DEPLOY</FlyingArm>
-		<CrushArm>Crushing arm ready............PRESS Z TO ACTIVATE</CrushArm>
+		<FlyingArm>Fist rocket ready......PRESS X TO DEPLOY</FlyingArm>
+		<CrushArm>Justicialist arm ready............PRESS Z TO ACTIVATE</CrushArm>
 		<ClickToContinue>Click to continue</ClickToContinue>
-		<FistTutorial>Press X to shoot the flying fist</FistTutorial>
-		<ArmTutorial>Press Z to use the crushing arm</ArmTutorial>
+		<FistTutorial>Press X to shoot the Fist Rocket</FistTutorial>
+		<ArmTutorial>Press Z to use the Justicialist arm</ArmTutorial>
 		<Warning>WARNING! -></Warning>		
 		<Overheat>OVERHEAT</Overheat>
 		<Destruction>Destruction</Destruction>
