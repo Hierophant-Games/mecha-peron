@@ -10,17 +10,17 @@ package
 	 * ...
 	 * @author Santiago Vilar
 	 */
-	[SWF(width = "640", height = "480", backgroundColor = "#000000")]
+	[SWF(width = "960", height = "720", backgroundColor = "#000000")]
 	[Frame(factoryClass="Preloader")]
 	public class Game extends FlxGame
 	{
-		public static const VERSION:String = "v0.5";
+		public static const VERSION:String = "v1.0";
 		
 		public static var Strings:GameStrings = new GameStrings();
 		
 		public function Game()
 		{
-			super(320, 240, Logo, 2);
+			super(320, 240, Logo, 3);
 			
 			Configuration.load();
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues

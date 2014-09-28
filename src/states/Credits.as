@@ -17,7 +17,8 @@ package states
 		override public function create():void 
 		{
 			var creditsStr:String = "";
-			creditsStr += Game.Strings.languageXML.Credits.Hierophant;
+			creditsStr += Game.Strings.languageXML.Credits.Based;
+			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Hierophant;
 			creditsStr += "\n\n" + getDevTeamInRandomSoNoneIsMoreImportantThanTheOther();
 			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Voices;
 			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Marcha8Bit;
