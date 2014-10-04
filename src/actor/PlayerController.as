@@ -4,6 +4,7 @@ package actor
 	import embed.Assets;
 	import flash.display.Sprite;
 	import flash.geom.*;
+	import flash.utils.getTimer;
 	import game.*;
 	import level.HUD;
 	import level.SmokeEmitter;
@@ -215,8 +216,8 @@ package actor
 				_timerRandomQuote += FlxG.elapsed;
 				if (_timerRandomQuote > TIME_RANDOM_QUOTE)
 				{
-					_timerRandomQuote -= TIME_RANDOM_QUOTE;
-					FlxG.play(SfxPeronFrases[uint(FlxU.random()*SfxPeronFrases.length)], Configuration.soundVolume);
+					if (talk(SfxPeronFrases[uint(FlxU.random() * SfxPeronFrases.length)]))
+						_timerRandomQuote -= TIME_RANDOM_QUOTE;
 				}
 			}
 			
@@ -310,7 +311,7 @@ package actor
 			if (!_laserSfx || !_laserSfx.playing)
 				_laserSfx = FlxG.play(Assets.SfxLaser, Configuration.soundVolume);
 			if (!_laserShoutSfx || !_laserShoutSfx.playing)
-				_laserShoutSfx = FlxG.play(Assets.SfxPeronLaserShout, Configuration.soundVolume);
+				_laserShoutSfx = talk(Assets.SfxPeronLaserShout);
 			
 			var angle:Number = Math.atan2(FlxG.mouse.y - (_laser.y + _laser.height), FlxG.mouse.x - _laser.x);
 			angle *= 180 / Math.PI;
@@ -355,7 +356,8 @@ package actor
 				return false;
 			}
 			
-			FlxG.play(SfxPeronHits[uint(FlxU.random() * SfxPeronHits.length)], Configuration.soundVolume);
+			talk(SfxPeronHits[uint(FlxU.random() * SfxPeronHits.length)], true);
+			
 			if (_currentAction == ACTION_WALKING)
 			{
 				damage();
@@ -395,7 +397,7 @@ package actor
 			//trace("Started Playing attack Animation");
 			_currentAction = ACTION_ATTACKING_LEFT_ARM;
 			controlledActor.play("attackLeftArm");
-			FlxG.play(Assets.SfxPeronRocketPunch, Configuration.soundVolume);
+			talk(Assets.SfxPeronRocketPunch, true);
 		}
 		
 		private function attackRightArm():void
@@ -403,7 +405,7 @@ package actor
 			//trace("Started Playing attack Animation");
 			_currentAction = ACTION_ATTACKING_RIGHT_ARM;
 			controlledActor.play("attackRightArm");
-			FlxG.play(Assets.SfxPeronHammerFist, Configuration.soundVolume);
+			talk(Assets.SfxPeronHammerFist);
 		}
 		
 		private function laser():void
@@ -484,15 +486,6 @@ package actor
 			return (_laser.controller as LaserController).checkLaserHit(poorBastard);
 		}
 		
-		override public function onCollide(collideType:uint, contact:FlxObject):void
-		{/*not here anymore, check MainLevel update
-			var other:Actor = contact as Actor;
-			if (other && other.controller is BuildingController)
-			{
-				_blockedByBuilding = !other.dead;
-			}*/
-		}
-		
 		public function updateHUD(hud:HUD):void
 		{
 			hud.setLifeBarW(controlledActor.health / 100);
@@ -526,6 +519,7 @@ package actor
 		
 		private const EXPLOSIONS_DELAY:Number = 0.8;
 		private var _explosionsTimer:Number = EXPLOSIONS_DELAY;
+		
 		private function generateDeadExplosions():void
 		{
 			if ((_explosionsTimer -= FlxG.elapsed) <= 0)
@@ -540,6 +534,22 @@ package actor
 				
 				FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
 			}
+		}
+		
+		private const TALK_TIME:uint = 6;
+		private var _lastTalkTime:uint = 0;
+		
+		private function talk(asset:Class, force:Boolean = false):FlxSound
+		{
+			var now:uint = getTimer();
+			
+			if (force || now - _lastTalkTime > TALK_TIME * 1000)
+			{
+				_lastTalkTime = now;
+				return FlxG.play(asset, Configuration.soundVolume);
+			}
+			
+			return null;
 		}
 	}
 }
