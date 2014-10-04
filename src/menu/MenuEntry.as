@@ -31,7 +31,7 @@ package menu
 		
 		public function dehighlight():void
 		{
-			_text.setFormat(null, 8, 0x666666);
+			_text.setFormat(null, 8, 0x333333);
 		}
 		
 		public function highlight():void

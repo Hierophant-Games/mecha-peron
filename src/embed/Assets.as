@@ -20,6 +20,9 @@ package embed
 		[Embed(source = "../../data/sprites/es.png")]
 		public static var SpriteES:Class;
 		
+		[Embed(source = "../../data/sprites/Menu_BG.png")]
+		public static var SpriteMenuBG:Class;
+		
 		[Embed(source = "../../data/sprites/cityScape.png")]
 		public static var SpriteBack:Class;
 		[Embed(source = "../../data/sprites/background.png")]
