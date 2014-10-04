@@ -2,6 +2,7 @@ package states
 {
 	import org.flixel.*;
 	import org.flixel.data.FlxKong;
+	import embed.Assets;
 	
 	/**
 	 * Displays Logo
@@ -9,14 +10,19 @@ package states
 	 */
 	public class Logo extends FlxState
 	{
-		private const LOGO_TIME:Number = 1.0;
+		private const LOGO_TIME:Number = 2.0;
 		private var _timer:Number = 0;
 		
 		override public function create():void
 		{
-			var text:FlxText = new FlxText(0, FlxG.height / 2 - 16, FlxG.width, Game.Strings.languageXML.Intro);
-			text.setFormat(null, 16, 0xffffff, "center");
+			var logo:FlxSprite = new FlxSprite(0, 0, Assets.SpriteHierophantLogo);
+			add(logo);
+			
+			var text:FlxText = new FlxText(0, FlxG.height - 32, FlxG.width, Game.Strings.languageXML.Intro);
+			text.setFormat(null, 16, 0xdedede, "center");
 			add(text);
+			
+			FlxG.flash.start(0xff000000, 0.5);
 		}
 		
 		override public function update():void

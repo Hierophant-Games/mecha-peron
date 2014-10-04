@@ -17,7 +17,7 @@ package actor
 	 */
 	public class PlayerController extends ActorController
 	{
-		private const SfxPeronFrases:Array = new Array(Assets.SfxPeronFrase1, Assets.SfxPeronFrase2, Assets.SfxPeronFrase3);
+		private const SfxPeronFrases:Array = new Array(Assets.SfxPeronCompanieros, Assets.SfxPeronJusticiaSocial, Assets.SfxPeronTerceraPosicion);
 		private const SfxPeronHits:Array = new Array(Assets.SfxPeronHit1, Assets.SfxPeronHit2, Assets.SfxPeronHit3);
 		
 		private var _layer:FlxGroup;
@@ -216,7 +216,7 @@ package actor
 				if (_timerRandomQuote > TIME_RANDOM_QUOTE)
 				{
 					_timerRandomQuote -= TIME_RANDOM_QUOTE;
-					FlxG.play(Assets.SfxPeronFrase3, Configuration.soundVolume);
+					FlxG.play(SfxPeronFrases[uint(FlxU.random()*SfxPeronFrases.length)], Configuration.soundVolume);
 				}
 			}
 			
@@ -397,7 +397,7 @@ package actor
 			//trace("Started Playing attack Animation");
 			_currentAction = ACTION_ATTACKING_LEFT_ARM;
 			controlledActor.play("attackLeftArm");
-			FlxG.play(Assets.SfxPeronFrase2, Configuration.soundVolume);
+			FlxG.play(Assets.SfxPeronRocketPunch, Configuration.soundVolume);
 		}
 		
 		private function attackRightArm():void
@@ -405,7 +405,7 @@ package actor
 			//trace("Started Playing attack Animation");
 			_currentAction = ACTION_ATTACKING_RIGHT_ARM;
 			controlledActor.play("attackRightArm");
-			FlxG.play(Assets.SfxPeronFrase1, Configuration.soundVolume);
+			FlxG.play(Assets.SfxPeronHammerFist, Configuration.soundVolume);
 		}
 		
 		private function laser():void

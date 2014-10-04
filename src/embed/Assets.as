@@ -20,6 +20,8 @@ package embed
 		[Embed(source = "../../data/sprites/es.png")]
 		public static var SpriteES:Class;
 		
+		[Embed(source = "../../data/sprites/hierophant_logo.png")]
+		public static var SpriteHierophantLogo:Class;
 		[Embed(source = "../../data/sprites/Menu_BG.png")]
 		public static var SpriteMenuBG:Class;
 		
@@ -119,10 +121,6 @@ package embed
 		
 		[Embed(source = "../../data/sfx/footstep.mp3")]
 		public static var SfxFootstep:Class;
-		[Embed(source = "../../data/sfx/justicia_social.mp3")]
-		public static var SfxJusticiaSocial:Class;
-		[Embed(source = "../../data/sfx/tercera_posicion.mp3")]
-		public static var SfxTerceraPosicion:Class;
 		[Embed(source = "../../data/sfx/laser.mp3")]
 		public static var SfxLaser:Class;
 		[Embed(source = "../../data/sfx/depleted_laser.mp3")]
@@ -133,19 +131,23 @@ package embed
 		[Embed(source = "../../data/sfx/big_explosion.mp3")]
 		public static var SfxBigExplosion:Class;
 		
-		[Embed(source = "../../data/sfx/Peron_Hit1.mp3")]
+		[Embed(source = "../../data/sfx/Mecha_Peron-Hit1.mp3")]
 		public static var SfxPeronHit1:Class;
-		[Embed(source = "../../data/sfx/Peron_Hit2.mp3")]
+		[Embed(source = "../../data/sfx/Mecha_Peron-Hit2.mp3")]
 		public static var SfxPeronHit2:Class;
-		[Embed(source = "../../data/sfx/Peron_Hit3.mp3")]
+		[Embed(source = "../../data/sfx/Mecha_Peron-Hit3.mp3")]
 		public static var SfxPeronHit3:Class;
-		[Embed(source = "../../data/sfx/Peron_Frase1.mp3")]
-		public static var SfxPeronFrase1:Class;
-		[Embed(source = "../../data/sfx/Peron_Frase2.mp3")]
-		public static var SfxPeronFrase2:Class;
-		[Embed(source = "../../data/sfx/Peron_Frase3.mp3")]
-		public static var SfxPeronFrase3:Class;
-		[Embed(source = "../../data/sfx/Peron_LaserShout.mp3")]
+		[Embed(source = "../../data/sfx/Mecha_Peron-Companieros.mp3")]
+		public static var SfxPeronCompanieros:Class;
+		[Embed(source = "../../data/sfx/Mecha_Peron-Justicia Social.mp3")]
+		public static var SfxPeronJusticiaSocial:Class;
+		[Embed(source = "../../data/sfx/Mecha_Peron-Tercera Posicion.mp3")]
+		public static var SfxPeronTerceraPosicion:Class;
+		[Embed(source = "../../data/sfx/Mecha_Peron-Hammer Fist.mp3")]
+		public static var SfxPeronHammerFist:Class;
+		[Embed(source = "../../data/sfx/Mecha_Peron-Rocket Punch.mp3")]
+		public static var SfxPeronRocketPunch:Class;
+		[Embed(source = "../../data/sfx/Mecha_Peron-Rayos Fotonicos.mp3")]
 		public static var SfxPeronLaserShout:Class;
 		
 		[Embed(source = "../../data/sfx/theme.mp3")]

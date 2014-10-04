@@ -96,6 +96,8 @@
 			// VIVA LA CABEZEADA!
 			
 			ScoreTracker.reset();
+			
+			FlxG.flash.start(0xff000000, 0.5);
 		}
 		
 		private function initPlayer():void

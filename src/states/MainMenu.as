@@ -13,9 +13,8 @@ package states
 	{
 		override public function create():void
 		{
-			bgColor = 0xff000000;
-			var bgImage:FlxSprite = new FlxSprite(0, 0, Assets.SpriteMenuBG);
-			add(bgImage);
+			var bg:FlxSprite = new FlxSprite(0, 0, Assets.SpriteMenuBG);
+			add(bg);
 			
 			var gameNameText:FlxText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
 			gameNameText.setFormat(null, 16);
@@ -26,6 +25,8 @@ package states
 			initMenuEntries();
 			
 			FlxG.mouse.show(Assets.SpriteCursor);
+			
+			FlxG.flash.start(0xff000000, 0.5);
 		}
 		
 		override public function destroy():void 
@@ -48,8 +49,16 @@ package states
 		
 		private function onPlay():void
 		{
-			Game.setState(new MainLevel());
 			FlxG.music.stop();
+			FlxG.play(Assets.SfxBigExplosion, Configuration.soundVolume);
+			FlxG.flash.start(0xffffffff, 1, onFlashComplete);
+			
+			add(new FlxSprite(0, 0).createGraphic(FlxG.width, FlxG.height, 0xff000000));
+		}
+		
+		private function onFlashComplete():void
+		{
+			Game.setState(new MainLevel());
 		}
 		
 		private function onOptions():void
