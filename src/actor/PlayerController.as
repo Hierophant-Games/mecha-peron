@@ -227,7 +227,7 @@ package actor
 		private function updateAttacks():void
 		{
 			var canUseLaser:Boolean = (_currentAction != ACTION_ATTACKING_LEFT_ARM) && (_currentAction != ACTION_ATTACKING_RIGHT_ARM);
-			// LASER
+			
 			if (canUseLaser && FlxG.mouse.pressed())
 			{
 				startLaser();
@@ -311,10 +311,7 @@ package actor
 				_laserSfx = FlxG.play(Assets.SfxLaser, Configuration.soundVolume);
 			if (!_laserShoutSfx || !_laserShoutSfx.playing)
 				_laserShoutSfx = FlxG.play(Assets.SfxPeronLaserShout, Configuration.soundVolume);
-			/*
-			_laser.x = controlledActor.x + controlledActor.width + 7;
-			_laser.y = controlledActor.y + 37;
-			*/
+			
 			var angle:Number = Math.atan2(FlxG.mouse.y - (_laser.y + _laser.height), FlxG.mouse.x - _laser.x);
 			angle *= 180 / Math.PI;
 			
@@ -322,7 +319,10 @@ package actor
 			else if (angle < -20) angle = -20;
 			
 			if (!_laser.visible)
+			{
 				_laser.play("laserOn", true);
+				FlxG.flash.start(0x66ffffff, 0.5);
+			}
 			
 			_laser.visible = true;
 			_laser.active = true;
@@ -337,8 +337,6 @@ package actor
 
 			if (_laserSfx)
 				_laserSfx.stop();
-			/*if (_laserShoutSfx)
-				_laserShoutSfx.stop();*/
 		}
 		
 		override public function onHurt(Damage:Number):Boolean
