@@ -86,9 +86,6 @@
 			// load cursor
 			FlxG.mouse.show(Assets.SpriteCrosshair, 5, 5);
 			
-			// stop music from the menu
-			//FlxG.music.stop();
-			
 			// do some updates for the front buildings
 			updateFrontBuildings();
 			updateFrontBuildings();
@@ -97,6 +94,7 @@
 			
 			ScoreTracker.reset();
 			
+			// fade in
 			FlxG.flash.start(0xff000000, 0.5);
 		}
 		
@@ -405,7 +403,6 @@
 				var maxX:Number = building.x + building.width;
 				if (maxX < kScreenLeft)
 				{
-					trace("Removing front building...");
 					building.kill();
 				}
 				else if (maxX > maxXOfBuilding)
@@ -447,7 +444,6 @@
 					_soldierBuildings.splice(actorIdx, 1);
 					building.layer.remove(building);
 					--actorIdx;
-					FlxG.log("Removed actor with controller: " + building.controller);
 				}
 			}
 			for (actorIdx = 0; actorIdx < _planes.length; ++actorIdx)
@@ -458,7 +454,6 @@
 					_planes.splice(actorIdx, 1);
 					plane.layer.remove(plane);
 					--actorIdx;
-					FlxG.log("Removed actor with controller: " + plane.controller);
 				}
 			}
 			for (actorIdx = 0; actorIdx < _cannons.length; ++actorIdx)
@@ -469,7 +464,6 @@
 					_cannons.splice(actorIdx, 1);
 					cannon.layer.remove(cannon);
 					--actorIdx;
-					FlxG.log("Removed actor with controller: " + cannon.controller);
 				}
 			}
 			for (actorIdx = 0; actorIdx < _bombs.length; ++actorIdx)
@@ -480,7 +474,6 @@
 					_bombs.splice(actorIdx, 1);
 					bomb.layer.remove(bomb);
 					--actorIdx;
-					FlxG.log("Removed actor with controller: " + bomb.controller);
 				}
 			}
 		}

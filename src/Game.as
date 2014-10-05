@@ -1,5 +1,7 @@
 package  
 {
+	import flash.display.DisplayObject;
+	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import game.Configuration;
 	import org.flixel.*;
@@ -14,16 +16,35 @@ package
 	[Frame(factoryClass="Preloader")]
 	public class Game extends FlxGame
 	{
+		public static const ZOOM:uint = 3;
 		public static const VERSION:String = "v1.0";
 		
 		public static var Strings:GameStrings = new GameStrings();
 		
 		public function Game()
 		{
-			super(320, 240, Logo, 3);
+			super(320, 240, Logo, ZOOM);
 			
 			Configuration.load();
 			FlxG.maxElapsed = 1 / 60; // try to evade v-sync issues
+			
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+		}
+		
+		private function onAddedToStage(e:Event):void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			stage.addEventListener(Event.RESIZE, onStageResized);
+		}
+		
+		private function onStageResized(e:Event):void
+		{
+			var dx:uint = Math.max(0, stage.stageWidth - FlxG.width * ZOOM);
+			var dy:uint = Math.max(0, stage.stageHeight - FlxG.height * ZOOM);
+			
+			var screen:DisplayObject = stage.getChildAt(0);
+			screen.x = dx / 2;
+			screen.y = dy / 2;
 		}
 		
 		private static var _previousState:FlxState;

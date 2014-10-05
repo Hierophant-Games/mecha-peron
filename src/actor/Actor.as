@@ -44,8 +44,6 @@ package actor
 			controller = actorController;
 			
 			_layer = layer;
-			
-			FlxG.log("Added actor (" + X + "," + Y + ") with controller: " + actorController);
 		}
 		
 		private var _firstUpdate:Boolean = true;
