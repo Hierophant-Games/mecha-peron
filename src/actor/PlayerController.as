@@ -133,7 +133,7 @@ package actor
 			compositeActor.addSprite(_leftArmSprite, new FlxPoint(75, 88));
 			compositeActor.addSprite(_bodySprite, new FlxPoint(0, 62));
 			compositeActor.addSprite(_headSprite, new FlxPoint(16, 0));
-			compositeActor.addSprite(_rightArmSprite, new FlxPoint(11, 54));
+			compositeActor.addSprite(_rightArmSprite, new FlxPoint(0, 60));
 			compositeActor.width = _headSprite.width;
 			compositeActor.height = 222;
 			

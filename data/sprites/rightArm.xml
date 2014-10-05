@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
-	<graphic animated="true" reverse="false" width="97" height="102" />
+	<graphic animated="true" reverse="false" width="103" height="102" />
 	<animations>
 		<animation name="idle" frames="1" frameRate="1" loop="false" />
 		<animation name="walk" frames="2, 1, 0, 1" frameRate="5" loop="true" />
