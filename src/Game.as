@@ -49,6 +49,11 @@ package
 		
 		private static var _previousState:FlxState;
 		
+		public static function get previousState():FlxState
+		{
+			return _previousState;
+		}
+		
 		public static function setState(newState:FlxState):void 
 		{
 			_previousState = FlxG.state;

@@ -16,6 +16,8 @@ package states
 		
 		override public function create():void 
 		{
+			add(new FlxSprite(0, 0, Assets.SpriteMenuBG));
+
 			var creditsStr:String = "";
 			creditsStr += Game.Strings.languageXML.Credits.Based;
 			creditsStr += "\n\n\n\n" + Game.Strings.languageXML.Credits.Hierophant;

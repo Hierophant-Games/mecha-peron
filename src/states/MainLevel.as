@@ -195,7 +195,7 @@
 				
 				FlxG.followLerp = 0; // Avoid involuntary camera movement
 				_playerController.updateHUD(_hud);
-							
+				
 				// Submit score to the Kong API
 				if (FlxG.kong)
 				{
@@ -206,6 +206,9 @@
 					FlxG.kong.API.stats.submit("score", kongScore);
 				}
 				ScoreTracker.publish();
+				
+				// Save locally the High Score too
+				HighScore.save(score);
 				
 				return;
 			}

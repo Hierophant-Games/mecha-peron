@@ -34,7 +34,6 @@ package game
 		{
 			++_killedCount[type];
 			FlxG.score += _points[type];
-			//trace(_names[type], "=", _killedCount[type]);
 		}
 		
 		public static function publish():void

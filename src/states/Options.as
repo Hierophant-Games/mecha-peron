@@ -20,8 +20,8 @@ package states
 		private const SLIDE_HEIGHT:Number = 10;
 		private const SLIDE_COLOR:uint = 0xffffffff;
 		
-		private const MUSIC_POS_Y:Number = 100;
-		private const SOUND_POS_Y:Number = 160;
+		private const MUSIC_POS_Y:Number = 160;
+		private const SOUND_POS_Y:Number = 200;
 		
 		private var _musicBar:FlxSprite;
 		private var _soundBar:FlxSprite;
@@ -31,24 +31,19 @@ package states
 		
 		override public function create():void
 		{
-			var gameNameText:FlxText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
-			gameNameText.setFormat(null, 16);
-			add(gameNameText);
+			add(new FlxSprite(0, 0, Assets.SpriteMenuBG));
+			
+			add(new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName).setFormat(null, 16));
 			
 			add(new FlxText(10, MUSIC_POS_Y - 20, 200, Game.Strings.languageXML.Options.MusicVolume));
 			add(new FlxText(10, SOUND_POS_Y - 20, 200, Game.Strings.languageXML.Options.SoundVolume));
+
+			add(new FlxText(2, FlxG.height - 20, 100, Game.VERSION));
 			
-			_musicBar = new FlxSprite(10, MUSIC_POS_Y);
-			_musicBar.createGraphic(BAR_WIDTH, BAR_HEIGHT, BAR_COLOR);
-			
-			_musicSlide = new FlxSprite(10, MUSIC_POS_Y);
-			_musicSlide.createGraphic(SLIDE_WIDTH, SLIDE_HEIGHT, SLIDE_COLOR);
-			
-			_soundBar = new FlxSprite(10, SOUND_POS_Y);
-			_soundBar.createGraphic(BAR_WIDTH, BAR_HEIGHT, BAR_COLOR);
-			
-			_soundSlide = new FlxSprite(10, SOUND_POS_Y);
-			_soundSlide.createGraphic(SLIDE_WIDTH, SLIDE_HEIGHT, SLIDE_COLOR);
+			_musicBar = new FlxSprite(2, MUSIC_POS_Y).createGraphic(BAR_WIDTH, BAR_HEIGHT, BAR_COLOR);
+			_musicSlide = new FlxSprite(2, MUSIC_POS_Y).createGraphic(SLIDE_WIDTH, SLIDE_HEIGHT, SLIDE_COLOR);
+			_soundBar = new FlxSprite(2, SOUND_POS_Y).createGraphic(BAR_WIDTH, BAR_HEIGHT, BAR_COLOR);
+			_soundSlide = new FlxSprite(2, SOUND_POS_Y).createGraphic(SLIDE_WIDTH, SLIDE_HEIGHT, SLIDE_COLOR);
 			
 			add(_musicBar);
 			add(_musicSlide);

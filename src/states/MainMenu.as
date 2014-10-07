@@ -2,6 +2,7 @@ package states
 {
 	import embed.Assets;
 	import game.Configuration;
+	import game.HighScore;
 	import menu.*;
 	import org.flixel.*;
 	
@@ -13,20 +14,23 @@ package states
 	{
 		override public function create():void
 		{
-			var bg:FlxSprite = new FlxSprite(0, 0, Assets.SpriteMenuBG);
-			add(bg);
+			add(new FlxSprite(0, 0, Assets.SpriteMenuBG));
 			
-			var gameNameText:FlxText = new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName);
-			gameNameText.setFormat(null, 16);
-			add(gameNameText);
-			
-			add(new FlxText(2, FlxG.height - 20, 100, Game.VERSION));
+			add(new FlxText(2, 2, FlxG.width - 104, Game.Strings.languageXML.GameName).setFormat(null, 16));
 			
 			initMenuEntries();
 			
+			// show hiscore
+			add(new FlxText(2, FlxG.height - 20, FlxG.width / 2, "HIGH SCORE: " + HighScore.load().toFixed(2) + " km"));
+			
 			FlxG.mouse.show(Assets.SpriteCursor);
 			
-			FlxG.flash.start(0xff000000, 0.5);
+			// only fade in when coming from intro or level
+			if (Game.previousState is Intro || Game.previousState is MainLevel)
+				FlxG.flash.start(0xff000000, 0.5);
+
+			if (!FlxG.music.playing)
+				FlxG.playMusic(Assets.LosMuchachos8Bit, Configuration.musicVolume);
 		}
 		
 		override public function destroy():void 
