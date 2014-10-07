@@ -1,2 +1,4 @@
 relre:bin/
 relre:obj/
+syntax: glob
+*.pyxel
