@@ -13,6 +13,17 @@ package actor
 	 */
 	public class CannonController extends ActorController 
 	{
+		private const SfxFire:Array = [
+			Assets.SfxSoldierFire1, Assets.SfxSoldierFire2, Assets.SfxSoldierFire3
+		];
+		
+		private const SfxDeath:Array = [
+			Assets.SfxSoldierDeath1, Assets.SfxSoldierDeath2, Assets.SfxSoldierDeath3,
+			Assets.SfxSoldierDeath4, Assets.SfxSoldierDeath5, Assets.SfxSoldierDeath6
+		];
+		
+		private const VOLUME_MODIFIER:Number = 0.5;
+		
 		private var _player:Actor;
 		private var _layer:FlxGroup;
 		
@@ -88,6 +99,8 @@ package actor
 			
 			if (_visibleTimer >= Constants.CANNON_ATTACK_DELAY)
 			{
+				FlxG.play(sample(SfxFire), Configuration.soundVolume * VOLUME_MODIFIER);
+				
 				_visibleTimer = 0;
 				
 				// Randomize target y
@@ -122,7 +135,7 @@ package actor
 		
 		override public function onKill():Boolean
 		{
-			//on building FlxG.play(Assets.SfxExplosion, Configuration.soundVolume);
+			FlxG.play(sample(SfxDeath), Configuration.soundVolume * VOLUME_MODIFIER);
 				
 			// track it!
 			ScoreTracker.killed(ScoreTracker.CANNON);

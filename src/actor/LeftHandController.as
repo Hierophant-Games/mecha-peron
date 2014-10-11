@@ -21,8 +21,8 @@ package actor
 			
 			controlledActor.loadGraphic(Assets.SpriteFist, true, false, 44, 30);
 			
-			controlledActor.addAnimation("launch", new Array(0, 1, 2), 16, false);
-			controlledActor.addAnimation("fly", new Array(3, 4), 16, true);
+			controlledActor.addAnimation("launch", [0, 1, 2], 16, false);
+			controlledActor.addAnimation("fly", [3, 4], 16, true);
 			controlledActor.addAnimationCallback(animationCallback);
 		}
 		

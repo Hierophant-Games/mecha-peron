@@ -1,5 +1,6 @@
 package actor 
 {
+	import org.flixel.FlxU;
 	import org.flixel.FlxObject;
 	/**
 	 * IActorController is the base interface for every
@@ -71,6 +72,11 @@ package actor
 		 */
 		public function onCollide(collideType:uint, contact:FlxObject):void
 		{
+		}
+		
+		public function sample(array:Array):*
+		{
+			return array[uint(FlxU.random() * array.length)];
 		}
 	}
 }

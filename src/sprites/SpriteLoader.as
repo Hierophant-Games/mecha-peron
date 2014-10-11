@@ -45,7 +45,7 @@ package sprites
 		
 		private function readCSVArray(string:String):Array
 		{
-			var array:Array = new Array();
+			var array:Array = [];
 			var splitArray:Array = string.split(',');
 			for each (var str:String in splitArray)
 			{

@@ -12,8 +12,8 @@ package actor
 	public class FrontBuildingController extends ActorController
 	{
 		private const NUM_BUILDINGS:uint = 3;
-		private const Graphics:Array = new Array(Assets.SpriteForegroundA, Assets.SpriteForegroundB, Assets.SpriteForegroundC);
-		private const Defs:Array = new Array(Assets.XMLSpriteForegroundA, Assets.XMLSpriteForegroundB, Assets.XMLSpriteForegroundC);
+		private const Graphics:Array = [Assets.SpriteForegroundA, Assets.SpriteForegroundB, Assets.SpriteForegroundC];
+		private const Defs:Array = [Assets.XMLSpriteForegroundA, Assets.XMLSpriteForegroundB, Assets.XMLSpriteForegroundC];
 		
 		private static var _lastRandom:uint;
 		

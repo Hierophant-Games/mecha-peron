@@ -1,6 +1,7 @@
 package actor 
 {
 	import flash.geom.Point;
+	import game.Configuration;
 	import game.Constants;
 	import game.ScoreTracker;
 	import level.Bullet;
@@ -15,6 +16,21 @@ package actor
 	 */
 	public class SoldierController extends ActorController 
 	{
+		private const SfxFire:Array = [
+			Assets.SfxSoldierFire1, Assets.SfxSoldierFire2, Assets.SfxSoldierFire3
+		];
+		
+		private const SfxReload:Array = [
+			Assets.SfxSoldierReload1, Assets.SfxSoldierReload2, Assets.SfxSoldierReload3
+		];
+		
+		private const SfxDeath:Array = [
+			Assets.SfxSoldierDeath1, Assets.SfxSoldierDeath2, Assets.SfxSoldierDeath3,
+			Assets.SfxSoldierDeath4, Assets.SfxSoldierDeath5, Assets.SfxSoldierDeath6
+		];
+		
+		private const VOLUME_MODIFIER:Number = 0.3;
+		
 		private var _player:Actor;
 		private var _layer:FlxGroup;
 		
@@ -67,6 +83,8 @@ package actor
 				controlledActor.play("Die");
 				controlledActor.dead = true;
 				
+				FlxG.play(sample(SfxDeath), Configuration.soundVolume * VOLUME_MODIFIER);
+				
 				// track it!
 				ScoreTracker.killed(ScoreTracker.SOLDIER);
 			}
@@ -100,6 +118,7 @@ package actor
 				return;
 			
 			controlledActor.play("Shoot");
+			FlxG.play(sample(SfxFire), Configuration.soundVolume * VOLUME_MODIFIER);
 			
 			var originScreenPos:Point = new Point(controlledActor.getScreenXY().x, controlledActor.getScreenXY().y);
 			
@@ -118,6 +137,7 @@ package actor
 		private function reload():void 
 		{
 			controlledActor.play("Reload");
+			FlxG.play(sample(SfxReload), Configuration.soundVolume * VOLUME_MODIFIER);
 		}
 			
 		private function soldierAnimCallback(name:String, frameNumber:uint, frameIndex:uint):void 

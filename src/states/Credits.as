@@ -53,7 +53,7 @@ package states
 		private function getDevTeamInRandomSoNoneIsMoreImportantThanTheOther():String
 		{
 			var devs:String = "";
-			var devsArray:Array = new Array(Game.Strings.languageXML.Credits.SMV, Game.Strings.languageXML.Credits.NVP, Game.Strings.languageXML.Credits.FMH);
+			var devsArray:Array = [Game.Strings.languageXML.Credits.SMV, Game.Strings.languageXML.Credits.NVP, Game.Strings.languageXML.Credits.FMH];
 			var random:uint = uint(FlxU.random() * devsArray.length);
 			devs += devsArray[random] + "\n\n";
 			devsArray.splice(random, 1);

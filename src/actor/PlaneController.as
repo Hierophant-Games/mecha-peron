@@ -47,7 +47,7 @@ package actor
 			//controlledActor.createGraphic(24, 16, 0xffcccccc);
 			controlledActor.loadGraphic(Assets.SpritePlane, true, false, 72, 29);
 			
-			controlledActor.addAnimation("default", new Array(0, 1, 2), 9);
+			controlledActor.addAnimation("default", [0, 1, 2], 9);
 			controlledActor.play("default");
 			
 			controlledActor.fixed = true;

@@ -31,7 +31,7 @@ package level
 				
 				smoke.exists = false;
 				smoke.solid = false;
-				smoke.addAnimation("smoke", new Array(1, 2, 3, 4, 3, 2), 4, true);
+				smoke.addAnimation("smoke", [1, 2, 3, 4, 3, 2], 4, true);
 				smoke.play("smoke");
 				add(smoke, true);
 			}
