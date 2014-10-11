@@ -38,14 +38,13 @@ package game
 		
 		public static function publish():void
 		{
-			if (FlxG.kong)
+			if (!FlxG.kong) return;
+			
+			for (var i:uint = 0; i < TRACK_COUNT; ++i)
 			{
-				for (var i:uint = 0; i < TRACK_COUNT; ++i)
-				{
-					FlxG.kong.API.stats.submit(_names[i], _killedCount[i]);
-				}
-				FlxG.kong.API.stats.submit("points", FlxG.score);
+				FlxG.kong.API.stats.submit(_names[i], _killedCount[i]);
 			}
+			FlxG.kong.API.stats.submit("points", FlxG.score);
 		}
 	}
 }

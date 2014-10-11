@@ -12,11 +12,11 @@ package
 	 * ...
 	 * @author Santiago Vilar
 	 */
-	[SWF(width = "960", height = "720", backgroundColor = "#000000")]
+	[SWF(width = "640", height = "480", backgroundColor = "#000000")]
 	[Frame(factoryClass="Preloader")]
 	public class Game extends FlxGame
 	{
-		public static const ZOOM:uint = 3;
+		public static const ZOOM:uint = 2;
 		public static const VERSION:String = "v1.0";
 		
 		public static var Strings:GameStrings = new GameStrings();

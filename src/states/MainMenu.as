@@ -20,8 +20,9 @@ package states
 			
 			initMenuEntries();
 			
-			// show hiscore
-			add(new FlxText(2, FlxG.height - 20, FlxG.width / 2, "HIGH SCORE: " + HighScore.load().toFixed(2) + " km"));
+			// show hiscore only if not kongregate
+			if (!FlxG.kong || FlxG.kong.API.services.isGuest())
+				add(new FlxText(2, FlxG.height - 20, FlxG.width / 2, "HIGH SCORE: " + HighScore.load().toFixed(2) + " km"));
 			
 			FlxG.mouse.show(Assets.SpriteCursor);
 			
@@ -31,16 +32,6 @@ package states
 
 			if (!FlxG.music.playing)
 				FlxG.playMusic(Assets.LosMuchachos8Bit, Configuration.musicVolume);
-		}
-		
-		override public function destroy():void 
-		{
-			super.destroy();
-		}
-		
-		override public function update():void
-		{
-			super.update();
 		}
 		
 		private function initMenuEntries():void

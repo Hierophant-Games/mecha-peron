@@ -196,19 +196,8 @@
 				FlxG.followLerp = 0; // Avoid involuntary camera movement
 				_playerController.updateHUD(_hud);
 				
-				// Submit score to the Kong API
-				if (FlxG.kong)
-				{
-					// all kong stats must be positive integers,
-					// so let's convert the float with 2 decimals to a simple integer
-					// i.e.: if score was '1.23', we'll submit '123'. cool
-					var kongScore:uint = uint(score * 100);
-					FlxG.kong.API.stats.submit("score", kongScore);
-				}
-				ScoreTracker.publish();
-				
-				// Save locally the High Score too
 				HighScore.save(score);
+				ScoreTracker.publish();
 				
 				return;
 			}
