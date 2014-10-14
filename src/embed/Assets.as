@@ -141,7 +141,7 @@ package embed
 		public static var SfxPeronHammerFist:Class;
 		[Embed(source = "../../data/sfx/Mecha_Peron-Rocket Punch.mp3")]
 		public static var SfxPeronRocketPunch:Class;
-		[Embed(source = "../../data/sfx/Mecha_Peron-Rayos Fotonicos.mp3")]
+		[Embed(source = "../../data/sfx/Mecha_Peron-LaserShout.mp3")]
 		public static var SfxPeronLaserShout:Class;
 		
 		[Embed(source = "../../data/sfx/Mecha_Peron-Companieros.mp3")]

@@ -43,7 +43,12 @@ package states
 		
 		private function onFadeComplete():void
 		{
-			Game.setState(new SelectLanguage());
+			if (Game.ES_ONLY) {
+				Game.Strings.setLanguage("ES");
+				Game.setState(new Intro());
+			} else {
+				Game.setState(new SelectLanguage());
+			}
 		}
 	}
 }

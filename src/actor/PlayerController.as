@@ -317,7 +317,7 @@ package actor
 			if (!_laserSfx || !_laserSfx.playing)
 				_laserSfx = FlxG.play(Assets.SfxLaser, Configuration.soundVolume);
 			if (!_laserShoutSfx || !_laserShoutSfx.playing)
-				_laserShoutSfx = talk(Assets.SfxPeronLaserShout);
+				_laserShoutSfx = talk(Assets.SfxPeronLaserShout, true);
 			
 			var angle:Number = Math.atan2(FlxG.mouse.y - (_laser.y + _laser.height), FlxG.mouse.x - _laser.x);
 			angle *= 180 / Math.PI;

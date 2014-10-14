@@ -30,7 +30,7 @@ package states
 			if (Game.previousState is Intro || Game.previousState is MainLevel)
 				FlxG.flash.start(0xff000000, 0.5);
 
-			if (!FlxG.music.playing)
+			if (!FlxG.music || !FlxG.music.playing)
 				FlxG.playMusic(Assets.LosMuchachos8Bit, Configuration.musicVolume);
 		}
 		
